@@ -1,15 +1,11 @@
 html,
 body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+  background: #f6f6f6;
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 1280px;
+  margin: auto;
 }
 
 a {

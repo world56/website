@@ -1,6 +1,6 @@
 import Item from "./Item";
 import Image from "next/image";
-import styles from "./index.module.sass";
+import styles from "./personal.module.sass";
 
 import ICON_PHONE from "@/assets/phone.svg";
 import ICON_EMAIL from "@/assets/email.svg";
@@ -14,9 +14,9 @@ import ICON_TWITTER from "@/assets/twitter.svg";
  */
 const Personal = () => {
   return (
-    <aside className={styles.layout}>
+    <aside className={styles.personal}>
       <Image src={ICON_AVATAR} priority alt="#" />
-      <h2>黄俊睿</h2>
+      <h1>黄俊睿</h1>
       <span className={styles.post}>前端开发工程师</span>
       <hr />
       <ul>
@@ -25,7 +25,7 @@ const Personal = () => {
         </Item>
 
         <Item icon={ICON_PHONE} title="联系电话">
-          <span title="点击联系" className={styles.phone}>130 **** 7003</span>
+          130 **** 7003
         </Item>
 
         <Item icon={ICON_EMAIL} title="电子邮件">

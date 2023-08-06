@@ -1,5 +1,8 @@
 import "./globals.css";
+import styles from "./page.module.sass";
 import { Inter } from "next/font/google";
+import Personal from "@/components/Personal";
+import Navigation from "@/components/Navigation";
 
 import type { Metadata } from "next";
 
@@ -12,7 +15,15 @@ export const metadata: Metadata = {
 
 const Entrance = ({ children }: { children: React.ReactNode }) => (
   <html lang="cn">
-    <body className={inter.className}>{children}</body>
+    <body>
+    <main className={styles.layout}>
+    <Personal />
+    <div className={styles.context}>
+      <Navigation />
+      {children}
+    </div>
+  </main>
+    </body>
   </html>
 );
 
