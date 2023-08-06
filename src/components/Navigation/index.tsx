@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const routes = [
   { url: "/", cnName: "关于我", enName: "Welcome" },
   { url: "/open", cnName: "开源项目", enName: "Open Source" },
-  { url: "/share", cnName: "分享", enName: "Experience" },
+  { url: "/share", cnName: "分享", enName: "Share" },
   { url: "/contact", cnName: "与我联系", enName: "Contact" },
 ];
 

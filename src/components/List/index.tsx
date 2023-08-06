@@ -1,5 +1,10 @@
+// import Image from "next/image";
+import { Empty } from "antd";
 import Item from "./Item";
 import styles from "./list.module.sass";
+
+import ICON_EMPTY from "@/assets/empty.svg";
+import Image from "next/image";
 
 interface TypeListProps
   extends React.FC<{
@@ -15,11 +20,18 @@ interface TypeListProps
  * @name List 内容列表
  */
 const List: TypeListProps = ({ children }) => {
-  return (
+  return children ? (
     <div className={styles.list}>
       {children}
       <i style={{ width: "calc(33% - 5px)" }} />
       <i style={{ width: "calc(33% - 5px)" }} />
+    </div>
+  ) : (
+    <div className={styles.empty}>
+      <div>
+        <Image src={ICON_EMPTY} alt="#" />
+        <p>暂无记录</p>
+      </div>
     </div>
   );
 };

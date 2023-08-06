@@ -1,11 +1,10 @@
+import List from "@/components/List";
 
 /**
  * @name Share 分享
  */
 const Share = () => {
-  return (
-    <div>Share</div>
-  )
-}
+  return <List></List>;
+};
 
-export default Share
+export default Share;

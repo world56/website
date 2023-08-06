@@ -9,18 +9,19 @@
     "lint": "next lint"
   },
   "devDependencies": {
-    "eslint": "8.46.0",
     "@types/node": "20.4.5",
     "@types/react": "18.2.18",
-    "@types/react-dom": "18.2.7"
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.46.0"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.5",
     "antd": "^5.8.1",
+    "eslint-config-next": "13.4.12",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.64.2",
-    "typescript": "5.1.6",
-    "eslint-config-next": "13.4.12"
+    "typescript": "5.1.6"
   }
 }
