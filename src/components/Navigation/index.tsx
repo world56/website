@@ -5,14 +5,14 @@ import styles from "./navigation.module.sass";
 import { usePathname } from "next/navigation";
 
 const routes = [
-  { url: "/", cnName: "关于我", enName: "Welcome" },
-  { url: "/open", cnName: "开源项目", enName: "Open Source" },
-  { url: "/share", cnName: "分享", enName: "Share" },
-  { url: "/contact", cnName: "与我联系", enName: "Contact" },
+  { url: "/main", cnName: "关于我", enName: "Welcome" },
+  { url: "/main/open", cnName: "开源项目", enName: "Open Source" },
+  { url: "/main/share", cnName: "分享", enName: "Share" },
+  { url: "/main/contact", cnName: "与我联系", enName: "Contact" },
 ];
 
 /**
- * @name Navigation 导航
+ * @name Navigation 个人主页导航
  */
 const Navigation = () => {
   const path = usePathname();

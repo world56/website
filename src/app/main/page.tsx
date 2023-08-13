@@ -1,7 +1,7 @@
 import { Tooltip } from "antd";
 import Image from "next/image";
 import Title from "@/components/Title";
-import styles from "./page.module.sass";
+import styles from "./main.module.sass";
 
 import ICON_TS from "@/assets/ts.svg";
 import ICON_JS from "@/assets/js.svg";

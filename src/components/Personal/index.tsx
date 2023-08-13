@@ -14,7 +14,7 @@ import ICON_TWITTER from "@/assets/twitter.svg";
  */
 const Personal = () => {
   return (
-    <aside className={styles.personal}>
+    <div className={styles.personal}>
       <Image src={ICON_AVATAR} priority alt="#" />
       <h1>黄俊睿</h1>
       <span className={styles.post}>前端开发工程师</span>
@@ -42,7 +42,7 @@ const Personal = () => {
           twitter.com
         </Item>
       </ul>
-    </aside>
+    </div>
   );
 };
 

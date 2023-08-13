@@ -4,14 +4,20 @@ import { ConfigProvider } from "antd";
 import { useServerInsertedHTML } from "next/navigation";
 import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
 
+import type { ConfigProviderProps } from "antd/es/config-provider";
+
+interface TypeStyledComponentsRegistryProps
+  extends Pick<ConfigProviderProps, "theme"> {
+  children?: React.ReactNode;
+}
+
 /**
- * @name StyledComponentsRegistry Antd 避免样式山东
+ * @name StyledComponentsRegistry Antd 避免样式闪动
  * @description 使用客户端组件，按需引入，配合改成黑色
  */
-const StyledComponentsRegistry = ({
+const StyledComponentsRegistry: React.FC<TypeStyledComponentsRegistryProps> = ({
+  theme,
   children,
-}: {
-  children: React.ReactNode;
 }) => {
   const cache = createCache();
   useServerInsertedHTML(() => (
@@ -21,13 +27,7 @@ const StyledComponentsRegistry = ({
     />
   ));
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#0f0f0f",
-        },
-      }}
-    >
+    <ConfigProvider theme={theme}>
       <StyleProvider cache={cache}>{children}</StyleProvider>
     </ConfigProvider>
   );
