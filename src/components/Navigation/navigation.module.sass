@@ -1,8 +1,9 @@
 .select
   color: #fff
   background: black
-  
-.nav
+
+// 导航-个人主页
+.main
   height: 65px
   width: 100%
   display: flex
@@ -31,3 +32,12 @@
       &:hover
         @extend .select
 
+// 导航-控制台
+.console
+  padding: 10px
+  min-width: 240px
+  border-radius: 20px
+  :global(.ant-tabs-nav-wrap)
+    background: #fff
+  :global(.anticon)
+    margin-right: 5px !important

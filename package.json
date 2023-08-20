@@ -17,7 +17,9 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "antd": "^5.8.1",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint-config-next": "13.4.12",
+    "nanoid": "^4.0.2",
     "next": "13.4.12",
     "prisma": "^5.1.1",
     "react": "18.2.0",

@@ -9,10 +9,17 @@ import ICON_AVATAR from "@/assets/avatar.jpeg";
 import ICON_ADDRESS from "@/assets/address.svg";
 import ICON_TWITTER from "@/assets/twitter.svg";
 
+interface TypePersonalProps extends React.FC {
+  // /**
+  //  * @name Edit 编辑个人信息条
+  //  */
+  // Edit: typeof Edit;
+}
+
 /**
  * @name Personal 个人信息简介
  */
-const Personal = () => {
+const Personal: TypePersonalProps = () => {
   return (
     <div className={styles.personal}>
       <Image src={ICON_AVATAR} priority alt="#" />

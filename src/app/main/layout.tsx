@@ -1,6 +1,6 @@
 import styles from "./main.module.sass";
 import Personal from "@/components/Personal";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/Navigation/Main";
 
 import type { Metadata } from "next";
 
