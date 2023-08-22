@@ -21,12 +21,24 @@ function beforeUpload(file: RcFile) {
 interface TypeUploadImageProps<T = string> {
   readonly value?: T;
   onChange?(value: T): void;
+  /** @param textButton 文本样式上传按钮 */
+  textButton?: boolean;
+  /**
+   * @param radius 弧度
+   * @description 默认 10px
+   */
+  radius?: string | number;
 }
 
 /**
  * @name UploadImage 上传文件
  */
-const UploadImage: React.FC<TypeUploadImageProps> = ({ value, onChange }) => {
+const UploadImage: React.FC<TypeUploadImageProps> = ({
+  value,
+  onChange,
+  textButton,
+  radius = "8px",
+}) => {
   const [load, setLoad] = useState(false);
 
   function handleChange(e: UploadChangeParam<UploadFile>) {
@@ -40,22 +52,42 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({ value, onChange }) => {
     }
   }
 
+  function getButtonStyle(value?: string) {
+    if (textButton) {
+      return value ? (
+        <Tooltip placement="left" title="点击重新上传">
+          <Image alt="#" src={value} className={styles.text} />
+        </Tooltip>
+      ) : (
+        <div className={styles.text}>
+          <span>{load ? <LoadingOutlined /> : <PlusOutlined />}点击上传</span>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.circle} style={{ borderRadius: radius }}>
+          {value ? (
+            <Image alt="#" src={value} className={styles.text} />
+          ) : (
+            <>
+              {load ? <LoadingOutlined /> : <PlusOutlined />}
+              <span>点击上传</span>
+            </>
+          )}
+        </div>
+      );
+    }
+  }
+
   return (
     <Upload
       name="file"
       showUploadList={false}
-      className={styles.img}
       onChange={handleChange}
       beforeUpload={beforeUpload}
       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
     >
-      {value ? (
-        <Tooltip placement="left" title="点击重新上传">
-          <Image src={value} alt="#" style={{ width: "100%" }} />
-        </Tooltip>
-      ) : (
-        <span>{load ? <LoadingOutlined /> : <PlusOutlined />} 点击上传</span>
-      )}
+      {getButtonStyle(value)}
     </Upload>
   );
 };

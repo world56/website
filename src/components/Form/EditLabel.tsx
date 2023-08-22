@@ -48,17 +48,15 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
       {
         width: 200,
         title: "图标",
-        align: "center",
         render: (field: FormListFieldData) => (
           <Form.Item name={[field.name, "icon"]}>
-            <UploadImage />
+            <UploadImage textButton />
           </Form.Item>
         ),
       },
       {
         title: "名称",
         width: 250,
-        align: "center",
         render: (field: FormListFieldData) => (
           <Form.Item name={[field.name, "name"]}>
             <Input placeholder="请输入名称" />
@@ -67,7 +65,6 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
       },
       {
         title: "详情",
-        align: "center",
         render: (field: FormListFieldData) => (
           <Form.Item name={[field.name, "details"]}>
             <Input placeholder="请输入名称" />
@@ -76,7 +73,6 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
       },
       {
         title: "URL链接",
-        align: "center",
         render: (field: FormListFieldData) => (
           <Form.Item name={[field.name, "url"]}>
             <Input placeholder="请输入跳转链接" />
@@ -84,13 +80,12 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
         ),
       },
       {
-        width: 140,
+        width: 120,
         title: "操作",
-        align: "right",
         render: (field: FormListFieldData) => {
           const length = form.getFieldValue(name).length;
           return (
-            <>
+            <div className={styles.operate}>
               {field.name ? (
                 <span
                   className="btn"
@@ -113,7 +108,7 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
               >
                 <span className="del">删除</span>
               </Popconfirm>
-            </>
+            </div>
           );
         },
       },
@@ -131,6 +126,7 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
         <Form.List name={name} {...resetProps}>
           {(fields, funcs) => (
             <Table
+              size="middle"
               pagination={false}
               dataSource={fields}
               className={styles.table}

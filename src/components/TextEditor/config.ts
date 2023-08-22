@@ -26,11 +26,8 @@ export default {
     blocks fontfamily fontsize |
     forecolor backcolor bold italic underline strikethrough removeformat |
     alignleft aligncenter alignright alignjustify |
-    bullist numlist outdent indent |
-  `,
-  toolbar2: `
-    undo redo fullscreen preview | 
-    table blockquote |
-    uploadImage uploadVideo link |
+    bullist numlist outdent indent undo redo |
+    fullscreen preview table blockquote link |
   `,
 };
+// uploadImage uploadVideo

@@ -8,6 +8,7 @@ import ICON_GRPC from "@/assets/gRPC.svg";
 import ICON_NODE from "@/assets/node.svg";
 import ICON_PHONE from "@/assets/phone.svg";
 import ICON_TWITTER from "@/assets/twitter.svg";
+import UploadImage from "@/components/Upload/Image";
 
 /**
  * @name Console 控制台
@@ -41,6 +42,10 @@ const Console = () => {
 
       <Card title="个人信息面板">
         <div style={{ padding: "24px 24px 0px 24px" }}>
+          <Form.Item label="头像" name="icon" initialValue={ICON_TWITTER}>
+            <UploadImage radius="50%"  />
+          </Form.Item>
+
           <Form.Item label="您的姓名" name="name">
             <Input allowClear placeholder="请输入您的姓名（例：周杰伦）" />
           </Form.Item>
@@ -62,6 +67,7 @@ const Console = () => {
             { icon: ICON_NODE },
             { icon: ICON_PHONE },
             { icon: ICON_TWITTER },
+            { icon: "" },
           ]}
         />
       </Card>

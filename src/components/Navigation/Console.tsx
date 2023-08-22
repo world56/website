@@ -35,7 +35,7 @@ const items = [
   //   label: <Link href="/console/resume">我的简历</Link>,
   // },
   {
-    key: "/console/open",
+    key: "/console/text/open",
     label: (
       <>
         <CoffeeOutlined />
@@ -44,7 +44,7 @@ const items = [
     ),
   },
   {
-    key: "/console/share",
+    key: "/console/text/share",
     label: (
       <>
         <ShareAltOutlined />
