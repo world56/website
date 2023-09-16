@@ -26,17 +26,12 @@ const nextConfig = {
         destination: "/main",
         permanent: true,
       },
-    ];
-  },
-  images: {
-    remotePatterns: [
       {
-        protocol: "https",
-        hostname: "img2.baidu.com",
-        port: "",
-        pathname: "/it/**",
+        source: "/api/resource/:path*",
+        destination: "http://127.0.0.1:2000/:path*",
+        permanent: true,
       },
-    ],
+    ];
   },
 };
 

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useState } from "react";
 import styles from "./index.module.sass";
 import { Tooltip, Upload, message } from "antd";
@@ -7,7 +6,7 @@ import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
 
 function beforeUpload(file: RcFile) {
-  const IS_IMAGE = ["image/jpeg", "image/png"].includes(file.type);
+  const IS_IMAGE = ["image/jpeg", "image/png",'image/svg+xml'].includes(file.type);
   if (!IS_IMAGE) {
     message.error("仅支持jpg、jpeg、png、svg图片");
   }
@@ -46,6 +45,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
       case "uploading":
         return setLoad(true);
       case "done":
+        onChange?.(e.file.xhr?.response);
         return setLoad(false);
       default:
         return;
@@ -56,7 +56,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
     if (textButton) {
       return value ? (
         <Tooltip placement="left" title="点击重新上传">
-          <Image alt="#" src={value} className={styles.text} />
+          <img alt="#" src={value} className={styles.text} />
         </Tooltip>
       ) : (
         <div className={styles.text}>
@@ -67,7 +67,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
       return (
         <div className={styles.circle} style={{ borderRadius: radius }}>
           {value ? (
-            <Image alt="#" src={value} className={styles.text} />
+            <img alt="#" src={value} className={styles.text} />
           ) : (
             <>
               {load ? <LoadingOutlined /> : <PlusOutlined />}
@@ -82,10 +82,10 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
   return (
     <Upload
       name="file"
+      action="/api/upload"
       showUploadList={false}
       onChange={handleChange}
       beforeUpload={beforeUpload}
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
     >
       {getButtonStyle(value)}
     </Upload>

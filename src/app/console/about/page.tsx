@@ -28,7 +28,7 @@ const AboutMe = () => {
         </Card>
 
         <Card title="技能简介">
-          <EditLabel name="skills" initialValue={[{ icon: ICON_NODE }]} />
+          <EditLabel name="skills" initialValue={[]} />
         </Card>
       </Form>
 
