@@ -66,7 +66,7 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
       {
         title: "详情",
         render: (field: FormListFieldData) => (
-          <Form.Item name={[field.name, "details"]}>
+          <Form.Item name={[field.name, "description"]}>
             <Input placeholder="请输入名称" />
           </Form.Item>
         ),

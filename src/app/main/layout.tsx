@@ -1,12 +1,15 @@
+import { DBlocal } from "@/lib/db";
 import styles from "./main.module.sass";
 import Personal from "@/components/Personal";
 import Navigation from "@/components/Navigation/Main";
 
 import type { Metadata } from "next";
 
+const config = DBlocal.get();
+
 export const metadata: Metadata = {
-  title: "个人开发者",
-  description: "个人开发者",
+  title: config.title || "网站标题",
+  description: "description",
 };
 
 interface TypeMainProps {

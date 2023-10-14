@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./personal.module.sass";
 
 interface TypeItemProps {
@@ -15,7 +14,7 @@ interface TypeItemProps {
 const Item: React.FC<TypeItemProps> = ({ icon, title, children }) => (
   <li>
     <div className={styles.icon}>
-      <Image src={icon} alt="#" />
+      <img src={icon} alt="#" />
     </div>
     <div className={styles.info}>
       <p>{title}</p>

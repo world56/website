@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  icon       String?
+  type       Int
+  createTime DateTime @default(now()) @map("create_time")
+
+  @@index([type])
+  @@map("user")
+}
+
+model Tag {
+  id          String  @id @default(uuid())
+  type        Int
+  icon        String
+  name        String?
+  url         String?
+  index       Int
+  description String?
+
+  @@index([type])
+  @@map("tag")
+}
+
+model Text {
+  id         String   @id @default(uuid())
+  icon       String
+  content    String   @db.Text
+  createTime DateTime @default(now()) @map("create_time")
+
+  @@map("text")
+}

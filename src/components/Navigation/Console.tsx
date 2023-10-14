@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  LikeOutlined,
   // UserOutlined,
   CoffeeOutlined,
   GlobalOutlined,
@@ -18,14 +17,6 @@ const items = [
     label: (
       <>
         <GlobalOutlined /> 基本信息
-      </>
-    ),
-  },
-  {
-    key: "/console/about",
-    label: (
-      <>
-        <LikeOutlined /> 关于我
       </>
     ),
   },

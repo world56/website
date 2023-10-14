@@ -1,16 +1,45 @@
-import { DBlocal } from "@/lib/db";
-import { headers } from "next/headers";
+import { DBlocal, prisma } from "@/lib/db";
+import { filterCUD } from "@/utils/filter";
+import { NextResponse } from "next/server";
+
+import { ENUM_COMMON } from "@/enum/common";
+
+import type { TypeCommon } from "@/interface/common";
 
 export async function GET(request: Request) {
-  const headersList = headers();
-  const referer = headersList.get("referer");
-  return new Response("Hello, GET", {
-    status: 200,
-  });
+  const data = DBlocal.get();
+  const [items, skills] = await Promise.all([
+    prisma.tag.findMany({
+      where: { type: ENUM_COMMON.TAG.PERSONAL_PANEL },
+      orderBy: { index: "asc" },
+    }),
+    prisma.tag.findMany({
+      where: { type: ENUM_COMMON.TAG.PERSONAL_SKILL },
+      orderBy: { index: "asc" },
+    }),
+  ]);
+  return NextResponse.json({ ...data, items, skills });
 }
 
 export async function POST(request: Request) {
-  const data = await request.json();
+  const [{ items, skills, ...data }, db] = await Promise.all([
+    request.json() as Promise<TypeCommon.BasisDTO>,
+    prisma.tag.findMany({
+      where: {
+        type: {
+          in: [ENUM_COMMON.TAG.PERSONAL_PANEL, ENUM_COMMON.TAG.PERSONAL_SKILL],
+        },
+      },
+    }),
+  ]);
+  const tagCUD = filterCUD([...items, ...skills], db);
+  await prisma.$transaction([
+    prisma.tag.createMany({ data: tagCUD.INSERT }),
+    prisma.tag.deleteMany({ where: { id: { in: tagCUD.DELETE } } }),
+    ...tagCUD.UPDATE.map((v) =>
+      prisma.tag.update({ data: v, where: { id: v.id } }),
+    ),
+  ]);
   DBlocal.set(data);
-  return new Response("123", { status: 200 });
+  return NextResponse.json({ status: 200 });
 }

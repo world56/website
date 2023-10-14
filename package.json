@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev & node ./src/static-service",
+    "dev": "next dev & node ./src/index",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,20 +16,22 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
+    "@prisma/client": "^5.3.1",
     "@types/formidable": "^3.4.2",
     "@types/uuid": "^9.0.3",
+    "ahooks": "^3.7.8",
     "antd": "^5.8.1",
     "copy-webpack-plugin": "^11.0.0",
-    "eslint-config-next": "13.4.12",
+    "eslint-config-next": "^13.5.1",
     "express": "^4.18.2",
-    "nanoid": "^4.0.2",
-    "next": "13.4.12",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^13.5.1",
+    "prisma": "^5.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "sass": "^1.64.2",
     "tinymce": "^6.6.2",
-    "typeorm": "^0.3.17",
     "typescript": "5.1.6",
+    "umi-request": "^1.4.0",
     "uuid": "^9.0.1"
   }
 }

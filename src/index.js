@@ -9,4 +9,4 @@ const STATIC_PATH = path.join(__dirname, "../resource");
 
 app.use(express.static(STATIC_PATH));
 
-app.listen(port, () => console.log(`static resource service. PORT:${port}`));
+app.listen(port, () => console.log(`static resource service PORT:${port}`));
