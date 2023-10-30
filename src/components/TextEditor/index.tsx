@@ -42,8 +42,6 @@ const TxtEditor: TypeTxtEditorProps = ({ value, onChange }, ref) => {
   const [load, setLoad] = useState(true);
 
   const { run: onCreate } = useDebounceFn(() => {
-    console.log('@-123');
-    
     window.tinymce?.init({
       ...CONFIG,
       selector: `#editor`,

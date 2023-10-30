@@ -30,8 +30,8 @@ export default {
     fullscreen preview table blockquote link title |
   `,
 };
- export const HTML_TEMPLATE ={
-  TITLE:`
+export const HTML_TEMPLATE = {
+  TITLE: `
     <div style='
       width: max-content;
       height: 45px;
@@ -47,5 +47,5 @@ export default {
     '>
       <span>标题</span>
     </div>
-  `
- };
+  `,
+};

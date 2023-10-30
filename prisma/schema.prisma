@@ -34,8 +34,20 @@ model Tag {
   @@map("tag")
 }
 
+model Msg {
+  id         String   @id @default(uuid())
+  name       String
+  telephone  String?
+  email      String?
+  content    String   @db.Text
+  createTime DateTime @default(now()) @map("create_time")
+
+  @@map("message")
+}
+
 model Text {
   id         String   @id @default(uuid())
+  type       Int
   icon       String
   content    String   @db.Text
   createTime DateTime @default(now()) @map("create_time")
