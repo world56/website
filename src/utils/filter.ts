@@ -7,7 +7,7 @@ import type { TypeCommon } from "@/interface/common";
  * @description 多条数据常用
  */
 export function filterCUD<
-  T extends TypeCommon.TypePrimaryID = TypeCommon.TypePrimaryID,
+  T extends TypeCommon.PrimaryID = TypeCommon.PrimaryID,
 >(dto: T[], db: T[]) {
   const exist: Record<string, T> = {};
   const DTO_LENGTH = dto.length;

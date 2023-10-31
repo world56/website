@@ -45,12 +45,16 @@ model Msg {
   @@map("message")
 }
 
-model Text {
-  id         String   @id @default(uuid())
-  type       Int
-  icon       String
-  content    String   @db.Text
-  createTime DateTime @default(now()) @map("create_time")
+model Post {
+  id          String   @id @default(uuid())
+  title       String
+  type        Int
+  icon        String
+  description String?
+  content     String   @db.Text
+  updateTime  DateTime @updatedAt @map("update_time")
+  createTime  DateTime @default(now()) @map("create_time")
 
-  @@map("text")
+  @@index([type])
+  @@map("post")
 }

@@ -7,8 +7,24 @@ export namespace TypeCommon {
    * @name TypePrimaryID 主键
    * @description 本项目全部用uuid
    */
-  export interface TypePrimaryID {
+  export interface PrimaryID {
     id?: string;
+  }
+
+  /**
+   * @name PageTurning 翻页参数
+   * @param currentPage 当前页码
+   * @param pageSize 每页数量
+   */
+  export type PageTurning = Record<"currentPage" | "pageSize", number>;
+
+  /**
+   * @name Response 返回列表
+   */
+  export interface Response<T> extends PageTurning {
+    list: T[];
+    /** @param count 总数量 */
+    readonly count: number;
   }
 
   /**
