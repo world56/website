@@ -38,10 +38,11 @@ export const HTML_TEMPLATE = {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding:0 39px;
+      padding: 0 39px;
       font-weight: bold;
       font-size: 16px;
       color: #fff;
+      margin: 30px 0;
       background: black;
       border-radius: 1px 20px;
     '>

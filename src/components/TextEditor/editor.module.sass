@@ -2,13 +2,17 @@ $height: 580px
   
 .editor
   width: 100%
+  min-height: $height !important
 
   textarea
-    min-height: $height
+    min-height: $height !important
 
   :global(.ant-spin)
-    background: #fff
+    background: rgb(255, 255, 255)
     max-height: max-content !important
+
+  :global(.ant-spin-nested-loading),:global(.ant-spin-container),:global(.tox-tinymce)
+    min-height: $height !important
 
   :global(.tox-promotion),:global(.tox-statusbar__branding)
     display: none

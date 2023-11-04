@@ -80,7 +80,7 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
         ),
       },
       {
-        width: 120,
+        width: 150,
         title: "操作",
         render: (field: FormListFieldData) => {
           const length = form.getFieldValue(name).length;

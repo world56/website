@@ -1,4 +1,4 @@
-export function dateToTime(isoDateString: string) {
+export function dateToTime(isoDateString: string | Date) {
   const date = new Date(isoDateString);
   return date.toLocaleString('zh-CN', {
     year: 'numeric',

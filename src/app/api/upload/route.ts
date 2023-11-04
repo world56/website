@@ -6,7 +6,7 @@ const STATIC_PATH = join(__dirname, "../../../../../resource");
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const file = formData.get("file") as Blob;
+  const file = formData.get("file") as File;
   const format = file.name.split(".").at(-1);
   const buffer = Buffer.from(await file.arrayBuffer());
   const fileName= `${uuid.v1()}.${format}`;

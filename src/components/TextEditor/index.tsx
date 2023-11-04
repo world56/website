@@ -11,6 +11,7 @@ import { Spin } from "antd";
 import Script from "next/script";
 import { useDebounceFn } from "ahooks";
 import styles from "./editor.module.sass";
+import { useDebounceEffect } from "ahooks";
 import CONFIG, { HTML_TEMPLATE } from "./config";
 
 import type { Editor, EditorManager } from "tinymce";
@@ -25,7 +26,9 @@ interface TypeTxtEditorProps<T = string>
   extends React.ForwardRefRenderFunction<
     Editor | undefined,
     {
-      /** @param value 初始化文本内容 */
+      /**
+       * @param value 文本内容
+       */
       value?: string;
       /** @name onChange 输入监听器 */
       onChange?(value?: T): void;
@@ -35,11 +38,14 @@ interface TypeTxtEditorProps<T = string>
 /**
  * @name TextEditor 文本编辑器
  */
-const TxtEditor: TypeTxtEditorProps = ({ value, onChange }, ref) => {
+const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
   const edit = useRef<Editor>();
-  const isInit = useRef(false);
 
   const [load, setLoad] = useState(true);
+
+  const { run: onInputChange } = useDebounceFn(() => {
+    onChange?.(edit.current?.getContent());
+  });
 
   const { run: onCreate } = useDebounceFn(() => {
     window.tinymce?.init({
@@ -47,10 +53,8 @@ const TxtEditor: TypeTxtEditorProps = ({ value, onChange }, ref) => {
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
+        edit.current?.on("input", onInputChange);
         setLoad(false);
-        edit.current?.on("keyup change", () => {
-          onChange?.(edit.current?.getContent());
-        });
       },
       setup(editor) {
         editor.ui.registry.addButton("title", {
@@ -69,19 +73,23 @@ const TxtEditor: TypeTxtEditorProps = ({ value, onChange }, ref) => {
   });
 
   useEffect(() => {
-    window.tinymce?.remove(edit.current!);
     onCreate();
     return () => {
-      window.tinymce?.remove(edit.current!);
+      edit.current && window.tinymce?.remove();
     };
-  }, []);
+  }, [onCreate]);
 
-  useEffect(() => {
-    if (!load && !isInit.current) {
-      isInit.current = true;
-      edit.current?.setContent(value || "");
-    }
-  }, [load, value]);
+  useDebounceEffect(
+    () => {
+      if (!load) {
+        const index = edit.current?.selection.getBookmark(2)!;
+        edit.current?.setContent(value);
+        edit.current?.selection.moveToBookmark(index);
+      }
+    },
+    [load, value],
+    { wait: 100 },
+  );
 
   useImperativeHandle(ref, () => edit.current, [edit.current]);
 

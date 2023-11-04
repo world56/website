@@ -1,6 +1,6 @@
 import { ENUM_COMMON } from "@/enum/common";
 
-import type { Tag } from "@prisma/client";
+import type { Msg, Post, Tag } from "@prisma/client";
 
 export namespace TypeCommon {
   /**
@@ -13,18 +13,18 @@ export namespace TypeCommon {
 
   /**
    * @name PageTurning 翻页参数
-   * @param currentPage 当前页码
+   * @param current 当前页码
    * @param pageSize 每页数量
    */
-  export type PageTurning = Record<"currentPage" | "pageSize", number>;
+  export type PageTurning = Record<"current" | "pageSize", number>;
 
   /**
    * @name Response 返回列表
    */
   export interface Response<T> extends PageTurning {
     list: T[];
-    /** @param count 总数量 */
-    readonly count: number;
+    /** @param total 总数量 */
+    readonly total: number;
   }
 
   /**
@@ -47,5 +47,24 @@ export namespace TypeCommon {
     items: T[];
     /** @param skills 个人技能 */
     skills: T[];
+  }
+
+  /**
+   * @name QueryPosts 查询 “帖子” 列表
+   */
+  export interface QueryPosts
+    extends PageTurning,
+      Partial<Pick<Post, "title" | "type">> {}
+
+  /**
+   * @name QueryMessages 查询 “消息” 列表
+   */
+  export interface QueryMessages
+    extends PageTurning,
+      Partial<Pick<Msg, "read">> {
+    /** @param startTime 开始时间 */
+    startTime?: Date;
+    /** @param endTime 结束时间 */
+    endTime?: Date;
   }
 }

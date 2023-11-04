@@ -1,9 +1,13 @@
+import { message } from "antd";
 import { extend } from "umi-request";
 
 import type { ResponseError } from "umi-request";
 
+export function isServer() {
+  return typeof window === "undefined";
+}
+
 async function errorHandler(res: ResponseError) {
-  console.log(1);
   return Promise.reject(res.response);
 }
 
@@ -14,9 +18,8 @@ const request = extend({
 
 request.interceptors.request.use(
   (url, options) => {
-    const IS_SERVER = typeof window === "undefined";
     return {
-      url: IS_SERVER ? `http://127.0.0.1:${process.env.PORT}${url}` : url,
+      url: isServer() ? `http://127.0.0.1:${process.env.PORT}${url}` : url,
       options,
     };
   },
@@ -29,8 +32,7 @@ request.interceptors.response.use(
       const data = await res.clone().json();
       return data;
     } catch (e) {
-      const error = String(e);
-      console.log("@-error-request", error);
+      !isServer() && message.error('请求失败');
       return Promise.reject(e);
     }
   },
