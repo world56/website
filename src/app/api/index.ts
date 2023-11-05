@@ -115,3 +115,14 @@ export function readMessage(data: TypeCommon.PrimaryID) {
     data,
   });
 }
+
+/**
+ * @name upload 上传文件
+ */
+export function uploadFiles(data: FormData) {
+  return request<TypeCommon.File[]>(`/api/upload`, {
+    data,
+    method: "POST",
+    headers: { contentType: "multipart/form-data" },
+  });
+}

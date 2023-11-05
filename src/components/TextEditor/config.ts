@@ -24,10 +24,9 @@ export default {
   ],
   toolbar1: `
     blocks fontfamily fontsize |
-    forecolor backcolor bold italic underline strikethrough removeformat |
-    alignleft aligncenter alignright alignjustify |
+    forecolor backcolor bold italic underline strikethrough removeformat | alignleft aligncenter alignright alignjustify 
     bullist numlist outdent indent undo redo |
-    fullscreen preview table blockquote link title |
+    link uploadImage uploadVideo | blockquote title table | preview fullscreen
   `,
 };
 export const HTML_TEMPLATE = {

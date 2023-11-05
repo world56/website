@@ -10,9 +10,13 @@ import {
 import { Spin } from "antd";
 import Script from "next/script";
 import { useDebounceFn } from "ahooks";
+import { uploadFiles } from "@/app/api";
 import styles from "./editor.module.sass";
 import { useDebounceEffect } from "ahooks";
+import { getUploadFiles } from "@/utils/filter";
 import CONFIG, { HTML_TEMPLATE } from "./config";
+
+import { ENUM_COMMON } from "@/enum/common";
 
 import type { Editor, EditorManager } from "tinymce";
 
@@ -30,7 +34,7 @@ interface TypeTxtEditorProps<T = string>
        * @param value 文本内容
        */
       value?: string;
-      /** @name onChange 输入监听器 */
+      /** @name onChange 内容监听器 */
       onChange?(value?: T): void;
     }
   > {}
@@ -46,6 +50,19 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
   const { run: onInputChange } = useDebounceFn(() => {
     onChange?.(edit.current?.getContent());
   });
+
+  async function upload(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
+    const data = await getUploadFiles(type);
+    const files = await uploadFiles(data);
+    let html = "";
+    for (let v of files) {
+      const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
+      html += IS_IMAGE
+        ? `<img src='${v.url}' alt='#' />`
+        : `<video controls><source src='${v.url}' type='video/mp4' /></video>`;
+    }
+    edit?.current?.execCommand("mceInsertContent", false, html);
+  }
 
   const { run: onCreate } = useDebounceFn(() => {
     window.tinymce?.init({
@@ -67,6 +84,16 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
             editor?.on("NodeChange", editorEventCallback);
             return () => editor?.off("NodeChange", editorEventCallback);
           },
+        });
+        editor.ui.registry.addButton("uploadImage", {
+          icon: "image",
+          tooltip: "上传图片",
+          onAction: () => upload(ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE),
+        });
+        editor.ui.registry.addButton("uploadVideo", {
+          icon: "embed",
+          tooltip: "上传视频",
+          onAction: () => upload(ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO),
         });
       },
     });

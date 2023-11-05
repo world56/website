@@ -1,3 +1,6 @@
+/**
+ * @name dateToTime 转换时间
+ */
 export function dateToTime(isoDateString: string | Date) {
   const date = new Date(isoDateString);
   return date.toLocaleString('zh-CN', {

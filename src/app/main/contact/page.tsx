@@ -34,17 +34,44 @@ const Contact = () => {
         layout="vertical"
         className={styles.contact}
       >
-        <Form.Item label="您的尊称" name="name">
+        <Form.Item
+          name="name"
+          label="您的尊称"
+          rules={[{ required: true, message: "您的尊称不得为空" }]}
+        >
           <Input placeholder="请输入您的您的尊称" allowClear />
         </Form.Item>
-        <Form.Item label="您的电话" name="telephone">
+        <Form.Item
+          label="您的电话"
+          name="telephone"
+          rules={[
+            {
+              message: "电话号码是纯数字",
+              pattern: /^\d+$/,
+            },
+          ]}
+        >
           <Input placeholder="请输入您的联系电话" allowClear />
         </Form.Item>
-        <Form.Item label="您的邮箱" name="email">
+        <Form.Item
+          label="您的邮箱"
+          name="email"
+          rules={[
+            {
+              message: "请输入正确的邮箱格式",
+              pattern:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            },
+          ]}
+        >
           <Input placeholder="请输入您的电子邮箱" allowClear />
         </Form.Item>
-        <Form.Item label="想告诉我的话" name="content">
-          <Input.TextArea rows={4} placeholder="请输入想告诉我的话" />
+        <Form.Item
+          name="content"
+          label="留言消息"
+          rules={[{ required: true, message: "留言消息不得为空" }]}
+        >
+          <Input.TextArea rows={4} placeholder="请输入留言消息" />
         </Form.Item>
         <Form.Item>
           <Button onClick={onSubmit} type="primary">

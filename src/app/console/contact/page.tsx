@@ -116,6 +116,8 @@ const Contact = () => {
           />
           <Button
             type="primary"
+            loading={loading}
+            disabled={loading}
             onClick={() => run()}
             icon={<SyncOutlined spin={loading} />}
           >

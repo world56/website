@@ -130,7 +130,7 @@ const TextEditor = () => {
       <div className={styles.search}>
         <span>标题：</span>
         <Input onChange={onTitleChange} placeholder="请输入标题" allowClear />
-        <Button onClick={onSearch} icon={<SearchOutlined />} type="primary">
+        <Button type="primary" onClick={onSearch} icon={<SearchOutlined />}>
           查询
         </Button>
         <Edit id={editId} type={type} onClose={onEdit} />

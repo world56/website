@@ -67,4 +67,18 @@ export namespace TypeCommon {
     /** @param endTime 结束时间 */
     endTime?: Date;
   }
+
+  /**
+   * @name File 文件列表
+   */
+  export interface File {
+    /**
+     * @param type 文件类型
+     */
+    type: ENUM_COMMON.UPLOAD_FILE_TYPE;
+    /**
+     * @param url 文件地址
+     */
+    url: string;
+  }
 }

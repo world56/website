@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toJSON } from "@/utils/filter";
 import styles from "./index.module.sass";
 import { Tooltip, Upload, message } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -6,7 +7,9 @@ import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
 
 function beforeUpload(file: RcFile) {
-  const IS_IMAGE = ["image/jpeg", "image/png",'image/svg+xml'].includes(file.type);
+  const IS_IMAGE = ["image/jpeg", "image/png", "image/svg+xml"].includes(
+    file.type,
+  );
   if (!IS_IMAGE) {
     message.error("仅支持jpg、jpeg、png、svg图片");
   }
@@ -45,7 +48,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
       case "uploading":
         return setLoad(true);
       case "done":
-        onChange?.(e.file.xhr?.response);
+        onChange?.(toJSON(e.file.xhr?.response)?.[0]?.url);
         return setLoad(false);
       default:
         return;
@@ -81,7 +84,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
 
   return (
     <Upload
-      name="file"
+      name="files"
       action="/api/upload"
       showUploadList={false}
       onChange={handleChange}
