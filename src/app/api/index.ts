@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-import type { Msg, Post } from "@prisma/client";
+import type { Msg, Post, User } from "@prisma/client";
 import type { TypeCommon } from "@/interface/common";
 
 /**
@@ -124,5 +124,34 @@ export function uploadFiles(data: FormData) {
     data,
     method: "POST",
     headers: { contentType: "multipart/form-data" },
+  });
+}
+
+/**
+ * @name existAdmin 是否存在管理员
+ */
+export function existAdmin() {
+  return request<boolean>(`/api/auth`, {
+    method: "GET",
+  });
+}
+
+/**
+ * @name login 登陆
+ */
+export function login(data: Pick<User, "account" | "password">) {
+  return request<boolean>(`/api/auth/login`, {
+    data,
+    method: "POST",
+  });
+}
+
+/**
+ * @name register 注册管理员（个人主页所有者）
+ */
+export function register(data: Pick<User, "account" | "password">) {
+  return request<boolean>(`/api/auth/register`, {
+    data,
+    method: "POST",
   });
 }

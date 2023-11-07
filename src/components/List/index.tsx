@@ -1,10 +1,8 @@
-// import Image from "next/image";
-import { Empty } from "antd";
 import Item from "./Item";
+import Image from "next/image";
 import styles from "./list.module.sass";
 
 import ICON_EMPTY from "@/assets/empty.svg";
-import Image from "next/image";
 
 interface TypeListProps
   extends React.FC<{

@@ -12,12 +12,16 @@ datasource db {
 
 model User {
   id         String   @id @default(uuid())
-  name       String
+  name       String?
   icon       String?
   type       Int
+  account    String   @db.Char(12)
+  password   String
   createTime DateTime @default(now()) @map("create_time")
 
   @@index([type])
+  @@index([account])
+  @@index([id, account])
   @@map("user")
 }
 

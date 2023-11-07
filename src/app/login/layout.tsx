@@ -1,21 +1,16 @@
 import Script from "next/script";
-import styles from "./console.module.sass";
-import Navigation from "@/components/Navigation/Console";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
 
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "控制台",
-  description: "控制台",
+  title: "Login",
+  description: "Login",
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
-    <StyledComponentsRegistry>
-      <Navigation />
-      <main className={styles.console}>{children}</main>
-    </StyledComponentsRegistry>
+    <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
     <Script src="/lib/tinymce/tinymce.min.js" />
     <Script src="/lib/tinymce/lang/zh-Hans.js" />
     <Script src="/lib/tinymce/models/dom/model.min.js" />

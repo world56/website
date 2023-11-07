@@ -12,6 +12,11 @@ export namespace TypeCommon {
   }
 
   /**
+   * @name Login 登陆
+   */
+  export interface Login extends Record<"account" | "password", string> {}
+
+  /**
    * @name PageTurning 翻页参数
    * @param current 当前页码
    * @param pageSize 每页数量

@@ -55,4 +55,19 @@ export namespace ENUM_COMMON {
      */
     VIDEO,
   }
+
+  /**
+   * @name USER_TYPE 用户类型
+   * @description 当前仅支持管理员
+   */
+  export enum USER_TYPE{
+    /**
+     * @param ADMIN 管理员
+     */
+    ADMIN,
+    /**
+     * @param OTHER 其他类型 未知 🤷‍♂️
+     */
+    OTHER
+  }
 }

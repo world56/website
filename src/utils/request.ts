@@ -8,7 +8,7 @@ export function isServer() {
 }
 
 async function errorHandler(res: ResponseError) {
-  return Promise.reject(res.response);
+  return Promise.reject();
 }
 
 const request = extend({
@@ -29,11 +29,23 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   async (res) => {
     try {
-      const data = await res.clone().json();
-      return data;
+      switch (res.status) {
+        case 200:
+          return await res.clone().json();
+        case 401:
+          if (!isServer()) {
+            message.error("身份异常");
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
+          }
+          return Promise.reject();
+        default:
+          return Promise.reject();
+      }
     } catch (e) {
-      !isServer() && message.error('请求失败');
-      return Promise.reject(e);
+      !isServer() && message.error("请求失败");
+      return Promise.reject();
     }
   },
   {

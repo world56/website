@@ -1,6 +1,7 @@
 import { ENUM_COMMON } from "@/enum/common";
-import type { TypeCommon } from "@/interface/common";
 import { message, notification } from "antd";
+
+import type { TypeCommon } from "@/interface/common";
 
 /**
  * @name filterCUD 过滤出增、改、删数据

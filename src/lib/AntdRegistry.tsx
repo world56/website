@@ -2,7 +2,9 @@
 
 import { ConfigProvider } from "antd";
 import { useServerInsertedHTML } from "next/navigation";
-import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
+// https://github.com/ant-design/ant-design/issues/45567
+import {  StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs/lib';
+// import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
 
 import type { ConfigProviderProps } from "antd/es/config-provider";
 
