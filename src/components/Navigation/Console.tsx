@@ -23,14 +23,14 @@ const items = [
   // {
   //   key: "/resume",
   //   icon: <UserOutlined />,
-  //   label: <Link href="/console/resume">我的简历</Link>,
+  //   label: <Link href="/console/resume">个人简历</Link>,
   // },
   {
-    key: "/console/post/open",
+    key: "/console/post/portfolio",
     label: (
       <>
         <CoffeeOutlined />
-        开源项目
+        作品集
       </>
     ),
   },

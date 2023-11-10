@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRequest } from "ahooks";
+import { usePosts } from "@/hooks";
 import Edit from "./component/Edit";
 import styles from "./post.module.sass";
 import Status from "@/components/Status";
-import { useParams } from "next/navigation";
 import { dateToTime } from "@/utils/format";
 import { SearchOutlined } from "@ant-design/icons";
 import Switching from "@/components/Status/Switching";
 import ConfirmButton from "@/components/ConfirmButton";
-import { deletePost, getPosts, updatePostStatus } from "@/app/api";
+import { deletePost, updatePostStatus } from "@/app/api";
 import { Button, Card, Input, Table, Tooltip, message } from "antd";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -18,29 +17,18 @@ import { ENUM_COMMON } from "@/enum/common";
 import type { Post } from "@prisma/client";
 import type { TableProps } from "antd/es/table";
 import type { TypeCommon } from "@/interface/common";
-import type { TypeEditProps } from "./component/Edit";
 
-const POST_TYPE = {
+export const POST_TYPE = {
   share: { TITLE: "分享列表", ENUM: ENUM_COMMON.POST_TYPE.SHARE },
-  open: { TITLE: "开源项目列表", ENUM: ENUM_COMMON.POST_TYPE.OPEN },
+  portfolio: { TITLE: "作品集", ENUM: ENUM_COMMON.POST_TYPE.PORTFOLIO },
 };
 
 type TypeTableProps = TableProps<Post>;
 
 const TextEditor = () => {
-  const { type } = useParams<Pick<TypeEditProps, "type">>();
-
   const [editId, setEditId] = useState<TypeCommon.PrimaryID["id"]>();
-  const [query, setQuery] = useState<TypeCommon.QueryPosts>({
-    current: 1,
-    pageSize: 20,
-    type: POST_TYPE[type].ENUM,
-  });
 
-  const { data, run, loading } = useRequest(
-    (arg?: typeof query) => getPosts(arg || query),
-    { debounceWait: 100 },
-  );
+  const { TITLE, ENUM, query, data, loading, setQuery, run } = usePosts();
 
   function onSearch() {
     const params = { ...query, current: 1 };
@@ -126,14 +114,14 @@ const TextEditor = () => {
   ];
 
   return (
-    <Card title={POST_TYPE[type].TITLE}>
+    <Card title={TITLE}>
       <div className={styles.search}>
         <span>标题：</span>
         <Input onChange={onTitleChange} placeholder="请输入标题" allowClear />
         <Button type="primary" onClick={onSearch} icon={<SearchOutlined />}>
           查询
         </Button>
-        <Edit id={editId} type={type} onClose={onEdit} />
+        <Edit id={editId} type={ENUM} onClose={onEdit} />
       </div>
       <Table
         rowKey="id"

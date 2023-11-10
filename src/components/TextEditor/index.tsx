@@ -62,6 +62,7 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
         : `<video controls><source src='${v.url}' type='video/mp4' /></video>`;
     }
     edit?.current?.execCommand("mceInsertContent", false, html);
+    onInputChange();
   }
 
   const { run: onCreate } = useDebounceFn(() => {

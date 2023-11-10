@@ -12,13 +12,13 @@ import type { TypeCommon } from "@/interface/common";
 
 export interface TypeEditProps extends TypeCommon.PrimaryID {
   /** @param type 编辑帖子类型 */
-  type: "open" | "share";
+  type:ENUM_COMMON.POST_TYPE;
   /** @name onClose 关闭弹窗 */
   onClose(): void;
 }
 
 const TYPE_TO_ENUM = {
-  open: ENUM_COMMON.POST_TYPE.OPEN,
+  portfolio: ENUM_COMMON.POST_TYPE.PORTFOLIO,
   share: ENUM_COMMON.POST_TYPE.SHARE,
 };
 
@@ -45,7 +45,7 @@ const Edit: React.FC<TypeEditProps> = ({ id, type, onClose }) => {
   async function onSubmit() {
     const values = await form.validateFields();
     values.id = id!;
-    values.type = TYPE_TO_ENUM[type];
+    values.type = type;
     if (id) await updatePost(values);
     else await insertPost(values);
     message.success("操作成功");

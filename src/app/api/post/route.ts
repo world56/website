@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
       select: {
         id: true,
         type: true,
+        icon: true,
         title: true,
         status: true,
         createTime: true,
