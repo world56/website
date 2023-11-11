@@ -31,7 +31,7 @@ export function getPosts(params: TypeCommon.QueryPosts) {
 /**
  * @name getPost 获取 “帖子” 单个
  */
-export function getPost(params: TypeCommon.PrimaryID) {
+export function getPost(params: Pick<Post, "id" | "status">) {
   return request<Post>(`/api/post/${params.id}`, {
     method: "GET",
   });

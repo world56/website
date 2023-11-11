@@ -1,7 +1,12 @@
+import {
+  useParams,
+  useRouter,
+  usePathname,
+  useSearchParams,
+} from "next/navigation";
 import { useState } from "react";
 import { useRequest } from "ahooks";
 import { getPosts } from "@/app/api";
-import { useParams } from "next/navigation";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -19,15 +24,29 @@ export default function usePosts() {
   const { type } = useParams<{ type: "portfolio" | "share" }>();
   const { TITLE, ENUM } = POST_TYPE[type];
 
+  const pathname = usePathname();
+  const router = useRouter();
+  const search = useSearchParams();
+
   const [query, setQuery] = useState<TypeCommon.QueryPosts>({
     type: ENUM,
-    current: 1,
-    pageSize: 20,
+    pageSize: 9,
+    current: Number(search.get("current")) || 1,
   });
 
-  const hook = useRequest((arg?: typeof query) => getPosts(arg || query), {
-    debounceWait: 100,
-  });
+  const hook = useRequest(
+    (arg?: typeof query) => {
+      const { current } = arg || query;
+      const params = new URLSearchParams(search);
+      params.set("current", String(current));
+      router.replace(`${pathname}?${params.toString()}`);
+      return getPosts(arg || query);
+    },
+    {
+      debounceWait: 100,
+      refreshDeps: [query],
+    },
+  );
 
   return {
     ...hook,

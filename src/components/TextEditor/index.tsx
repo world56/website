@@ -47,9 +47,10 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
 
   const [load, setLoad] = useState(true);
 
-  const { run: onInputChange } = useDebounceFn(() => {
-    onChange?.(edit.current?.getContent());
-  });
+  const { run: onInputChange } = useDebounceFn(
+    () => onChange?.(edit.current?.getContent()),
+    { wait: 0 },
+  );
 
   async function upload(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
     const data = await getUploadFiles(type);
@@ -71,7 +72,7 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
-        edit.current?.on("input", onInputChange);
+        edit.current?.on("change", onInputChange);
         setLoad(false);
       },
       setup(editor) {
@@ -116,7 +117,7 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
       }
     },
     [load, value],
-    { wait: 100 },
+    { wait: 200 },
   );
 
   useImperativeHandle(ref, () => edit.current, [edit.current]);
