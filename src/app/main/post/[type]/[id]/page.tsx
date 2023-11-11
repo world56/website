@@ -7,8 +7,20 @@ import { FieldTimeOutlined } from "@ant-design/icons";
 
 import { ENUM_COMMON } from "@/enum/common";
 
+import type { ResolvingMetadata } from "next";
+
 interface TypePostProps {
   params: Record<"type" | "id", string>;
+}
+
+export async function generateMetadata(
+  { params: { id } }: TypePostProps,
+  parent: ResolvingMetadata,
+) {
+  const res = await getPost({ id, status: ENUM_COMMON.STATUS.ENABLE });
+  return {
+    title: res?.title ? res.title : "没有找到相关内容",
+  };
 }
 
 const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
