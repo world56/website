@@ -17,11 +17,6 @@ export interface TypeEditProps extends TypeCommon.PrimaryID {
   onClose(): void;
 }
 
-const TYPE_TO_ENUM = {
-  portfolio: ENUM_COMMON.POST_TYPE.PORTFOLIO,
-  share: ENUM_COMMON.POST_TYPE.SHARE,
-};
-
 const RULES = [{ required: true, message: "该字段不得为空" }];
 
 /**

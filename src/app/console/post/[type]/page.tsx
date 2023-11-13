@@ -18,11 +18,6 @@ import type { Post } from "@prisma/client";
 import type { TableProps } from "antd/es/table";
 import type { TypeCommon } from "@/interface/common";
 
-export const POST_TYPE = {
-  share: { TITLE: "分享列表", ENUM: ENUM_COMMON.POST_TYPE.SHARE },
-  portfolio: { TITLE: "作品集", ENUM: ENUM_COMMON.POST_TYPE.PORTFOLIO },
-};
-
 type TypeTableProps = TableProps<Post>;
 
 const TextEditor = () => {
