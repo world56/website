@@ -1,7 +1,7 @@
 import Script from "next/script";
 import styles from "./console.module.sass";
 import Navigation from "@/components/Navigation/Console";
-import StyledComponentsRegistry from "@/lib/AntdRegistry";
+import StyledComponentsRegistry from "@/components/AntdRegistry";
 
 import type { Metadata } from "next";
 

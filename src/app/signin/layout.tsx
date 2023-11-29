@@ -1,11 +1,10 @@
 import Script from "next/script";
-import StyledComponentsRegistry from "@/lib/AntdRegistry";
+import StyledComponentsRegistry from "@/components/AntdRegistry";
 
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Login",
+  title: "Admin",
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (

@@ -26,7 +26,7 @@ const Details: React.FC<TypeContactDetailsProps> = ({ data }) => {
   useEffect(() => {
     const { id, read } = data;
     read || (id && readMessage({ id }));
-  }, [data.read]);
+  }, [data, data.read]);
 
   return (
     <Descriptions

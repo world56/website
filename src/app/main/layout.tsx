@@ -1,19 +1,27 @@
-import { DBlocal } from "@/lib/db";
+import { DBlocal } from "@/utils/db";
 import styles from "./main.module.sass";
 import Personal from "@/components/Personal";
 import Navigation from "@/components/Navigation/Main";
-
-import type { Metadata } from "next";
-
-const config = DBlocal.get();
-
-export const metadata: Metadata = {
-  title: config.title || "网站标题",
-  description: "description",
-};
+import StyledComponentsRegistry from "@/components/AntdRegistry";
 
 interface TypeMainProps {
   children?: React.ReactNode;
+}
+
+const theme = {
+  token: {
+    colorPrimary: "#0f0f0f",
+  },
+};
+
+const config = DBlocal.get();
+
+export async function generateMetadata() {
+  const config = DBlocal.get();
+  return {
+    title: config.title,
+    description: "description",
+  };
 }
 
 const Layout: React.FC<TypeMainProps> = ({ children }) => (
@@ -24,7 +32,9 @@ const Layout: React.FC<TypeMainProps> = ({ children }) => (
       </aside>
       <div className={styles.context}>
         <Navigation />
-        {children}
+        <StyledComponentsRegistry theme={theme}>
+          {children}
+        </StyledComponentsRegistry>
       </div>
     </main>
     {config.forTheRecord ? (

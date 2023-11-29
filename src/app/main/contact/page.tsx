@@ -3,15 +3,8 @@
 import { insertMessage } from "@/app/api";
 import styles from "./contact.module.sass";
 import { Button, Form, Input, message } from "antd";
-import StyledComponentsRegistry from "@/lib/AntdRegistry";
 
 import type { Msg } from "@prisma/client";
-
-const theme = {
-  token: {
-    colorPrimary: "#0f0f0f",
-  },
-};
 
 /**
  * @name Contact 取得联系
@@ -27,7 +20,6 @@ const Contact = () => {
   }
 
   return (
-    <StyledComponentsRegistry theme={theme}>
       <Form
         form={form}
         name="message"
@@ -79,7 +71,6 @@ const Contact = () => {
           </Button>
         </Form.Item>
       </Form>
-    </StyledComponentsRegistry>
   );
 };
 

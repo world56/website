@@ -1,25 +1,46 @@
-import { Spin, Tooltip } from "antd";
+import { cache } from "react";
+import { Tooltip } from "antd";
+import Image from "next/image";
 import Title from "@/components/Title";
 import styles from "./main.module.sass";
-import { getBasicDetails } from "../api";
+import { DBlocal, prisma } from "@/utils/db";
+
+import { ENUM_COMMON } from "@/enum/common";
+
+export const revalidate = 864000;
+
+const requestPerson = cache(async () => {
+  const local = DBlocal.get();
+  const skills = await prisma.tag.findMany({
+    orderBy: { index: "asc" },
+    where: { type: ENUM_COMMON.TAG.PERSONAL_SKILL },
+  });
+  return { local, skills };
+});
 
 /**
- * @name About 自我介绍页
+ * @name About 自我介绍
  */
 const About = async () => {
-  const data = await getBasicDetails();
+  const { local, skills } = await requestPerson();
+
   return (
     <>
       <div
         dangerouslySetInnerHTML={
-          data.profile ? { __html: data.profile } : undefined
+          local.profile ? { __html: local.profile } : undefined
         }
       />
       <Title>技能简介</Title>
       <div className={styles.skill}>
-        {data.skills.map((v) => (
+        {skills.map((v) => (
           <Tooltip key={v.name} title={v.description}>
-            <img src={v.icon} alt="#" />
+            <Image
+              alt="#"
+              width={0}
+              height={0}
+              src={`http://127.0.0.1:3000/${v.icon}`}
+            />
           </Tooltip>
         ))}
       </div>

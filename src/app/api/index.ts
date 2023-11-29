@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
-import type { Msg, Post, User } from "@prisma/client";
 import type { TypeCommon } from "@/interface/common";
+import type { Msg, Post, User } from "@prisma/client";
 
 /**
  * @name getBasicDetails 获取 “网站、个人基本信息”
@@ -135,14 +135,15 @@ export function uploadFiles(data: FormData) {
 export function existAdmin() {
   return request<boolean>(`/api/auth`, {
     method: "GET",
+    cache: "no-store",
   });
 }
 
 /**
- * @name login 登陆
+ * @name signIn 验证管理员
  */
-export function login(data: Pick<User, "account" | "password">) {
-  return request<boolean>(`/api/auth/login`, {
+export function signIn(data: Pick<User, "account" | "password">) {
+  return request<boolean>(`/api/auth/signin`, {
     data,
     method: "POST",
   });
@@ -155,5 +156,28 @@ export function register(data: Pick<User, "account" | "password">) {
   return request<boolean>(`/api/auth/register`, {
     data,
     method: "POST",
+  });
+}
+
+/**
+ * @name pageRevalidate ISR
+ */
+export function pageRevalidate(data: TypeCommon.ISR) {
+  return request<object>(`/api/revalidate`, {
+    data,
+    method: "POST",
+  });
+}
+
+/**
+ * @name _pageRevalidate ISR
+ * @description 临时方案，app-route并不能支持动态路由参数的增量再生成，先用api-route解决，太哈批了
+ * @see https://github.com/vercel/next.js/issues/49387
+ * @see https://www.reddit.com/r/nextjs/comments/13fodef/revalidatepath_not_working_for_dynamic_routes
+ */
+export function _pageRevalidate(params: TypeCommon.ISR) {
+  return request<object>(`/api/_revalidate`, {
+    params,
+    method: "PUT",
   });
 }

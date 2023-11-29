@@ -6,12 +6,12 @@ import { useState } from "react";
 import { useRequest } from "ahooks";
 import styles from "./index.module.sass";
 import { Button, Form, Input } from "antd";
-import ICON_LOGIN from "@/assets/panda.svg";
-import { existAdmin, login, register } from "@/app/api";
+import { useRouter } from "next/navigation";
+import ICON_SIGN_IN from "@/assets/panda.svg";
+import { existAdmin, signIn, register } from "@/app/api";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import type { TypeCommon } from "@/interface/common";
-import { useRouter } from "next/navigation";
 
 const RULES_DEFAULT = [
   { required: true, message: "This field must not be empty" },
@@ -26,14 +26,11 @@ const RULES_DEFAULT = [
   },
 ];
 
-/**
- * @name Login 登陆
- */
-const Login = () => {
+const SignIn = () => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const [form] = Form.useForm<TypeCommon.Login>();
+  const [form] = Form.useForm<TypeCommon.Sign>();
 
   const { loading: existLoading, data: exist } = useRequest(existAdmin);
 
@@ -43,7 +40,7 @@ const Login = () => {
       const values = await form.validateFields();
       values.password = md5(values.password);
       !exist && (await register(values));
-      await login(values);
+      await signIn(values);
       router.push("/console");
     } catch (error) {
       console.log(error);
@@ -56,12 +53,12 @@ const Login = () => {
     <Form
       form={form}
       layout="vertical"
-      name="website-login"
-      className={styles.login}
+      name="website-sign"
+      className={styles.signIn}
     >
-      <Image src={ICON_LOGIN} alt="#" width={60} priority />
+      <Image src={ICON_SIGN_IN} alt="#" width={60} priority />
 
-      <Form.Item label="ACCOUNT" name="account" rules={RULES_DEFAULT}>
+      <Form.Item label="ADMIN ACCOUNT" name="account" rules={RULES_DEFAULT}>
         <Input
           allowClear
           prefix={<UserOutlined />}
@@ -73,7 +70,7 @@ const Login = () => {
           allowClear
           onPressEnter={onSubmit}
           prefix={<LockOutlined />}
-          placeholder="USER PASSWORD"
+          placeholder="ADMIN PASSWORD"
         />
       </Form.Item>
       <Button
@@ -82,10 +79,10 @@ const Login = () => {
         onClick={onSubmit}
         disabled={existLoading}
       >
-        {existLoading ? "LOADING" : exist ? "LOGIN" : "REGISTER ADMIN"}
+        {existLoading ? "LOADING" : exist ? "SIGN IN" : "REGISTER ADMIN"}
       </Button>
     </Form>
   );
 };
 
-export default Login;
+export default SignIn;

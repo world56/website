@@ -32,13 +32,13 @@ export namespace ENUM_COMMON {
    */
   export enum POST_TYPE {
     /** 
-     * @param PORTFOLIO 作品集
+     * @param ACHIEVEMENTS 成果
      */
-    PORTFOLIO,
+    ACHIEVEMENTS,
     /** 
-     * @param SHARE 分享
+     * @param NOTES 笔记
      */
-    SHARE,
+    NOTES,
   }
 
   /**

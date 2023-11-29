@@ -12,9 +12,8 @@ import Script from "next/script";
 import { useDebounceFn } from "ahooks";
 import { uploadFiles } from "@/app/api";
 import styles from "./editor.module.sass";
-import { useDebounceEffect } from "ahooks";
 import { getUploadFiles } from "@/utils/filter";
-import CONFIG, { HTML_TEMPLATE } from "./config";
+import { CONFIG, HTML_TEMPLATE } from "./config";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -34,7 +33,9 @@ interface TypeTxtEditorProps<T = string>
        * @param value 文本内容
        */
       value?: string;
-      /** @name onChange 内容监听器 */
+      /** 
+       * @name onChange 内容监听器
+       */
       onChange?(value?: T): void;
     }
   > {}
@@ -47,10 +48,9 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
 
   const [load, setLoad] = useState(true);
 
-  const { run: onInputChange } = useDebounceFn(
-    () => onChange?.(edit.current?.getContent()),
-    { wait: 0 },
-  );
+  function onInputChange() {
+    onChange?.(edit.current?.getContent());
+  }
 
   async function upload(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
     const data = await getUploadFiles(type);
@@ -108,19 +108,15 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
     };
   }, [onCreate]);
 
-  useDebounceEffect(
-    () => {
-      if (!load) {
-        const index = edit.current?.selection.getBookmark(2)!;
-        edit.current?.setContent(value);
-        edit.current?.selection.moveToBookmark(index);
-      }
-    },
-    [load, value],
-    { wait: 200 },
-  );
+  useEffect(() => {
+    if (!load) {
+      const index = edit.current?.selection.getBookmark(2)!;
+      edit.current?.setContent(value);
+      edit.current?.selection.moveToBookmark(index);
+    }
+  }, [load, value]);
 
-  useImperativeHandle(ref, () => edit.current, [edit.current]);
+  useImperativeHandle(ref, () => edit.current, [edit]);
 
   return (
     <>

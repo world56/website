@@ -11,10 +11,7 @@ export namespace TypeCommon {
     id?: string;
   }
 
-  /**
-   * @name Login 登陆
-   */
-  export interface Login extends Record<"account" | "password", string> {}
+  export interface Sign extends Record<"account" | "password", string> {}
 
   /**
    * @name PageTurning 翻页参数
@@ -59,7 +56,7 @@ export namespace TypeCommon {
    */
   export interface QueryPosts
     extends PageTurning,
-      Partial<Pick<Post, "title" | "type">> {}
+      Partial<Pick<Post, "title" | "type" | "status">> {}
 
   /**
    * @name QueryMessages 查询 “消息” 列表
@@ -85,5 +82,19 @@ export namespace TypeCommon {
      * @param url 文件地址
      */
     url: string;
+  }
+
+  /**
+   * @name ISR 按需渲染
+   */
+  export interface ISR {
+    /**
+     * @param path 路径
+     */
+    path: string;
+    /**
+     * @param 类型
+     */
+    type?: "layout" | "page";
   }
 }

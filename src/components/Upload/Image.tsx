@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useState } from "react";
 import { toJSON } from "@/utils/filter";
 import styles from "./index.module.sass";
@@ -19,6 +20,11 @@ function beforeUpload(file: RcFile) {
   }
   return IS_IMAGE && isLt1M;
 }
+
+const IMAGE_STYLE = {
+  width: "100%",
+  height: "auto",
+};
 
 interface TypeUploadImageProps<T = string> {
   readonly value?: T;
@@ -55,11 +61,20 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
     }
   }
 
+  const url = `http://127.0.0.1:3000/${value}`;
+
   function getButtonStyle(value?: string) {
     if (textButton) {
       return value ? (
         <Tooltip placement="left" title="点击重新上传">
-          <img alt="#" src={value} className={styles.text} />
+          <Image
+            alt="#"
+            src={url}
+            width={0}
+            height={0}
+            style={IMAGE_STYLE}
+            className={styles.text}
+          />
         </Tooltip>
       ) : (
         <div className={styles.text}>
@@ -70,7 +85,14 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
       return (
         <div className={styles.circle} style={{ borderRadius: radius }}>
           {value ? (
-            <img alt="#" src={value} className={styles.text} />
+            <Image
+              alt="#"
+              src={url}
+              width={100}
+              height={100}
+              style={IMAGE_STYLE}
+              className={styles.text}
+            />
           ) : (
             <>
               {load ? <LoadingOutlined /> : <PlusOutlined />}

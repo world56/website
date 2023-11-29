@@ -6,9 +6,9 @@ import { NextRequest } from "next/server";
 export const config = {
   matcher: [
     "/console/:path*",
+    "/api/post/:path*",
     "/api/basic/:path*",
     "/api/message/:path*",
-    "/api/post/:path*",
   ],
 };
 
@@ -24,6 +24,7 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode(process.env.SECRET),
     );
   } catch (error) {
+    console.log('@-middleware-error',error);
     return IS_CONSOLE
       ? NextResponse.redirect(new URL("/", request.url), { status: 302 })
       : NextResponse.json("Identity exception", {

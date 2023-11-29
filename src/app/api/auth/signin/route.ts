@@ -1,5 +1,5 @@
 import * as jose from "jose";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/utils/db";
 import { NextResponse } from "next/server";
 
 import { ENUM_COMMON } from "@/enum/common";

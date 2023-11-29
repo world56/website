@@ -5,13 +5,17 @@ import { usePosts } from "@/hooks";
 import List from "@/components/List";
 import styles from "./list.module.sass";
 
+import { ENUM_COMMON } from "@/enum/common";
+
 import type { PaginationProps } from "antd";
 
 /**
  * @name Posts 文本内容
  */
 const Posts = () => {
-  const { type, data, query, loading, setQuery } = usePosts();
+  const { type, data, query, loading, setQuery } = usePosts(
+    ENUM_COMMON.STATUS.ENABLE,
+  );
 
   const onChange: PaginationProps["onChange"] = (current, pageSize) => {
     setQuery((s) => ({ ...s, pageSize, current }));

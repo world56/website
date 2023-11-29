@@ -1,4 +1,4 @@
-export default {
+export const CONFIG = {
   relative_urls: false,
   remove_script_host: false,
   language: "zh-Hans",
@@ -29,6 +29,7 @@ export default {
     link uploadImage uploadVideo | blockquote title table | preview fullscreen
   `,
 };
+
 export const HTML_TEMPLATE = {
   TITLE: `
     <div style='

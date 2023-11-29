@@ -21,25 +21,25 @@ const items = [
     ),
   },
   // {
-  //   key: "/resume",
+  //   key: "/individual",
   //   icon: <UserOutlined />,
-  //   label: <Link href="/console/resume">个人简历</Link>,
+  //   label: <Link href="/console/resume">个人介绍</Link>,
   // },
   {
-    key: "/console/post/portfolio",
+    key: "/console/post/achievements",
     label: (
       <>
         <CoffeeOutlined />
-        作品集
+        成果
       </>
     ),
   },
   {
-    key: "/console/post/share",
+    key: "/console/post/notes",
     label: (
       <>
         <ShareAltOutlined />
-        分享
+        笔记
       </>
     ),
   },
@@ -58,7 +58,7 @@ const items = [
  * @name ConsoleNavigation 导航-控制台
  */
 const Console = () => {
-  const path = usePathname();
+  const path = usePathname()!;
   const router = useRouter();
 
   function onChange(key: string) {

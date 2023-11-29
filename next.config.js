@@ -3,13 +3,16 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack(config) {
+  webpack: function (config) {
     config.plugins.push(
       new CopyPlugin({
         patterns: [
           {
             from: path.join(__dirname, "node_modules/tinymce"),
             to: path.join(__dirname, "public/lib/tinymce"),
+            filter: (resourcePath) => {
+              return /(\.min\.js|\Hans\.js|\.min\.css)$/.test(resourcePath);
+            },
           },
         ],
       }),
@@ -19,6 +22,16 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "3000",
+        pathname: "/api/resource/**",
+      },
+    ],
+  },
   async rewrites() {
     return [
       {
@@ -26,33 +39,24 @@ const nextConfig = {
         destination: "/main",
       },
       {
-        source: "/portfolio",
-        destination: "/main/post/portfolio/list",
+        source: "/achievements",
+        destination: "/main/post/achievements/list",
       },
       {
-        source: "/portfolio/:id",
-        destination: "/main/post/portfolio/:id",
+        source: "/achievements/:id",
+        destination: "/main/post/achievements/:id",
       },
       {
-        source: "/share",
-        destination: "/main/post/share/list",
+        source: "/notes",
+        destination: "/main/post/notes/list",
       },
       {
-        source: "/share/:id",
-        destination: "/main/post/share/:id",
+        source: "/notes/:id",
+        destination: "/main/post/notes/:id",
       },
       {
         source: "/contact",
         destination: "/main/contact",
-      },
-    ];
-  },
-  async redirects() {
-    return [
-      {
-        source: "/api/resource/:path*",
-        destination: "http://127.0.0.1:2000/:path*",
-        permanent: true,
       },
     ];
   },

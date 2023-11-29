@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./list.module.sass";
 
 interface TypeListItemProps {
@@ -19,7 +20,12 @@ interface TypeListItemProps {
 const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
   <div className={styles.item}>
     <Link href={url}>
-      <div style={{ background: `url(${src}) center` }} />
+      <Image
+        alt="#"
+        width={280}
+        height={180}
+        src={`http://127.0.0.1:3000/${src}`}
+      />
       <h2>{name}</h2>
       <p>{desc}</p>
     </Link>

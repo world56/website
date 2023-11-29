@@ -1,6 +1,7 @@
-import { DBlocal, prisma } from "@/lib/db";
+import { pageRevalidate } from "..";
 import { filterCUD } from "@/utils/filter";
 import { NextResponse } from "next/server";
+import { DBlocal, prisma } from "@/utils/db";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -41,5 +42,7 @@ export async function POST(request: Request) {
     ),
   ]);
   DBlocal.set(data);
+  await pageRevalidate({ path: "/main", type: "page" });
+  await pageRevalidate({ path: "/main/post/[type]/[id]", type: "page" });
   return NextResponse.json({ status: 200 });
 }

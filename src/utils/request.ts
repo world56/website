@@ -1,56 +1,85 @@
 import { message } from "antd";
-import { extend } from "umi-request";
+import { stringify } from "qs";
 
-import type { ResponseError } from "umi-request";
+import type { IStringifyOptions } from "qs";
 
-export function isServer() {
+type ExpandRequest = Parameters<typeof fetch>;
+type TypeRequest<
+  T extends ExpandRequest = ExpandRequest,
+  R = {
+    data?: object;
+    params?: object | URLSearchParams;
+    requestType?: "json" | "form";
+  },
+> = [T[0], (T[1] extends object ? Omit<T[1], "body"> & R : T[1]) & R];
+
+function isServer() {
   return typeof window === "undefined";
 }
 
-async function errorHandler(res: ResponseError) {
-  return Promise.reject();
+function format(
+  params: object | URLSearchParams,
+  arrayFormat: IStringifyOptions["arrayFormat"] = "repeat",
+) {
+  return stringify(params, {
+    arrayFormat,
+    strictNullHandling: true,
+  });
 }
 
-const request = extend({
-  errorHandler,
-  timeout: 1000 * 20,
-});
-
-request.interceptors.request.use(
-  (url, options) => {
-    return {
-      url: isServer() ? `http://127.0.0.1:${process.env.PORT}${url}` : url,
-      options,
-    };
-  },
-  { global: true },
-);
-
-request.interceptors.response.use(
-  async (res) => {
-    try {
-      switch (res.status) {
-        case 200:
-          return await res.clone().json();
-        case 401:
-          if (!isServer()) {
-            message.error("身份异常");
-            setTimeout(() => {
-              window.location.href = "/";
-            }, 1000);
-          }
-          return Promise.reject();
-        default:
-          return Promise.reject();
+/**
+ * @name Request 请求
+ * @description next.js 对 fetch API进行了扩展
+ * @see https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
+ */
+async function Request<T = any>(...[url, options]: TypeRequest) {
+  const METHOD = options?.method?.toLocaleUpperCase() || "GET";
+  const QUERY = options?.params ? `?${format(options.params)}` : "";
+  const REWRITE_URL = `${url}${QUERY}`;
+  const REQUEST_TYPE = options.requestType || "json";
+  const HTTP_URL = isServer()
+    ? `http://127.0.0.1:${3000}${REWRITE_URL}`
+    : REWRITE_URL;
+  try {
+    let body;
+    let contentType = "application/json;charset=UTF-8";
+    if (options.data) {
+      if (REQUEST_TYPE === "json") {
+        body = JSON.stringify(options.data);
+        contentType = "application/json;charset=UTF-8";
+      } else {
+        body = format(options.data, "repeat");
+        contentType = "application/x-www-form-urlencoded;charset=UTF-8";
       }
-    } catch (e) {
-      !isServer() && message.error("请求失败");
-      return Promise.reject();
     }
-  },
-  {
-    global: true,
-  },
-);
+    const res = await fetch(HTTP_URL, {
+      method: METHOD,
+      ...options,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": contentType,
+        ...options.headers,
+      },
+      body,
+    });
+    switch (res.status) {
+      case 200:
+        return (await res.json()) as T;
+      case 401:
+        if (!isServer()) {
+          message.error("身份异常");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1000);
+        }
+        return Promise.reject();
+      default:
+        return Promise.reject();
+    }
+  } catch (error) {
+    console.log("@-error", error);
+    return Promise.reject();
+  }
+}
 
-export default request;
+export default Request;
