@@ -1,4 +1,4 @@
-# next.js SSG 是 npm run build 阶段执行的
+# next.js SSG 是 npm run build 阶段构建生成的
 # 所以应 先本地 npm run build 之后，在执行docker build
 
 FROM node:20.9.0-alpine
