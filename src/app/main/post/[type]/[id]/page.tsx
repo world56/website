@@ -23,13 +23,9 @@ const requestPost = cache(async (id?: string) => {
   });
 });
 
-export const revalidate = 864000;
-
 export async function generateMetadata({ params: { id } }: TypePostProps) {
   const res = await requestPost(id);
-  return {
-    title: res?.title ? res.title : "没有找到相关内容",
-  };
+  return { title: res?.title ? res.title : "没有找到相关内容" };
 }
 
 export async function generateStaticParams() {
@@ -50,13 +46,13 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
       <div className={styles.post}>
         <div className={styles.title}>
           <h1>{res.title}</h1>
-            <div className={styles.tools}>
-              <time dateTime={time}>
-                <FieldTimeOutlined />
-                {time}
-              </time>
-              <ReadingTools />
-            </div>
+          <div className={styles.tools}>
+            <time dateTime={time}>
+              <FieldTimeOutlined />
+              {time}
+            </time>
+            <ReadingTools />
+          </div>
         </div>
         <div
           style={{ minHeight: 430 }}

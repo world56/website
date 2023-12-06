@@ -42,7 +42,6 @@ export async function POST(request: Request) {
     ),
   ]);
   DBlocal.set(data);
-  await pageRevalidate({ path: "/main", type: "page" });
-  await pageRevalidate({ path: "/main/post/[type]/[id]", type: "page" });
+  await pageRevalidate({ path: "/", type: "layout" });
   return NextResponse.json({ status: 200 });
 }

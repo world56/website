@@ -18,7 +18,7 @@ const Item: React.FC<TypeItemProps> = ({ icon, name, url, description }) => (
         alt="#"
         width={0}
         height={0}
-        src={`http://127.0.0.1:3000/${icon}`}
+        src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${icon}`}
       />
     </div>
     <div className={styles.info}>

@@ -1,35 +1,22 @@
 const path = require("path");
-const CopyPlugin = require("copy-webpack-plugin");
+
+const { protocol, hostname, port } = new URL(
+  process.env.NEXT_PUBLIC_IMAGE_BASE_URL,
+);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: function (config) {
-    config.plugins.push(
-      new CopyPlugin({
-        patterns: [
-          {
-            from: path.join(__dirname, "node_modules/tinymce"),
-            to: path.join(__dirname, "public/lib/tinymce"),
-            filter: (resourcePath) => {
-              return /(\.min\.js|\Hans\.js|\.min\.css)$/.test(resourcePath);
-            },
-          },
-        ],
-      }),
-    );
-    return config;
-  },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "3000",
+        protocol: protocol.replace(":", ""),
+        port,
+        hostname,
         pathname: "/api/resource/**",
-      },
+      }
     ],
   },
   async rewrites() {
@@ -61,5 +48,24 @@ const nextConfig = {
     ];
   },
 };
+
+if (process.env.NODE_ENV === "development") {
+  const CopyPlugin = require("copy-webpack-plugin");
+  nextConfig.webpack = function (config) {
+    config.plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(__dirname, "node_modules/tinymce"),
+            to: path.join(__dirname, "public/lib/tinymce"),
+            filter: (resourcePath) =>
+              /(\.min\.js|\Hans\.js|\.min\.css)$/.test(resourcePath),
+          },
+        ],
+      }),
+    );
+    return config;
+  };
+}
 
 module.exports = nextConfig;

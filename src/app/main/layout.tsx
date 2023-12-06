@@ -14,8 +14,6 @@ const theme = {
   },
 };
 
-const config = DBlocal.get();
-
 export async function generateMetadata() {
   const config = DBlocal.get();
   return {
@@ -24,27 +22,30 @@ export async function generateMetadata() {
   };
 }
 
-const Layout: React.FC<TypeMainProps> = ({ children }) => (
-  <>
-    <main className={styles.main}>
-      <aside className={styles.sidebar}>
-        <Personal />
-      </aside>
-      <div className={styles.context}>
-        <Navigation />
-        <StyledComponentsRegistry theme={theme}>
-          {children}
-        </StyledComponentsRegistry>
-      </div>
-    </main>
-    {config.forTheRecord ? (
-      <footer className={styles.footer}>
-        <a href="https://beian.miit.gov.cn/" target="_blank">
-          {config.forTheRecord}
-        </a>
-      </footer>
-    ) : null}
-  </>
-);
+const Layout: React.FC<TypeMainProps> = ({ children }) => {
+  const config = DBlocal.get();
+  return (
+    <>
+      <main className={styles.main}>
+        <aside className={styles.sidebar}>
+          <Personal />
+        </aside>
+        <div className={styles.context}>
+          <Navigation />
+          <StyledComponentsRegistry theme={theme}>
+            {children}
+          </StyledComponentsRegistry>
+        </div>
+      </main>
+      {config.forTheRecord ? (
+        <footer className={styles.footer}>
+          <a href="https://beian.miit.gov.cn/" target="_blank">
+            {config.forTheRecord}
+          </a>
+        </footer>
+      ) : null}
+    </>
+  );
+};
 
 export default Layout;

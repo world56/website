@@ -6,8 +6,6 @@ import { DBlocal, prisma } from "@/utils/db";
 
 import { ENUM_COMMON } from "@/enum/common";
 
-export const revalidate = 864000;
-
 const requestPerson = cache(async () => {
   const local = DBlocal.get();
   const items = await prisma.tag.findMany({
@@ -25,12 +23,15 @@ const Personal = async () => {
 
   return (
     <div className={styles.personal}>
-      <Image
-        alt="#"
-        width={150}
-        height={150}
-        src={`http://127.0.0.1:3000/${local.icon}`}
-      />
+      {local.icon ? (
+        <Image
+          alt="#"
+          priority
+          width={150}
+          height={150}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${local.icon}`}
+        />
+      ) : null}
       <h1>{local.name}</h1>
       <span className={styles.post}>{local.position}</span>
       <hr />

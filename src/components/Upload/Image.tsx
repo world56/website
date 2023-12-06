@@ -61,7 +61,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
     }
   }
 
-  const url = `http://127.0.0.1:3000/${value}`;
+  const url = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${value}`;
 
   function getButtonStyle(value?: string) {
     if (textButton) {

@@ -16,6 +16,7 @@ interface TypeListItemProps {
 
 /**
  * @name Item 内容列表-单个元素
+ * @description 凑合用吧
  */
 const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
   <div className={styles.item}>
@@ -24,7 +25,7 @@ const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
         alt="#"
         width={280}
         height={180}
-        src={`http://127.0.0.1:3000/${src}`}
+        src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${src}`}
       />
       <h2>{name}</h2>
       <p>{desc}</p>

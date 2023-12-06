@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       const buffer = Buffer.from(await file.arrayBuffer());
       const fileName = `${uuid.v1()}.${format}`;
       await writeFile(`${STATIC_PATH}/${fileName}`, buffer);
-      res.push({ type: 0, url: `api/resource/${fileName}` });
+      res.push({ type: 0, url: `/api/resource/${fileName}` });
     }),
   );
   return NextResponse.json(res);

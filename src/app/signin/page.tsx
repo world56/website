@@ -3,7 +3,6 @@
 import md5 from "md5";
 import Image from "next/image";
 import { useState } from "react";
-import { useRequest } from "ahooks";
 import styles from "./index.module.sass";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
@@ -32,11 +31,10 @@ const SignIn = () => {
   const router = useRouter();
   const [form] = Form.useForm<TypeCommon.Sign>();
 
-  const { loading: existLoading, data: exist } = useRequest(existAdmin);
-
   async function onSubmit() {
     try {
       setLoading(true);
+      const exist = await existAdmin();
       const values = await form.validateFields();
       values.password = md5(values.password);
       !exist && (await register(values));
@@ -77,9 +75,9 @@ const SignIn = () => {
         type="primary"
         loading={loading}
         onClick={onSubmit}
-        disabled={existLoading}
+        disabled={loading}
       >
-        {existLoading ? "LOADING" : exist ? "SIGN IN" : "REGISTER ADMIN"}
+        SIGN IN
       </Button>
     </Form>
   );

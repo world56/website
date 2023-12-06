@@ -38,7 +38,7 @@ async function Request<T = any>(...[url, options]: TypeRequest) {
   const REWRITE_URL = `${url}${QUERY}`;
   const REQUEST_TYPE = options.requestType || "json";
   const HTTP_URL = isServer()
-    ? `http://127.0.0.1:${3000}${REWRITE_URL}`
+    ? `http://127.0.0.1:${process.env.PORT}${REWRITE_URL}`
     : REWRITE_URL;
   try {
     let body;

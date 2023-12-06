@@ -15,9 +15,9 @@ COPY ./public ./public
 
 COPY ./resource ./resource
 
-COPY ./next.config.pro.js ./next.config.js
+COPY ./next.config.js ./next.config.js
 
-RUN npm i --production
+RUN npm i --production --loglevel info
 
 RUN npx prisma generate
 
