@@ -43,7 +43,7 @@ NEXT_PUBLIC_IMAGE_BASE_URL = http://127.0.0.1:3000
 
 ## 👷 本地开发 Development
 ```bash
-# 注：npx prisma db push是Prisma初始化数据库表，开发环境仅需运行一次
+# 注：npx prisma db push 是 Prisma初始化数据库表的命令，开发环境仅需运行一次
 $ git clone https://github.com/world56/website.git
 $ cd website
 $ npm install
@@ -53,7 +53,7 @@ $ npm run dev
 打开浏览器访问 http://127.0.0.1:3000
 
 ## 🧑‍💼 打包部署 Production
-⚠️ **Next.JS** **SSG**、**ISG**是**npm run build**阶段构建的，编译打包生产环境，需根据实际情况，确定是否需要**修改.env**的相关环境变量。
+⚠️ next.js ISG页面是在构建(next build)时生成的，生产环中，控制台页面的任意编辑操作，都会自动触发相关页面的ISR按需生成。
 ### Docker
 ```bash
 # 注：docker run 命令需要根据实际情况自行调整 数据卷、环境变量等参数。
