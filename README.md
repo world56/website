@@ -53,7 +53,7 @@ $ npm run dev
 打开浏览器访问 http://127.0.0.1:3000
 
 ## 🧑‍💼 打包部署 Production
-⚠️ next.js ISG页面是在构建(next build)时生成的，生产环中，控制台页面的任意编辑操作，都会自动触发相关页面的ISR按需生成。
+⚠️ next.js ISG页面是在构建(next build)时生成的，生产环境中，控制台页面的任意编辑操作，都会自动触发相关页面的ISR按需生成。
 ### Docker
 ```bash
 # 注：docker run 命令需要根据实际情况自行调整 数据卷、环境变量等参数。
