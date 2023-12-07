@@ -12,10 +12,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: protocol.replace(":", ""),
         port,
         hostname,
         pathname: "/api/resource/**",
+        protocol: protocol.replace(":", ""),
       }
     ],
   },
