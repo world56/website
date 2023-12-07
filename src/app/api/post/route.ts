@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id")!;
-  const type = request.nextUrl.searchParams.get("id")!;
+  const type = request.nextUrl.searchParams.get("type")!;
   await prisma.post.delete({ where: { id } });
   await clearCache(type, id);
   return NextResponse.json(true);

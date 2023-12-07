@@ -52,11 +52,17 @@ export namespace TypeCommon {
   }
 
   /**
-   * @name QueryPosts 查询 “帖子” 列表
+   * @name QueryPosts 查询 “文本” 列表
    */
   export interface QueryPosts
     extends PageTurning,
       Partial<Pick<Post, "title" | "type" | "status">> {}
+
+
+  /**
+   * @name DeletePost 删除 “文本”
+   */
+  export interface DeletePost extends Pick<Post, "id" | "type"> {}
 
   /**
    * @name QueryMessages 查询 “消息” 列表

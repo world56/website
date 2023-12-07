@@ -52,9 +52,10 @@ export function insertPost(data: Omit<Post, "createTime" | "updateTime">) {
 /**
  * @name deletePost 删除 “帖子”
  */
-export function deletePost(params: TypeCommon.PrimaryID) {
-  return request<Post>(`/api/post/${params.id}`, {
+export function deletePost(params: TypeCommon.DeletePost) {
+  return request<Post>(`/api/post`, {
     method: "DELETE",
+    params
   });
 }
 
@@ -99,7 +100,7 @@ export function insertMessage(data: Omit<Msg, "id" | "read" | "createTime">) {
 }
 
 /**
- * @name deletePost 删除 “帖子”
+ * @name deletePost 删除 “留言”
  */
 export function deleteMessage(params: TypeCommon.PrimaryID) {
   return request<Post>(`/api/message`, {

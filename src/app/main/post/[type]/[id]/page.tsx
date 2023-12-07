@@ -55,7 +55,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
           </div>
         </div>
         <div
-          style={{ minHeight: 430 }}
+          style={{ minHeight: 398 }}
           dangerouslySetInnerHTML={{ __html: res.content }}
         />
         <p className={styles.prompt}>© 著作权归作者所有 转载请注明原链接</p>

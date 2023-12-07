@@ -41,7 +41,7 @@ const TextEditor = () => {
   }
 
   async function onDelete(row: Post) {
-    await deletePost({ id: row.id });
+    await deletePost({ id: row.id, type: ENUM });
     message.success("删除成功");
     run();
   }

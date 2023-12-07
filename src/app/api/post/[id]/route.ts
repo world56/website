@@ -24,9 +24,3 @@ export async function PUT(request: NextRequest, params: TypeParams) {
   });
   return NextResponse.json(true);
 }
-
-export async function DELETE(request: NextRequest, params: TypeParams) {
-  const { id } = params.params;
-  await prisma.post.delete({ where: { id } });
-  return NextResponse.json(true);
-}

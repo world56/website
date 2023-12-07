@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-/** 
+/**
  * @description 临时方案
  */
 export default async function PUT(req: NextApiRequest, res: NextApiResponse) {
