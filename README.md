@@ -43,21 +43,30 @@ NEXT_PUBLIC_IMAGE_BASE_URL = http://127.0.0.1:3000
 
 ## 👷 本地开发 Development
 ```bash
+# 注：npx prisma db push是Prisma初始化数据库表，开发环境仅需运行一次
 $ git clone https://github.com/world56/website.git
 $ cd website
 $ npm install
-$ npx prisma db push # Prisma初始化数据库表，仅需运行一次
+$ npx prisma db push
 $ npm run dev
 ```
 打开浏览器访问 http://127.0.0.1:3000
 
 ## 🧑‍💼 打包部署 Production
-- ⚠️ next.js SSG、ISG是build阶段构建，若要打包生产环境，需要提前修改.env的相关环境变量。
-- ⚠️ docker run 命令需要根据实际情况自行调整 数据卷、环境变量等参数。
+⚠️ **Next.JS** **SSG**、**ISG**是**npm run build**阶段构建的，编译打包生产环境，需根据实际情况，确定是否需要**修改.env**的相关环境变量。
+### Docker
 ```bash
+# 注：docker run 命令需要根据实际情况自行调整 数据卷、环境变量等参数。
 $ npm run build
 $ docker build -t website:0.1 .
 $ docker run -d -p 1000:3000 --name website -v ~/app/website/resource:/app/resource -e DATABASE_URL=mysql://root:xxx@@localhost:3306/website -e SECRET=xxx -e NEXT_PUBLIC_IMAGE_BASE_URL=http://192.168.xx.xxx website:0.1
+```
+### PM2
+```bash
+# 注：默认您已全局安装pm2
+$ npm run build
+$ pm2 start pm2.json
+
 ```
 
 ## 🙏 特别鸣谢 Special Thanks
