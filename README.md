@@ -17,7 +17,6 @@
 - 🥯 **ISR**（On-demand Revalidation）
 - 🥪 **TypeScript**
 - 🍟 **Prisma**（MySQL）
-- 🍣 **Docker**
 
 
 
@@ -30,6 +29,8 @@
 
 ## 👮 环境变量 Environment
 ```bash
+# .env
+
 # MYSQL
 DATABASE_URL = mysql://root:xxx@@localhost:3306/website
 
@@ -53,7 +54,7 @@ $ npm run dev
 打开浏览器访问 http://127.0.0.1:3000
 
 ## 🧑‍💼 打包部署 Production
-⚠️ next.js ISG页面是在构建(next build)时生成的，生产环境中，控制台页面的任意编辑操作，都会自动触发相关页面的ISR按需生成。
+⚠️ next.js ISG页面是在构建(next build)时生成的，“开发环境”、“生产环境”ISG静态页面存在差异，需在“生产环境”控制台页面点击“保存网站基本信息”按钮，生成生产环境相关的ISG页面。
 ### Docker
 ```bash
 # 注：docker run 命令需要根据实际情况自行调整 数据卷、环境变量等参数。
