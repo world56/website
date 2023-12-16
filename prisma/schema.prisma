@@ -19,8 +19,8 @@ model User {
   password   String
   createTime DateTime @default(now()) @map("create_time")
 
-  @@index([type])
-  @@index([account])
+  @@index(type)
+  @@index(account)
   @@index([id, account])
   @@map("user")
 }
@@ -34,7 +34,7 @@ model Tag {
   index       Int
   description String?
 
-  @@index([type])
+  @@index(type)
   @@map("tag")
 }
 
@@ -61,6 +61,6 @@ model Post {
   updateTime  DateTime @updatedAt @map("update_time")
   createTime  DateTime @default(now()) @map("create_time")
 
-  @@index([type])
+  @@index(type)
   @@map("post")
 }
