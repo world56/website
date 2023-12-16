@@ -8,17 +8,9 @@ import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
 
 function beforeUpload(file: RcFile) {
-  const IS_IMAGE = ["image/jpeg", "image/png", "image/svg+xml"].includes(
-    file.type,
-  );
-  if (!IS_IMAGE) {
-    message.error("仅支持jpg、jpeg、png、svg图片");
-  }
   const isLt1M = file.size / 1024 / 1024 < 1;
-  if (!isLt1M) {
-    message.error("图片最大不得超过1MB");
-  }
-  return IS_IMAGE && isLt1M;
+  !isLt1M && message.error("图片最大不得超过1MB");
+  return isLt1M;
 }
 
 const IMAGE_STYLE = {
@@ -111,6 +103,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
       showUploadList={false}
       onChange={handleChange}
       beforeUpload={beforeUpload}
+      accept=".svg, .jpg, .jpeg, .png, .webp"
     >
       {getButtonStyle(value)}
     </Upload>
