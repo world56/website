@@ -12,7 +12,7 @@ import type { TypeCommon } from "@/interface/common";
 
 export interface TypeEditProps extends TypeCommon.PrimaryID {
   /** @param type 编辑帖子类型 */
-  type:ENUM_COMMON.POST_TYPE;
+  type: ENUM_COMMON.POST_TYPE;
   /** @name onClose 关闭弹窗 */
   onClose(): void;
 }
@@ -84,11 +84,7 @@ const Edit: React.FC<TypeEditProps> = ({ id, type, onClose }) => {
                 placeholder="请输入摘要"
               />
             </Form.Item>
-            <Form.Item
-              name="content"
-              label="内容"
-              rules={RULES}
-            >
+            <Form.Item name="content" label="内容" rules={RULES}>
               <TextEditor />
             </Form.Item>
           </Form>

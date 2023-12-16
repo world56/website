@@ -33,7 +33,7 @@ interface TypeTxtEditorProps<T = string>
        * @param value 文本内容
        */
       value?: string;
-      /** 
+      /**
        * @name onChange 内容监听器
        */
       onChange?(value?: T): void;
@@ -44,6 +44,7 @@ interface TypeTxtEditorProps<T = string>
  * @name TextEditor 文本编辑器
  */
 const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
+
   const edit = useRef<Editor>();
 
   const [load, setLoad] = useState(true);
@@ -63,7 +64,6 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
         : `<video controls><source src='${v.url}' type='video/mp4' /></video>`;
     }
     edit?.current?.execCommand("mceInsertContent", false, html);
-    onInputChange();
   }
 
   const { run: onCreate } = useDebounceFn(() => {
@@ -104,6 +104,7 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
   useEffect(() => {
     onCreate();
     return () => {
+      onChange?.(undefined);
       edit.current && window.tinymce?.remove();
     };
   }, [onCreate]);

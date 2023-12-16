@@ -2,17 +2,12 @@ import { prisma } from "@/utils/db";
 import { NextResponse } from "next/server";
 import { _pageRevalidate } from "@/app/api";
 
-import { ENUM_COMMON } from "@/enum/common";
+import { API_POST_TYPE_PARAM } from "@/app/api";
 
 import type { NextRequest } from "next/server";
 
-const POST_TYPE = {
-  [ENUM_COMMON.POST_TYPE.NOTES]: "/main/post/notes/",
-  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "/main/post/achievements/",
-};
-
 async function clearCache(type: number | string, id: string) {
-  const path = `${POST_TYPE[type as keyof typeof POST_TYPE]}${id}`;
+  const path = `${API_POST_TYPE_PARAM[type as keyof typeof API_POST_TYPE_PARAM]}${id}`;
   return await _pageRevalidate({ path });
 }
 

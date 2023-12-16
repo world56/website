@@ -1,7 +1,14 @@
 import request from "@/utils/request";
 
+import { ENUM_COMMON } from "@/enum/common";
+
 import type { TypeCommon } from "@/interface/common";
 import type { Msg, Post, User } from "@prisma/client";
+
+export const API_POST_TYPE_PARAM = {
+  [ENUM_COMMON.POST_TYPE.NOTES]: "/main/post/notes/",
+  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "/main/post/achievements/",
+};
 
 /**
  * @name getBasicDetails 获取 “网站、个人基本信息”
@@ -55,7 +62,7 @@ export function insertPost(data: Omit<Post, "createTime" | "updateTime">) {
 export function deletePost(params: TypeCommon.DeletePost) {
   return request<Post>(`/api/post`, {
     method: "DELETE",
-    params
+    params,
   });
 }
 
@@ -72,10 +79,16 @@ export function updatePost(data: Omit<Post, "createTime" | "updateTime">) {
 /**
  * @name updatePostStatus 变更 “帖子” 状态
  */
-export function updatePostStatus({ id, status }: Pick<Post, "id" | "status">) {
+export function updatePostStatus({
+  id,
+  type,
+  status,
+}: Pick<Post, "id" | "status"> & {
+  type: ENUM_COMMON.POST_TYPE;
+}) {
   return request<Post>(`/api/post/${id}`, {
     method: "PUT",
-    data: { status },
+    data: { type, status },
   });
 }
 

@@ -47,7 +47,7 @@ const TextEditor = () => {
   }
 
   async function onStatus({ id }: Post, status: ENUM_COMMON.STATUS) {
-    await updatePostStatus({ id, status });
+    await updatePostStatus({ id, status, type: ENUM });
     message.success("操作成功");
     run();
   }

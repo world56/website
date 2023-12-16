@@ -1,5 +1,8 @@
 import { prisma } from "@/utils/db";
 import { NextResponse } from "next/server";
+import { _pageRevalidate } from "@/app/api";
+
+import { API_POST_TYPE_PARAM } from "@/app/api";
 
 import type { NextRequest } from "next/server";
 
@@ -17,10 +20,15 @@ export async function GET(request: NextRequest, params: TypeParams) {
 
 export async function PUT(request: NextRequest, params: TypeParams) {
   const { id } = params.params;
-  const { status } = await request.json();
+  const { status, type } = await request.json();
   await prisma.post.update({
     where: { id },
     data: { status },
+  });
+  await _pageRevalidate({
+    path: `${
+      API_POST_TYPE_PARAM[type as keyof typeof API_POST_TYPE_PARAM]
+    }${id}`,
   });
   return NextResponse.json(true);
 }
