@@ -1,5 +1,6 @@
+import { notification } from "antd";
+
 import { ENUM_COMMON } from "@/enum/common";
-import { message, notification } from "antd";
 
 import type { TypeCommon } from "@/interface/common";
 
@@ -75,9 +76,14 @@ function verifyFile(file: File, type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
  */
 export function getUploadFiles(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
   return new Promise<FormData>((resolve, reject) => {
+    const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
     const btn = document.createElement("input");
     btn.setAttribute("type", "file");
     btn.setAttribute("multiple", "true");
+    btn.setAttribute(
+      "accept",
+      IS_IMAGE ? ".svg, .jpg, .jpeg, .png, .webp" : ".mp4",
+    );
     btn.click();
     btn.onchange = async (e) => {
       try {
@@ -89,7 +95,6 @@ export function getUploadFiles(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
         if (body.getAll("files").length) {
           return resolve(body);
         } else {
-          message.success("没有对应的文件");
           return reject();
         }
       } catch (error) {
