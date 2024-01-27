@@ -62,13 +62,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
       </div>
     );
   } else {
-    return (
-      <Empty
-        className={styles.empty}
-        description="没有找到相关内容"
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-      />
-    );
+    return <Empty className={styles.empty} description="没有找到相关内容" />;
   }
 };
 
