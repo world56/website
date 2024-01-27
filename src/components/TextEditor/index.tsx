@@ -17,7 +17,7 @@ import { CONFIG, HTML_TEMPLATE } from "./config";
 
 import { ENUM_COMMON } from "@/enum/common";
 
-import type { Editor, EditorManager } from "tinymce";
+import type { Editor, EditorEvent, EditorManager } from "tinymce";
 
 declare global {
   interface Window {
@@ -33,7 +33,7 @@ interface TypeTxtEditorProps<T = string>
        * @param value 文本内容
        */
       value?: string;
-      /** 
+      /**
        * @name onChange 内容监听器
        */
       onChange?(value?: T): void;
@@ -48,10 +48,6 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
 
   const [load, setLoad] = useState(true);
 
-  function onInputChange() {
-    onChange?.(edit.current?.getContent());
-  }
-
   async function upload(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
     const data = await getUploadFiles(type);
     const files = await uploadFiles(data);
@@ -63,7 +59,7 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
         : `<video controls><source src='${v.url}' type='video/mp4' /></video>`;
     }
     edit?.current?.execCommand("mceInsertContent", false, html);
-    onInputChange();
+    onChange?.(edit.current?.getContent());
   }
 
   const { run: onCreate } = useDebounceFn(() => {
@@ -72,7 +68,8 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
-        edit.current?.on("change", onInputChange);
+        edit.current?.on("change", (e) =>onChange?.(e?.target.getContent()));
+        edit.current?.on('remove',  (e) =>onChange?.(undefined));
         setLoad(false);
       },
       setup(editor) {
