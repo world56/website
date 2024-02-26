@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       .sign(new TextEncoder().encode(process.env.SECRET));
     return NextResponse.json(true, {
       headers: {
-        "Set-Cookie": `Authorization=${token}; SameSite=Lax; Secure=false; HttpOnly; Max-Age=86400; Path=/`,
+        "Set-Cookie": `Authorization=${token}; SameSite=Lax; HttpOnly; Max-Age=86400; Path=/`,
       },
     });
   }
