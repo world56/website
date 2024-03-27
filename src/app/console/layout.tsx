@@ -32,6 +32,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Script src="/lib/tinymce/plugins/preview/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/autolink/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/wordcount/plugin.min.js" />
+    <Script src="/lib/tinymce/plugins/codesample/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/fullscreen/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/visualblocks/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/searchreplace/plugin.min.js" />
