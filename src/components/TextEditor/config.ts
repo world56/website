@@ -5,6 +5,26 @@ export const CONFIG = {
   language_url: "/lib/tinymce/lang/zh-Hans.js",
   fontsize_formats:
     "14px 15px 16px 17px 18px 19px 20px 21px 22px 23px 24px 25px 26px 27px 28px 29px 30px 32px 48px",
+  codesample_global_prismjs: true,
+  codesample_languages: [
+    { text: "HTML/XML", value: "markup" },
+    { text: "JavaScript/TypeScript", value: "javascript" },
+    { text: "CSS", value: "css" },
+    { text: "Bash", value: "bash" },
+    { text: "Java", value: "java" },
+    { text: "Python", value: "python" },
+    { text: "Go", value: "go" },
+    { text: "PHP", value: "php" },
+    { text: "Ruby", value: "ruby" },
+    { text: "Rust", value: "rust" },
+    { text: "Dart", value: "dart" },
+    { text: "Swift", value: "swift" },
+    { text: "Kotlin", value: "kotlin" },
+    { text: "SQL", value: "sql" },
+    { text: "C", value: "c" },
+    { text: "C#", value: "csharp" },
+    { text: "C++", value: "cpp" },
+  ],
   plugins: [
     "advlist",
     "autolink",
@@ -20,13 +40,14 @@ export const CONFIG = {
     "insertdatetime",
     "media",
     "table",
+    "codesample",
     "wordcount",
   ],
   toolbar1: `
     blocks fontfamily fontsize |
     forecolor backcolor bold italic underline strikethrough removeformat | alignleft aligncenter alignright alignjustify 
     bullist numlist outdent indent undo redo |
-    link uploadImage uploadVideo | blockquote title table | preview fullscreen
+    link uploadImage uploadVideo | blockquote title table codesample | preview fullscreen
   `,
 };
 
