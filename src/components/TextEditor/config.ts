@@ -3,8 +3,8 @@ export const CONFIG = {
   remove_script_host: false,
   language: "zh-Hans",
   language_url: "/lib/tinymce/lang/zh-Hans.js",
-  fontsize_formats:
-    "14px 15px 16px 17px 18px 19px 20px 21px 22px 23px 24px 25px 26px 27px 28px 29px 30px 32px 48px",
+  font_size_formats:
+    "8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 18pt 24pt 36pt 42pt",
   codesample_global_prismjs: true,
   codesample_languages: [
     { text: "HTML/XML", value: "markup" },
