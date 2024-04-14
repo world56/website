@@ -42,12 +42,13 @@ export const CONFIG = {
     "table",
     "codesample",
     "wordcount",
+    "emoticons",
   ],
   toolbar1: `
     blocks fontfamily fontsize |
     forecolor backcolor bold italic underline strikethrough removeformat | alignleft aligncenter alignright alignjustify 
     bullist numlist outdent indent undo redo |
-    link uploadImage uploadVideo | blockquote title table codesample | preview fullscreen
+    link uploadImage uploadVideo | blockquote title table codesample | preview fullscreen emoticons
   `,
 };
 
