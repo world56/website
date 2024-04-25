@@ -119,7 +119,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
           style={{ minHeight: 398 }}
           dangerouslySetInnerHTML={{ __html }}
         />
-        <p className={styles.prompt}>© @著作权归作者所有 转载请注明原链接</p>
+        <p className={styles.prompt}>© 著作权归作者所有 转载请注明原链接</p>
       </div>
     );
   } else {
