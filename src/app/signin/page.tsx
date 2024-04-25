@@ -67,6 +67,7 @@ const SignIn = () => {
         <Input.Password
           allowClear
           onPressEnter={onSubmit}
+          visibilityToggle={false}
           prefix={<LockOutlined />}
           placeholder="ADMIN PASSWORD"
         />
