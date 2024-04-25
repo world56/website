@@ -36,13 +36,15 @@ interface TypePostProps {
 }
 
 function formatEntities(encodedString: string) {
-  const translate_re = /&(nbsp|amp|quot|lt|gt|#\d+);/g;
+  const translate_re = /&(nbsp|amp|quot|lt|gt|ldquo|rdquo|#\d+);/g;
   const translate = {
     nbsp: " ",
     amp: "&",
     quot: '"',
     lt: "<",
     gt: ">",
+    ldquo: "“",
+    rdquo: "”",
     "#39": "'",
   };
   return encodedString.replace(translate_re, (match, entity) => {
@@ -117,7 +119,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
           style={{ minHeight: 398 }}
           dangerouslySetInnerHTML={{ __html }}
         />
-        <p className={styles.prompt}>© 著作权归作者所有 转载请注明原链接</p>
+        <p className={styles.prompt}>© @著作权归作者所有 转载请注明原链接</p>
       </div>
     );
   } else {
