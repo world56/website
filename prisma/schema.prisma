@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String   @id @default(cuid())
   name       String?
   icon       String?
   type       Int
@@ -26,7 +26,7 @@ model User {
 }
 
 model Tag {
-  id          String  @id @default(uuid())
+  id          String  @id @default(cuid())
   type        Int
   icon        String
   name        String?
@@ -39,7 +39,7 @@ model Tag {
 }
 
 model Msg {
-  id         String   @id @default(uuid())
+  id         String   @id @default(cuid())
   name       String
   telephone  String?
   email      String?
@@ -51,7 +51,7 @@ model Msg {
 }
 
 model Post {
-  id          String   @id @default(uuid())
+  id          String   @id @default(cuid())
   title       String
   type        Int
   icon        String

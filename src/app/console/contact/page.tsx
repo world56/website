@@ -13,7 +13,7 @@ import { Button, Card, Select, Table, message, DatePicker } from "antd";
 import type { Dayjs } from "dayjs";
 import type { Msg } from "@prisma/client";
 import type { TableProps } from "antd/es/table";
-import type { RangePickerSharedProps } from "rc-picker/lib/RangePicker";
+import type { BaseRangePickerProps } from "rc-picker/lib/PickerInput/RangePicker";
 
 type TypeTableProps = TableProps<Msg>;
 
@@ -37,7 +37,7 @@ const Contact = () => {
     run(query);
   }
 
-  const onTimeChange: RangePickerSharedProps<Dayjs>["onChange"] = (time) => {
+  const onTimeChange: BaseRangePickerProps<Dayjs>["onChange"] = (time) => {
     setQuery((s) => ({
       ...s,
       current: 1,

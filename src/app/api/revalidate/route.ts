@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { path, type } = await request.json();
+    console.log("@-revalidatePath", path, type);
     path && revalidatePath(path, type);
     return NextResponse.json({
       revalidated: true,
