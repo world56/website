@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useRequest } from "ahooks";
+import styles from "./edit.module.sass";
 import TextEditor from "@/components/TextEditor";
 import { FileAddOutlined } from "@ant-design/icons";
 import UploadImage from "@/components/Upload/Image";
 import { getPost, insertPost, updatePost } from "@/app/api";
-import { Button, Form, Input, Modal, Spin, message } from "antd";
+import { Button, Drawer, Form, Input, Spin, message } from "antd";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -12,10 +13,12 @@ import type { TypeCommon } from "@/interface/common";
 
 export interface TypeEditProps extends TypeCommon.PrimaryID {
   /** @param type 编辑帖子类型 */
-  type:ENUM_COMMON.POST_TYPE;
+  type: ENUM_COMMON.POST_TYPE;
   /** @name onClose 关闭弹窗 */
   onClose(): void;
 }
+
+const HEIGHT = window.innerHeight - 560;
 
 const RULES = [{ required: true, message: "该字段不得为空" }];
 
@@ -60,14 +63,21 @@ const Edit: React.FC<TypeEditProps> = ({ id, type, onClose }) => {
       <Button onClick={onModalStatusChange} icon={<FileAddOutlined />}>
         新建
       </Button>
-      <Modal
-        centered
+      <Drawer
         open={open}
         width={1200}
-        onOk={onSubmit}
         maskClosable={false}
-        onCancel={onModalStatusChange}
+        className={styles.layout}
+        onClose={onModalStatusChange}
         title={`${id ? "编辑" : "新增"}文本`}
+        footer={
+          <>
+            <Button onClick={onModalStatusChange}>返回</Button>
+            <Button onClick={onSubmit} type="primary">
+              保存
+            </Button>
+          </>
+        }
       >
         <Spin spinning={loading}>
           <Form form={form} layout="vertical" name="post">
@@ -84,16 +94,12 @@ const Edit: React.FC<TypeEditProps> = ({ id, type, onClose }) => {
                 placeholder="请输入摘要"
               />
             </Form.Item>
-            <Form.Item
-              name="content"
-              label="内容"
-              rules={RULES}
-            >
-              <TextEditor />
+            <Form.Item name="content" label="内容" rules={RULES}>
+              <TextEditor height={HEIGHT} />
             </Form.Item>
           </Form>
         </Spin>
-      </Modal>
+      </Drawer>
     </>
   );
 };

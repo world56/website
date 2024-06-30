@@ -30,6 +30,10 @@ interface TypeTxtEditorProps<T = string>
     Editor | undefined,
     {
       /**
+       * @param height 编辑器高度
+       */
+      height?: number;
+      /**
        * @param value 文本内容
        */
       value?: string;
@@ -43,7 +47,10 @@ interface TypeTxtEditorProps<T = string>
 /**
  * @name TextEditor 文本编辑器
  */
-const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
+const TxtEditor: TypeTxtEditorProps = (
+  { height = 580, value = "", onChange },
+  ref,
+) => {
   const edit = useRef<Editor>();
 
   const [load, setLoad] = useState(true);
@@ -65,6 +72,7 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
   const { run: onCreate } = useDebounceFn(() => {
     window.tinymce?.init({
       ...CONFIG,
+      height,
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
