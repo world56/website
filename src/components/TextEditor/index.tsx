@@ -17,7 +17,7 @@ import { CONFIG, HTML_TEMPLATE } from "./config";
 
 import { ENUM_COMMON } from "@/enum/common";
 
-import type { Editor, EditorEvent, EditorManager } from "tinymce";
+import type { Editor, EditorManager } from "tinymce";
 
 declare global {
   interface Window {
@@ -68,8 +68,8 @@ const TxtEditor: TypeTxtEditorProps = ({ value = "", onChange }, ref) => {
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
-        edit.current?.on("change", (e) =>onChange?.(e?.target.getContent()));
-        edit.current?.on('remove',  (e) =>onChange?.(undefined));
+        edit.current?.on("change", (e) => onChange?.(e?.target.getContent()));
+        edit.current?.on("remove", (e) => onChange?.(undefined));
         setLoad(false);
       },
       setup(editor) {

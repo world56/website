@@ -1,6 +1,7 @@
 import { ENUM_COMMON } from "@/enum/common";
 
 import type { TypeStatusProps } from ".";
+import { Typography } from "antd";
 
 interface TypeStatusSwitchingProps extends TypeStatusProps {
   /**
@@ -29,12 +30,12 @@ export const CONSTANT_STATUS = {
 const Switching: React.FC<TypeStatusSwitchingProps> = ({ status, onClick }) => {
   const { TXT, COLOR, VALUE } = CONSTANT_STATUS[status];
   return (
-    <span
+    <Typography.Link
       onClick={() => onClick(VALUE)}
-      style={{ color: COLOR, cursor: "pointer", margin: "0 5px" }}
+      style={{ color: COLOR, cursor: "pointer" }}
     >
       {TXT}
-    </span>
+    </Typography.Link>
   );
 };
 

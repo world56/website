@@ -38,10 +38,11 @@ const Contact = () => {
   }
 
   const onTimeChange: BaseRangePickerProps<Dayjs>["onChange"] = (time) => {
+    const endTime = time?.[1]?.hour(23).minute(59).second(59);
     setQuery((s) => ({
       ...s,
       current: 1,
-      endTime: time?.[1]?.format("YYYY-MM-DD HH:mm:ss"),
+      endTime: endTime?.format("YYYY-MM-DD HH:mm:ss"),
       startTime: time?.[0]?.format("YYYY-MM-DD HH:mm:ss"),
     }));
   };
@@ -104,7 +105,7 @@ const Contact = () => {
       className={styles.layout}
       extra={
         <>
-          <DatePicker.RangePicker onChange={onTimeChange} showTime />
+          <DatePicker.RangePicker onChange={onTimeChange} />
           <Select
             allowClear
             placeholder="消息状态"

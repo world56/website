@@ -10,7 +10,18 @@ interface TypeMainProps {
 
 const theme = {
   token: {
-    colorPrimary: "#0f0f0f",
+    colorPrimary: "#000000",
+    colorInfo: "#000000",
+    colorPrimaryBg: "#000000",
+    colorPrimaryTextActive: "#ffffff",
+  },
+  components: {
+    Menu: {
+      itemSelectedColor: "rgb(255, 255, 255)",
+    },
+    Select: {
+      optionSelectedColor: "rgb(255, 255, 255)",
+    },
   },
 };
 

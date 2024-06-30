@@ -1,4 +1,4 @@
-import { Popconfirm, PopconfirmProps } from "antd";
+import { Popconfirm, PopconfirmProps, Typography } from "antd";
 
 interface TypeConfirmButtonProps
   extends Omit<PopconfirmProps, "title" | "onConfirm"> {
@@ -19,7 +19,7 @@ const ConfirmButton: React.FC<TypeConfirmButtonProps> = ({
     onConfirm={onClick}
     {...props}
   >
-    <span className="del">{children}</span>
+    <Typography.Link type="danger">{children}</Typography.Link>
   </Popconfirm>
 );
 

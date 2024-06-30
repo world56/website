@@ -1,6 +1,6 @@
 import { prisma } from "@/utils/db";
 import { NextResponse } from "next/server";
-import { _pageRevalidate, pageRevalidate } from "@/app/api";
+import { _pageRevalidate } from "@/app/api";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -13,8 +13,7 @@ const POST_TYPE = {
 
 async function clearCache(type: number | string, id: string) {
   const path = `${POST_TYPE[type as keyof typeof POST_TYPE]}${id}`;
-  return await pageRevalidate({ path, type: "layout" });
-  // return await _pageRevalidate({ path });
+  return await _pageRevalidate({ path });
 }
 
 export async function GET(request: NextRequest) {

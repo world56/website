@@ -10,7 +10,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import Switching from "@/components/Status/Switching";
 import ConfirmButton from "@/components/ConfirmButton";
 import { deletePost, updatePostStatus } from "@/app/api";
-import { Button, Card, Input, Table, Tooltip, message } from "antd";
+import { Button, Card, Input, Space, Table, Tooltip, Typography, message } from "antd";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -94,16 +94,14 @@ const TextEditor = () => {
       width: 130,
       align: "center",
       render: (row: Post) => (
-        <>
+        <Space>
           <Switching
             status={row.status}
             onClick={(status) => onStatus(row, status)}
           />
-          <span onClick={() => onEdit(row)} className="btn">
-            编辑
-          </span>
+          <Typography.Link onClick={() => onEdit(row)}>编辑</Typography.Link>
           <ConfirmButton onClick={() => onDelete(row)}>删除</ConfirmButton>
-        </>
+        </Space>
       ),
     },
   ];

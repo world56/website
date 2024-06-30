@@ -10,9 +10,29 @@ export const metadata: Metadata = {
   description: "控制台",
 };
 
+const theme = {
+  token: {
+    colorPrimary: "#000000",
+    colorInfo: "#000000",
+    colorPrimaryBg: "#000000",
+    colorPrimaryTextActive: "#ffffff",
+  },
+  components: {
+    Menu: {
+      itemSelectedColor: "rgb(255, 255, 255)",
+    },
+    Select: {
+      optionSelectedColor: "rgb(255, 255, 255)",
+    },
+    DatePicker: {
+      algorithm: true,
+    },
+  },
+};
+
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
-    <StyledComponentsRegistry>
+    <StyledComponentsRegistry theme={theme}>
       <Navigation />
       <main className={styles.console}>{children}</main>
     </StyledComponentsRegistry>

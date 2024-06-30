@@ -13,7 +13,7 @@ const POST_TYPE = {
 
 async function clearCache(type: number | string, id: string) {
   const path = `${POST_TYPE[type as keyof typeof POST_TYPE]}${id}`;
-  return await _pageRevalidate({ path, type: "page" });
+  return await _pageRevalidate({ path });
 }
 
 interface TypeParams {

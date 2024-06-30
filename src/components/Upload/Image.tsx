@@ -28,6 +28,7 @@ interface TypeUploadImageProps<T = string> {
    * @description 默认 10px
    */
   radius?: string | number;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -37,6 +38,7 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
   value,
   onChange,
   textButton,
+  style = {},
   radius = "8px",
 }) => {
   const [load, setLoad] = useState(false);
@@ -64,8 +66,8 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
             src={url}
             width={0}
             height={0}
-            style={IMAGE_STYLE}
             className={styles.text}
+            style={{ ...IMAGE_STYLE, ...style }}
           />
         </Tooltip>
       ) : (
@@ -80,10 +82,10 @@ const UploadImage: React.FC<TypeUploadImageProps> = ({
             <Image
               alt="#"
               src={url}
-              width={100}
-              height={100}
-              style={IMAGE_STYLE}
+              width={50}
+              height={50}
               className={styles.text}
+              style={{ ...IMAGE_STYLE, ...style }}
             />
           ) : (
             <>

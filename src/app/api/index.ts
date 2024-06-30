@@ -172,7 +172,7 @@ export function pageRevalidate(data: TypeCommon.ISR) {
 
 /**
  * @name _pageRevalidate ISR
- * @description 临时方案，app-route并不能支持动态路由参数的增量再生成，先用api-route解决，太哈批了
+ * @description 临时方案，app-route并不能支持嵌套动态路由参数的增量再生成，先用api-route解决，太哈批了
  * @see https://github.com/vercel/next.js/issues/49387
  * @see https://www.reddit.com/r/nextjs/comments/1859wqm/app_router_cache_revalidatepath_nightmare
  * @see https://www.reddit.com/r/nextjs/comments/13fodef/revalidatepath_not_working_for_dynamic_routes

@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
 import { ConfigProvider } from "antd";
 import { useRef, useMemo } from "react";
 import { useServerInsertedHTML } from "next/navigation";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { createCache, extractStyle, StyleProvider } from "@ant-design/cssinjs";
 
 import type Entity from "@ant-design/cssinjs/es/Cache";
@@ -31,9 +32,11 @@ const StyledComponentsRegistry = ({
     );
   });
   return (
-    <ConfigProvider theme={theme}>
-      <StyleProvider cache={cache}>{children}</StyleProvider>
-    </ConfigProvider>
+    <AntdRegistry>
+      <ConfigProvider theme={theme}>
+        <StyleProvider cache={cache}>{children}</StyleProvider>
+      </ConfigProvider>
+    </AntdRegistry>
   );
 };
 

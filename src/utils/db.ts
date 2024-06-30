@@ -66,13 +66,8 @@ class LocalStorage {
 const prisma = new PrismaClient();
 const DBlocal = new LocalStorage();
 
-prisma
-  .$connect()
-  .then(() => {
-    console.log("Mysql connection is successful");
-  })
-  .catch(() => {
-    console.log("Mysql connection error", process.env.DATABASE_URL);
-  });
+prisma.$connect().catch(() => {
+  console.log("Mysql connection error", process.env.DATABASE_URL);
+});
 
 export { DBlocal, prisma };

@@ -1,6 +1,14 @@
+import {
+  Form,
+  Input,
+  Space,
+  Table,
+  message,
+  Typography,
+  Popconfirm,
+} from "antd";
 import styles from "./index.module.sass";
 import UploadImage from "../Upload/Image";
-import { Form, Input, Popconfirm, Table, message } from "antd";
 
 import type {
   RuleObject,
@@ -50,7 +58,7 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
         title: "图标",
         render: (field: FormListFieldData) => (
           <Form.Item name={[field.name, "icon"]}>
-            <UploadImage textButton />
+            <UploadImage textButton style={{ maxHeight: 32 }} />
           </Form.Item>
         ),
       },
@@ -83,32 +91,24 @@ const EditLabel: React.FC<TypeEditLabelProps> = ({
         width: 150,
         title: "操作",
         render: (field: FormListFieldData) => {
+          const index = field.name;
           const length = form.getFieldValue(name).length;
           return (
-            <div className={styles.operate}>
+            <Space align="center">
               {field.name ? (
-                <span
-                  className="btn"
-                  onClick={() => move(field.name, field.name - 1)}
-                >
+                <Typography.Link onClick={() => move(index, index - 1)}>
                   上移
-                </span>
+                </Typography.Link>
               ) : null}
               {field.name + 1 === length ? null : (
-                <span
-                  className="btn"
-                  onClick={() => move(field.name, field.name + 1)}
-                >
+                <Typography.Link onClick={() => move(index, index + 1)}>
                   下移
-                </span>
+                </Typography.Link>
               )}
-              <Popconfirm
-                title="确认删除？"
-                onConfirm={() => remove(field.name)}
-              >
-                <span className="del">删除</span>
+              <Popconfirm title="确认删除？" onConfirm={() => remove(index)}>
+                <Typography.Link type="danger">删除</Typography.Link>
               </Popconfirm>
-            </div>
+            </Space>
           );
         },
       },
