@@ -37,7 +37,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       <main className={styles.console}>{children}</main>
     </StyledComponentsRegistry>
     <Script src="/lib/tinymce/tinymce.min.js" />
-    <Script src="/lib/tinymce/lang/zh-Hans.js" />
     <Script src="/lib/tinymce/models/dom/model.min.js" />
     <Script src="/lib/tinymce/themes/silver/theme.min.js" />
     <Script src="/lib/tinymce/icons/default/icons.min.js" />
@@ -58,7 +57,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Script src="/lib/tinymce/plugins/visualblocks/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/searchreplace/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/insertdatetime/plugin.min.js" />
-  </>
+    <Script src="/lib/tinymce/langs/zh_CN.js" />
+    </>
 );
 
 export default Layout;

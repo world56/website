@@ -1,8 +1,8 @@
 export const CONFIG = {
   relative_urls: false,
   remove_script_host: false,
-  language: "zh-Hans",
-  language_url: "/lib/tinymce/lang/zh-Hans.js",
+  language: "zh_CN",
+  language_url: "/lib/tinymce/langs/zh_CN.js",
   font_size_formats:
     "8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 18pt 24pt 36pt 42pt",
   codesample_global_prismjs: true,
@@ -53,8 +53,7 @@ export const CONFIG = {
 };
 
 export const HTML_TEMPLATE = {
-  TITLE: `
-    <div style='
+  TITLE: `<span style='
       width: max-content;
       height: 45px;
       display: flex;
@@ -67,8 +66,5 @@ export const HTML_TEMPLATE = {
       margin: 30px 0;
       background: black;
       border-radius: 1px 20px;
-    '>
-      <span>标题</span>
-    </div>
-  `,
+    '><span>标题</span></span> `,
 };

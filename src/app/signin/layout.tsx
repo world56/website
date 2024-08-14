@@ -11,7 +11,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
     <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
     <Script src="/lib/tinymce/tinymce.min.js" />
-    <Script src="/lib/tinymce/lang/zh-Hans.js" />
+    <Script src="/lib/tinymce/langs/zh_CN.js" />
     <Script src="/lib/tinymce/models/dom/model.min.js" />
     <Script src="/lib/tinymce/themes/silver/theme.min.js" />
     <Script src="/lib/tinymce/icons/default/icons.min.js" />
