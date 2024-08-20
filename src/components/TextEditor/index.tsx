@@ -70,7 +70,7 @@ const TxtEditor: TypeTxtEditorProps = (
   }
 
   const { run: onCreate } = useDebounceFn(() => {
-    window.tinymce?.init({
+    window?.tinymce?.init({
       ...CONFIG,
       height,
       selector: `#editor`,
@@ -109,7 +109,7 @@ const TxtEditor: TypeTxtEditorProps = (
   useEffect(() => {
     onCreate();
     return () => {
-      edit.current && window.tinymce?.remove();
+      edit.current && window?.tinymce?.remove();
     };
   }, [onCreate]);
 

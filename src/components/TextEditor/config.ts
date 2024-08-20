@@ -2,6 +2,7 @@ export const CONFIG = {
   relative_urls: false,
   remove_script_host: false,
   language: "zh_CN",
+  license_key: "gpl",
   language_url: "/lib/tinymce/langs/zh_CN.js",
   font_size_formats:
     "8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 18pt 24pt 36pt 42pt",
