@@ -1,44 +1,30 @@
 export namespace ENUM_COMMON {
-  /** 
+  /**
    * @name STATUS 状态
    */
   export enum STATUS {
-    /** 
+    /**
      * @param DISABLE 禁用
      */
     DISABLE,
-    /** 
+    /**
      * @parma ENABLE 启用
      */
     ENABLE,
   }
 
-  /** 
+  /**
    * @name TAG 标签类型
    */
   export enum TAG {
-    /** 
-     * @param PERSONAL_PANEL 个人信息标签
+    /**
+     * @param PANEL 个人信息标签
      */
-    PERSONAL_PANEL,
-    /** 
-     * @param PERSONAL_PANEL 个人技能标签
+    PANEL,
+    /**
+     * @param SKILL 个人技能标签
      */
-    PERSONAL_SKILL,
-  }
-
-  /**
-   * @name POST_TYPE 帖子类型
-   */
-  export enum POST_TYPE {
-    /** 
-     * @param ACHIEVEMENTS 成果
-     */
-    ACHIEVEMENTS,
-    /** 
-     * @param NOTES 笔记
-     */
-    NOTES,
+    SKILL,
   }
 
   /**
@@ -60,7 +46,7 @@ export namespace ENUM_COMMON {
    * @name USER_TYPE 用户类型
    * @description 当前仅支持管理员
    */
-  export enum USER_TYPE{
+  export enum USER_TYPE {
     /**
      * @param ADMIN 管理员
      */
@@ -68,6 +54,6 @@ export namespace ENUM_COMMON {
     /**
      * @param OTHER 其他类型 未知 🤷‍♂️
      */
-    OTHER
+    OTHER,
   }
 }

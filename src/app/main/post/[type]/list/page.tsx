@@ -1,13 +1,10 @@
 "use client";
 
-import { Pagination } from "antd";
 import { usePosts } from "@/hooks";
 import List from "@/components/List";
-import styles from "./list.module.sass";
+import PageTurning from "@/components/PageTurning";
 
 import { ENUM_COMMON } from "@/enum/common";
-
-import type { PaginationProps } from "antd";
 
 /**
  * @name Posts 文本内容
@@ -17,9 +14,9 @@ const Posts = () => {
     ENUM_COMMON.STATUS.ENABLE,
   );
 
-  const onChange: PaginationProps["onChange"] = (current, pageSize) => {
-    setQuery((s) => ({ ...s, pageSize, current }));
-  };
+  function onPageTurningChange(current: number) {
+    setQuery((v) => ({ ...v, current }));
+  }
 
   return (
     <>
@@ -34,13 +31,15 @@ const Posts = () => {
           />
         ))}
       </List>
+
       {data?.total ? (
-        <Pagination
+        <PageTurning
+          radius
+          className="mt-5"
           total={data?.total}
-          onChange={onChange}
-          className={styles.pag}
           current={query.current}
           pageSize={query.pageSize}
+          onChange={onPageTurningChange}
         />
       ) : null}
     </>

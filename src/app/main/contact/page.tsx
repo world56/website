@@ -1,77 +1,134 @@
 "use client";
 
+import {
+  Form,
+  FormItem,
+  FormLabel,
+  FormField,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { z } from "zod";
+import { toast } from "sonner";
+import { useState } from "react";
 import { insertMessage } from "@/app/api";
-import styles from "./contact.module.sass";
-import { Button, Form, Input, message } from "antd";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import LoadingButton from "@/components/Button";
+import { SendOutlined } from "@ant-design/icons";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import type { Msg } from "@prisma/client";
+const formSchema = z.object({
+  name: z
+    .string({ message: "您的尊称不得为空" })
+    .min(2, { message: "您的尊称不得少于2位字符" }),
+  telephone: z
+    .string()
+    .refine(
+      (v) =>
+        !v ||
+        /^((\+?\d{1,4}[-\s]?)?\(?\d{2,4}\)?[-\s]?\d{7,8}|\+?\d{1,4}[-\s]?\d{10,12})$/.test(
+          v,
+        ),
+      { message: "请输入有效的电话号码（区号用-隔开）" },
+    ),
+  email: z
+    .string()
+    .email({ message: "请输入有效的邮箱地址" })
+    .or(z.literal(""))
+    .optional(),
+  content: z
+    .string({ message: "留言不得为空 " })
+    .min(5, { message: "您的留言不得少于5位字符" }),
+});
 
-/**
- * @name Contact 取得联系
- */
-const Contact = () => {
-  const [form] = Form.useForm<Msg>();
+function Contact() {
+  const [load, setLoad] = useState(false);
 
-  async function onSubmit() {
-    const values = await form.validateFields();
-    await insertMessage(values);
-    message.success("留言提交成功，感谢您的留言！");
-    form.resetFields();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { name: "", email: "", telephone: "", content: "" },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoad(true);
+      await insertMessage(values as Parameters<typeof insertMessage>[number]);
+      form.reset();
+      toast.message("提交成功", {
+        description: "我会查看到您的留言消息，感谢您的留言",
+      });
+      setLoad(false);
+    } catch (error) {
+      setLoad(false);
+    }
   }
 
   return (
-      <Form
-        form={form}
-        name="message"
-        layout="vertical"
-        className={styles.contact}
-      >
-        <Form.Item
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
           name="name"
-          label="您的尊称"
-          rules={[{ required: true, message: "您的尊称不得为空" }]}
-        >
-          <Input placeholder="请输入您的您的尊称" allowClear />
-        </Form.Item>
-        <Form.Item
-          label="您的电话"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>您的尊称</FormLabel>
+              <FormControl>
+                <Input placeholder="请输入您的尊称" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
           name="telephone"
-          rules={[
-            {
-              message: "电话号码是纯数字",
-              pattern: /^\d+$/,
-            },
-          ]}
-        >
-          <Input placeholder="请输入您的联系电话" allowClear />
-        </Form.Item>
-        <Form.Item
-          label="您的邮箱"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>您的电话</FormLabel>
+              <FormControl>
+                <Input placeholder="请输入您的联系电话（选填）" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
           name="email"
-          rules={[
-            {
-              message: "请输入正确的邮箱格式",
-              pattern:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            },
-          ]}
-        >
-          <Input placeholder="请输入您的电子邮箱" allowClear />
-        </Form.Item>
-        <Form.Item
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>您的邮箱</FormLabel>
+              <FormControl>
+                <Input placeholder="请输入您的电子邮箱（选填）" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
           name="content"
-          label="留言消息"
-          rules={[{ required: true, message: "留言消息不得为空" }]}
-        >
-          <Input.TextArea rows={4} placeholder="请输入留言消息" />
-        </Form.Item>
-        <Form.Item>
-          <Button onClick={onSubmit} type="primary">
-            提交留言
-          </Button>
-        </Form.Item>
-      </Form>
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>留言</FormLabel>
+              <FormControl>
+                <Textarea placeholder="请输入您想说的话" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <LoadingButton loading={load} icon={SendOutlined} type="submit">
+          提交留言
+        </LoadingButton>
+      </form>
+    </Form>
   );
-};
+}
 
 export default Contact;

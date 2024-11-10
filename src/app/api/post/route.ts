@@ -1,24 +1,18 @@
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { _pageRevalidate } from "@/app/api";
 
-import { ENUM_COMMON } from "@/enum/common";
-
+import type { Post } from "@prisma/client";
 import type { NextRequest } from "next/server";
 
-const POST_TYPE = {
-  [ENUM_COMMON.POST_TYPE.NOTES]: "/main/post/notes/",
-  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "/main/post/achievements/",
-};
-
-async function clearCache(type: number | string, id: string) {
-  const path = `${POST_TYPE[type as keyof typeof POST_TYPE]}${id}`;
+async function clearCache(type: Post["type"], id: Post["id"]) {
+  const path = `/main/post/${type}/${id}`;
   return await _pageRevalidate({ path });
 }
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const type = Number(searchParams.get("type"));
+  const type = searchParams.get("type")!;
   const status = searchParams.get("status");
   const title = searchParams.get("title") || "";
   const take = Number(searchParams.get("pageSize"));
@@ -64,7 +58,7 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const id = request.nextUrl.searchParams.get("id")!;
+  const id = Number(request.nextUrl.searchParams.get("id"));
   const type = request.nextUrl.searchParams.get("type")!;
   await prisma.post.delete({ where: { id } });
   await clearCache(type, id);

@@ -6,24 +6,37 @@ const { protocol, hostname, port } = new URL(
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  sassOptions: {
-    includePaths: [path.join(__dirname, "styles")],
-  },
   images: {
     remotePatterns: [
       {
-        port,
-        hostname,
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: process.env.PORT,
         pathname: "/api/resource/**",
-        protocol: protocol.replace(":", ""),
-      }
-    ],
+      },
+      process.env.NEXT_PUBLIC_IMAGE_BASE_URL
+        ? {
+            port,
+            hostname,
+            pathname: "/api/resource/**",
+            protocol: protocol.replace(":", ""),
+          }
+        : undefined,
+    ].filter(Boolean),
   },
   async rewrites() {
     return [
       {
         source: "/",
         destination: "/main",
+      },
+      {
+        source: "/life",
+        destination: "/main/post/life/list",
+      },
+      {
+        source: "/life/:id",
+        destination: "/main/post/life/:id",
       },
       {
         source: "/achievements",

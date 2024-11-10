@@ -1,4 +1,4 @@
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 import type { NextRequest } from "next/server";
@@ -31,12 +31,6 @@ export async function GET(request: NextRequest) {
     }),
   ]);
   return NextResponse.json({ total, list });
-}
-
-export async function POST(request: NextRequest) {
-  const data = await request.json();
-  await prisma.msg.create({ data });
-  return NextResponse.json(true);
 }
 
 export async function PUT(request: NextRequest) {

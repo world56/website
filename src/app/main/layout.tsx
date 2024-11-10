@@ -1,56 +1,29 @@
-import { DBlocal } from "@/utils/db";
-import styles from "./main.module.sass";
+import { DBlocal } from "@/lib/db";
 import Personal from "@/components/Personal";
 import Navigation from "@/components/Navigation/Main";
-import StyledComponentsRegistry from "@/components/AntdRegistry";
 
 interface TypeMainProps {
   children?: React.ReactNode;
-}
-
-const theme = {
-  token: {
-    colorPrimary: "#000000",
-    colorInfo: "#000000",
-    colorPrimaryBg: "#000000",
-    colorPrimaryTextActive: "#ffffff",
-  },
-  components: {
-    Menu: {
-      itemSelectedColor: "rgb(255, 255, 255)",
-    },
-    Select: {
-      optionSelectedColor: "rgb(255, 255, 255)",
-    },
-  },
-};
-
-export async function generateMetadata() {
-  const config = DBlocal.get();
-  return {
-    title: config.title,
-    description: "description",
-  };
 }
 
 const Layout: React.FC<TypeMainProps> = ({ children }) => {
   const config = DBlocal.get();
   return (
     <>
-      <main className={styles.main}>
-        <aside className={styles.sidebar}>
-          <Personal />
-        </aside>
-        <div className={styles.context}>
+      <main className="w-[1300px] mx-auto flex justify-between">
+        <Personal />
+        <div className="w-[985px] min-h-[706px] mb-8 mt-14 p-[30px] pt-[90px] shadow-custom rounded-3xl relative bg-white">
           <Navigation />
-          <StyledComponentsRegistry theme={theme}>
-            {children}
-          </StyledComponentsRegistry>
+          {children}
         </div>
       </main>
       {config.forTheRecord ? (
-        <footer className={styles.footer}>
-          <a href="https://beian.miit.gov.cn/" target="_blank">
+        <footer className="w-[1300px] mb-7 mx-auto text-center">
+          <a
+            target="_blank"
+            href="https://beian.miit.gov.cn/"
+            className="pl-[315px] text-zinc-400 text-[15px]"
+          >
             {config.forTheRecord}
           </a>
         </footer>

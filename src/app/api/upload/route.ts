@@ -1,4 +1,3 @@
-
 import sharp from "sharp";
 import { join } from "path";
 import * as uuid from "uuid";
@@ -23,11 +22,9 @@ export async function POST(request: Request) {
         format = "webp";
       }
       const fileName = `${uuid.v1()}.${format}`;
-      await writeFile(`${STATIC_PATH}/${fileName}`, buffer);
+      await writeFile(`${STATIC_PATH}/${fileName}`, new Uint8Array(buffer));
       res.push({ type: 0, url: `/api/resource/${fileName}` });
     }),
   );
   return NextResponse.json(res);
 }
-
-

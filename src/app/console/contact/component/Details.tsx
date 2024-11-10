@@ -1,44 +1,71 @@
+import {
+  Dialog,
+  DialogTitle,
+  DialogFooter,
+  DialogHeader,
+  DialogContent,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { useEffect } from "react";
-import { Descriptions } from "antd";
 import { readMessage } from "@/app/api";
-import { dateToTime } from "@/utils/format";
+import { dateToTime } from "@/lib/format";
+import { Button } from "@/components/ui/button";
+import { FieldTimeOutlined } from "@ant-design/icons";
+import { CardDescription, CardTitle } from "@/components/ui/card";
 
 import type { Msg } from "@prisma/client";
-import type { DescriptionsItemType } from "antd/es/descriptions";
 
 interface TypeContactDetailsProps {
-  data: Msg;
+  data?: Msg;
+  onClose(): void;
 }
-
-const config: Pick<DescriptionsItemType, "span" | "labelStyle"> = {
-  span: 3,
-  labelStyle: {
-    width: 130,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-};
 
 /**
  * @name Details 留言详情
  */
-const Details: React.FC<TypeContactDetailsProps> = ({ data }) => {
+const Details: React.FC<TypeContactDetailsProps> = ({ data, onClose }) => {
   useEffect(() => {
+    if (!data?.id) return;
     const { id, read } = data;
     read || (id && readMessage({ id }));
-  }, [data, data.read]);
+  }, [data, data?.read]);
 
   return (
-    <Descriptions
-      bordered
-      items={[
-        { label: "留言人", children: data.name, ...config },
-        { label: "留言时间", children: dateToTime(data.createTime), ...config },
-        { label: "联系电话", children: data.telephone || "-", ...config },
-        { label: "电子邮箱", children: data.email || "-", ...config },
-        { label: "留言", children: data.content, ...config },
-      ]}
-    />
+    <Dialog open={Boolean(data?.id)} onOpenChange={() => onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-xl">留言消息</DialogTitle>
+          <DialogDescription>
+              <FieldTimeOutlined className="mr-1 mb-2 mt-1" />
+              {dateToTime(data?.createTime)}
+          </DialogDescription>
+        </DialogHeader>
+
+        <CardTitle className="select-none">访客名称</CardTitle>
+        <CardDescription>{data?.name}</CardDescription>
+
+        {data?.telephone ? (
+          <>
+            <CardTitle className="select-none">联系电话</CardTitle>
+            <CardDescription>{data?.telephone}</CardDescription>
+          </>
+        ) : null}
+
+        {data?.email ? (
+          <>
+            <CardTitle className="select-none">电子邮箱</CardTitle>
+            <CardDescription>{data?.email}</CardDescription>
+          </>
+        ) : null}
+
+        <CardTitle className="select-none">留言内容</CardTitle>
+        <CardDescription>{data?.content}</CardDescription>
+
+        <DialogFooter>
+          <Button onClick={onClose}>关闭</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

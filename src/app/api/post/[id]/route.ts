@@ -1,35 +1,27 @@
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { _pageRevalidate } from "@/app/api";
 
-import { ENUM_COMMON } from "@/enum/common";
-
+import type { Post } from "@prisma/client";
 import type { NextRequest } from "next/server";
 
-const POST_TYPE = {
-  [ENUM_COMMON.POST_TYPE.NOTES]: "/main/post/notes/",
-  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "/main/post/achievements/",
-};
+interface TypeParams {
+  params: Pick<Post, "id">;
+}
 
-async function clearCache(type: number | string, id: string) {
-  const path = `${POST_TYPE[type as keyof typeof POST_TYPE]}${id}`;
+async function clearCache(type: Post["type"], id: Post["id"]) {
+  const path = `/main/post/${type}/${id}`;
   return await _pageRevalidate({ path });
 }
 
-interface TypeParams {
-  params: {
-    id: string;
-  };
-}
-
 export async function GET(request: NextRequest, params: TypeParams) {
-  const { id } = params.params;
+  const id = Number(params.params.id);
   const data = await prisma.post.findUnique({ where: { id } });
   return NextResponse.json(data);
 }
 
 export async function PUT(request: NextRequest, params: TypeParams) {
-  const { id } = params.params;
+  const id = Number(params.params.id);
   const { status } = await request.json();
   const { type } = await prisma.post.update({
     where: { id },

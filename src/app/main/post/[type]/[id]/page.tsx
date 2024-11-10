@@ -1,9 +1,8 @@
 import Prism from "prismjs";
-import { Empty } from "antd";
 import { cache } from "react";
-import { prisma } from "@/utils/db";
-import styles from "./post.module.sass";
-import { dateToTime } from "@/utils/format";
+import { prisma } from "@/lib/db";
+import Empty from "@/components/Empty";
+import { dateToTime } from "@/lib/format";
 import ReadingTools from "@/components/Tools";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
@@ -26,13 +25,10 @@ import "prismjs/components/prism-markup-templating.min.js";
 
 import { ENUM_COMMON } from "@/enum/common";
 
-const POST_TYPE = {
-  [ENUM_COMMON.POST_TYPE.NOTES]: "notes",
-  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "achievements",
-};
+import type { Post } from "@prisma/client";
 
 interface TypePostProps {
-  params: Record<"type" | "id", string>;
+  params: Pick<Post, "type" | "id">;
 }
 
 function formatEntities(encodedString: string) {
@@ -76,25 +72,25 @@ function highlightCodeInRichText(richText: string) {
   return highlightedRichText;
 }
 
-const requestPost = cache(async (id?: string) => {
+const requestPost = cache(async (id?: number) => {
   return await prisma.post.findUnique({
-    where: { id, status: ENUM_COMMON.STATUS.ENABLE },
+    where: { id: Number(id), status: ENUM_COMMON.STATUS.ENABLE },
   });
 });
 
 export async function generateMetadata({ params: { id } }: TypePostProps) {
   const res = await requestPost(id);
-  return { title: res?.title ? res.title : "没有找到相关内容" };
+  return {
+    title: res?.title ? res.title : "没有找到相关内容",
+    description: res?.description,
+  };
 }
 
 export async function generateStaticParams() {
   const res = await prisma.post.findMany({
     where: { status: ENUM_COMMON.STATUS.ENABLE },
   });
-  return res.map((v) => ({
-    id: v.id,
-    type: POST_TYPE[v.type as keyof typeof POST_TYPE],
-  }));
+  return res.map((v) => ({ id: String(v.id), type: v.type }));
 }
 
 const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
@@ -103,27 +99,29 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
     const time = dateToTime(res.createTime);
     const __html = highlightCodeInRichText(res.content);
     return (
-      <div className={styles.post}>
-        <div className={styles.title}>
-          <h1>{res.title}</h1>
-          <div className={styles.tools}>
-            <time dateTime={time}>
-              <FieldTimeOutlined />
-              {time}
-            </time>
-            <ReadingTools />
-          </div>
+      <>
+        <h1 className="text-3xl font-bold mt-[10px] mb-[22px] break-words whitespace-normal">
+          {res.title}
+        </h1>
+        <div className="flex justify-between items-center pb-5 mb-6 text-gray-400 border-b border-grey-100">
+          <time dateTime={time} className="flex items-center text-[14px]">
+            <FieldTimeOutlined className="mr-1" />
+            {time}
+          </time>
+          <ReadingTools />
         </div>
         <div
           style={{ minHeight: 398 }}
           dangerouslySetInnerHTML={{ __html }}
-          className={`${styles.content} mce-content-body`}
+          className="mce-content-body no-tailwindcss-base"
         />
-        <p className={styles.prompt}>© 著作权归作者所有 转载请注明原链接</p>
-      </div>
+        <p className="text-sm mt-3 text-gray-400 text-center select-none">
+          © 著作权归作者所有 转载请注明原链接
+        </p>
+      </>
     );
   } else {
-    return <Empty className={styles.empty} description="没有找到相关内容" />;
+    return <Empty height={520} />;
   }
 };
 

@@ -1,9 +1,6 @@
 import Item from "./Item";
-import { Spin } from "antd";
-import Image from "next/image";
-import styles from "./list.module.sass";
-
-import ICON_EMPTY from "@/assets/empty.svg";
+import Empty from "@/components/Empty";
+import Loading from "@/components/Loading";
 
 interface TypeListProps
   extends React.FC<{
@@ -19,25 +16,19 @@ interface TypeListProps
 /**
  * @name List 内容列表
  */
-const List: TypeListProps = ({ loading, children }) =>
-  Array.isArray(children) && children.length ? (
-    <div className={styles.list}>
-      {children}
-      <i style={{ width: "calc(33% - 5px)" }} />
-      <i style={{ width: "calc(33% - 5px)" }} />
-    </div>
-  ) : (
-    <div className={styles.empty}>
-      <div>
-        {loading ? (
-          <Spin spinning className="loading" />
-        ) : (
-          <Image src={ICON_EMPTY} alt="#" />
-        )}
-        {loading ? null : <p>暂无记录</p>}
+const List: TypeListProps = ({ loading, children }) => (
+  <Loading loading={loading} height={520}>
+    {Array.isArray(children) && children.length ? (
+      <div className="flex flex-wrap justify-between">
+        {children}
+        <i style={{ width: "calc(33% - 5px)" }} />
+        <i style={{ width: "calc(33% - 5px)" }} />
       </div>
-    </div>
-  );
+    ) : loading ? null : (
+      <Empty height={520} />
+    )}
+  </Loading>
+);
 
 List.Item = Item;
 

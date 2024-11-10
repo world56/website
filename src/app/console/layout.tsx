@@ -1,7 +1,5 @@
 import Script from "next/script";
-import styles from "./console.module.sass";
 import Navigation from "@/components/Navigation/Console";
-import StyledComponentsRegistry from "@/components/AntdRegistry";
 
 import type { Metadata } from "next";
 
@@ -10,32 +8,12 @@ export const metadata: Metadata = {
   description: "控制台",
 };
 
-const theme = {
-  token: {
-    colorPrimary: "#000000",
-    colorInfo: "#000000",
-    colorPrimaryBg: "#000000",
-    colorPrimaryTextActive: "#ffffff",
-  },
-  components: {
-    Menu: {
-      itemSelectedColor: "rgb(255, 255, 255)",
-    },
-    Select: {
-      optionSelectedColor: "rgb(255, 255, 255)",
-    },
-    DatePicker: {
-      algorithm: true,
-    },
-  },
-};
-
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <>
-    <StyledComponentsRegistry theme={theme}>
-      <Navigation />
-      <main className={styles.console}>{children}</main>
-    </StyledComponentsRegistry>
+  <main className="w-[1300px] mx-auto flex justify-between">
+    <Navigation />
+    <div className="w-[1034px] rounded-3xl min-h-[730px] pt-[58px] relative">
+      {children}
+    </div>
     <Script src="/lib/tinymce/tinymce.min.js" />
     <Script src="/lib/tinymce/models/dom/model.min.js" />
     <Script src="/lib/tinymce/themes/silver/theme.min.js" />
@@ -48,17 +26,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Script src="/lib/tinymce/plugins/anchor/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/charmap/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/advlist/plugin.min.js" />
-    <Script src="/lib/tinymce/plugins/preview/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/autolink/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/wordcount/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/codesample/plugin.min.js" />
-    <Script src="/lib/tinymce/plugins/fullscreen/plugin.min.js" />
-    <Script src="/lib/tinymce/plugins/emoticons/js/emojis.min.js" />
     <Script src="/lib/tinymce/plugins/visualblocks/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/searchreplace/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/insertdatetime/plugin.min.js" />
     <Script src="/lib/tinymce/langs/zh_CN.js" />
-    </>
+  </main>
 );
 
 export default Layout;

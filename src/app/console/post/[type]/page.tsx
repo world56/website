@@ -1,140 +1,185 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import { usePosts } from "@/hooks";
-import Edit from "./component/Edit";
-import styles from "./post.module.sass";
-import Status from "@/components/Status";
-import { dateToTime } from "@/utils/format";
-import { SearchOutlined } from "@ant-design/icons";
-import Switching from "@/components/Status/Switching";
-import ConfirmButton from "@/components/ConfirmButton";
+import Card from "@/components/Card";
+import Select from "@/components/Select";
+import { dateToTime } from "@/lib/format";
+import Confirm from "@/components/Confirm";
+import Tooltip from "@/components/Tooltip";
+import DataTable from "@/components/Table";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import LoadingButton from "@/components/Button";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import PageTurning from "@/components/PageTurning";
+import { SyncOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { deletePost, updatePostStatus } from "@/app/api";
-import { Button, Card, Input, Space, Table, Tooltip, Typography, message } from "antd";
 
 import { ENUM_COMMON } from "@/enum/common";
 
 import type { Post } from "@prisma/client";
-import type { TableProps } from "antd/es/table";
-import type { TypeCommon } from "@/interface/common";
+import type { ColumnDef } from "@tanstack/react-table";
 
-type TypeTableProps = TableProps<Post>;
+const SELECT_ITEMS = [
+  { value: ENUM_COMMON.STATUS.ENABLE, label: "可预览" },
+  { value: ENUM_COMMON.STATUS.DISABLE, label: "不可预览" },
+];
 
-const TextEditor = () => {
-  const [editId, setEditId] = useState<TypeCommon.PrimaryID["id"]>();
+const Posts = () => {
+  const router = useRouter();
 
-  const { TITLE, ENUM, query, data, loading, setQuery, run } = usePosts();
+  const [deleteId, setDeleteId] = useState<Post["id"]>();
 
-  function onSearch() {
-    const params = { ...query, current: 1 };
-    setQuery(params);
-    run(params);
+  const { title, query, type, data, loading, run, setQuery } = usePosts();
+
+  function onEdit(row?: Post) {
+    router.push(`/console/post/${type}/${row?.id || -1}`);
+  }
+
+  async function onStatus({ id }: Post, status: boolean) {
+    await updatePostStatus({ id, status: Number(status) });
+    toast.success("保存成功");
+    run();
+  }
+
+  function onSelectStatus(status: Post["status"]) {
+    setQuery((v) => ({ ...v, current: 1, status }));
   }
 
   function onTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setQuery({ ...query, title: e.target.value });
+    setQuery((v) => ({ ...v, current: 1, title: e.target.value }));
   }
 
-  function onEdit(row?: Post) {
-    setEditId(row?.id);
-    row?.id || run();
+  async function onConfirmDelete(row: Post) {
+    setDeleteId(row.id);
   }
 
-  async function onDelete(row: Post) {
-    await deletePost({ id: row.id, type: ENUM });
-    message.success("删除成功");
-    run();
+  function onSkip(row: Post) {
+    window.open(`/${type}/${row.id}`);
   }
 
-  async function onStatus({ id }: Post, status: ENUM_COMMON.STATUS) {
-    await updatePostStatus({ id, status });
-    message.success("操作成功");
-    run();
+  async function onDelete(id?: Post["id"]) {
+    if (id) {
+      await deletePost({ id, type });
+      toast.success("删除成功");
+      run();
+    }
+    setDeleteId(undefined);
   }
 
-  const onPageChange: TypeTableProps["onChange"] = (pagination) => {
-    const { current = 1, pageSize = 15 } = pagination;
-    const params = { ...query, current, pageSize };
-    setQuery(params);
-    run(params);
-  };
+  function onPageTurningChange(current: number) {
+    setQuery((v) => ({ ...v, current }));
+  }
 
-  const columns: TypeTableProps["columns"] = [
+  const columns: ColumnDef<Post>[] = [
     {
-      dataIndex: "title",
-      title: "标题",
-      align: "center",
-      ellipsis: { showTitle: false },
-      render: (val: string) => <Tooltip title={val}>{val}</Tooltip>,
-    },
-    {
-      dataIndex: "description",
-      title: "摘要",
-      align: "center",
-      ellipsis: { showTitle: false },
-      render: (val: string) => <Tooltip title={val}>{val}</Tooltip>,
-    },
-    {
-      dataIndex: "status",
-      title: "状态",
-      align: "center",
-      width: 100,
-      render: (type: ENUM_COMMON.STATUS) => <Status status={type} />,
-    },
-    {
-      dataIndex: "createTime",
-      title: "创建时间",
-      align: "center",
-      width: 180,
-      render: dateToTime,
-    },
-    {
-      key: "id",
-      title: "操作",
-      width: 130,
-      align: "center",
-      render: (row: Post) => (
-        <Space>
-          <Switching
-            status={row.status}
-            onClick={(status) => onStatus(row, status)}
-          />
-          <Typography.Link onClick={() => onEdit(row)}>编辑</Typography.Link>
-          <ConfirmButton onClick={() => onDelete(row)}>删除</ConfirmButton>
-        </Space>
+      accessorKey: "title",
+      header: "标题",
+      size: 265,
+      cell: ({ row }) => (
+        <Tooltip
+          title={row.original.title}
+          className="truncate py-2 px-1 w-full text-left"
+        >
+          {row.original.title}
+        </Tooltip>
       ),
+    },
+    {
+      accessorKey: "status",
+      header: "可预览",
+      size: 60,
+      cell: ({ row }) => (
+        <Switch
+          className="m-auto block"
+          onCheckedChange={(bol) => onStatus(row.original, bol)}
+          checked={row.original.status === ENUM_COMMON.STATUS.ENABLE}
+        />
+      ),
+    },
+    {
+      accessorKey: "createTime",
+      header: "创建时间",
+      size: 100,
+      cell: ({ row }) => (
+        <p className="text-center">{dateToTime(row.original.createTime)}</p>
+      ),
+    },
+    {
+      accessorKey: "id",
+      header: "操作",
+      size: 80,
+      cell: ({ row }) => {
+        const { status } = row.original;
+        return (
+          <>
+            <Tooltip
+              type="button"
+              disabled={!status}
+              className="p-2 ml-[2px]"
+              onClick={() => onSkip(row.original)}
+              title={status ? undefined : "开启'可预览'后预览"}
+            >
+              预览
+            </Tooltip>
+
+            <Button
+              variant="link"
+              className="p-2 ml-[2px]"
+              onClick={() => onEdit(row.original)}
+            >
+              编辑
+            </Button>
+            <Button
+              variant="link"
+              className="p-2 text-red-500"
+              onClick={() => onConfirmDelete(row.original)}
+            >
+              删除
+            </Button>
+          </>
+        );
+      },
     },
   ];
 
   return (
-    <Card title={TITLE}>
-      <div className={styles.search}>
-        <span>标题：</span>
-        <Input onChange={onTitleChange} placeholder="请输入标题" allowClear />
-        <Button type="primary" onClick={onSearch} icon={<SearchOutlined />}>
-          查询
+    <Card spacing={4} title={title} description={`向访问者展示您的${title}`}>
+      <div className="flex justify-between">
+        <div className="flex">
+          <Select
+            value={query.status}
+            items={SELECT_ITEMS}
+            placeholder="预览状态"
+            onChange={onSelectStatus}
+          />
+          <Input
+            className="w-60 mx-3"
+            onChange={onTitleChange}
+            defaultValue={query.title}
+            placeholder="输入标题进行查询"
+          />
+          <LoadingButton onClick={run} loading={loading} icon={SyncOutlined} />
+        </div>
+        <Button onClick={() => onEdit()}>
+          <PlusCircleOutlined />
+          新增内容
         </Button>
-        <Edit id={editId} type={ENUM} onClose={onEdit} />
       </div>
-      <Table
-        rowKey="id"
-        size="middle"
-        loading={loading}
-        columns={columns}
-        dataSource={data?.list}
-        onChange={onPageChange}
-        className={styles.table}
-        pagination={{
-          total: data?.total,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          current: query.current,
-          pageSize: query.pageSize,
-          pageSizeOptions: [20, 50, 80, 100],
-        }}
+      <DataTable loading={loading} columns={columns} data={data?.list || []} />
+      <PageTurning
+        total={data?.total}
+        current={query.current}
+        pageSize={query.pageSize}
+        onChange={onPageTurningChange}
       />
+      <Confirm id={deleteId} onOk={onDelete} onCancel={onDelete} />
     </Card>
   );
 };
 
-export default TextEditor;
+export default Posts;

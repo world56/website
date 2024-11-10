@@ -7,12 +7,12 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { Spin } from "antd";
+import { toast } from "sonner";
 import Script from "next/script";
 import { useDebounceFn } from "ahooks";
 import { uploadFiles } from "@/app/api";
-import styles from "./editor.module.sass";
-import { getUploadFiles } from "@/utils/filter";
+import Loading from "@/components/Loading";
+import { getUploadFiles } from "@/lib/filter";
 import { CONFIG, HTML_TEMPLATE } from "./config";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -48,7 +48,7 @@ interface TypeTxtEditorProps<T = string>
  * @name TextEditor 文本编辑器
  */
 const TxtEditor: TypeTxtEditorProps = (
-  { height = 580, value = "", onChange },
+  { height = 780, value = "", onChange },
   ref,
 ) => {
   const edit = useRef<Editor>();
@@ -56,17 +56,32 @@ const TxtEditor: TypeTxtEditorProps = (
   const [load, setLoad] = useState(true);
 
   async function upload(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
-    const data = await getUploadFiles(type);
-    const files = await uploadFiles(data);
-    let html = "";
-    for (let v of files) {
-      const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
-      html += IS_IMAGE
-        ? `<img src='${v.url}' alt='#' />`
-        : `<video controls><source src='${v.url}' type='video/mp4' /></video>`;
-    }
-    edit?.current?.execCommand("mceInsertContent", false, html);
-    onChange?.(edit.current?.getContent());
+    const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
+    const data = await getUploadFiles({
+      multiple: true,
+      size: IS_IMAGE ? 10485760 : 31457280,
+      accept: IS_IMAGE ? ".svg, .jpg, .jpeg, .png, .webp" : ".mp4, .mp3",
+    });
+    toast.promise(
+      async () => {
+        const files = await uploadFiles(data);
+        let html = "";
+        for (let v of files) {
+          const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
+          html += IS_IMAGE
+            ? `<img src='${v.url}' alt='#' style='width:max-content;' />`
+            : `<video controls  controlsList="nodownload"><source src='${v.url}' type='video/mp4' /></video>`;
+        }
+        edit?.current?.execCommand("mceInsertContent", false, html);
+        onChange?.(edit.current?.getContent());
+        return Promise.resolve(files);
+      },
+      {
+        loading: "正在上传资源",
+        success: (data) => `${data.length}个资源上传成功`,
+        error: () => `资源上传失败`,
+      },
+    );
   }
 
   const { run: onCreate } = useDebounceFn(() => {
@@ -115,23 +130,21 @@ const TxtEditor: TypeTxtEditorProps = (
 
   useEffect(() => {
     if (!load) {
-      const index = edit.current?.selection.getBookmark(2)!;
-      edit.current?.setContent(value);
-      edit.current?.selection.moveToBookmark(index);
+      const index = edit.current?.selection?.getBookmark(2)!;
+      if (edit.current?.getContent() !== value) {
+        edit.current?.setContent(value);
+      }
+      edit.current?.selection?.moveToBookmark?.(index);
     }
   }, [load, value]);
 
   useImperativeHandle(ref, () => edit.current, [edit]);
 
   return (
-    <>
+    <Loading loading={load}>
+      <textarea id="editor" style={{ minHeight: 780 }} />
       <Script onReady={onCreate} src="/lib/tinymce/tinymce.min.js" />
-      <div className={styles.editor}>
-        <Spin spinning={load} tip="正在加载文本编辑器">
-          <textarea id="editor" />
-        </Spin>
-      </div>
-    </>
+    </Loading>
   );
 };
 

@@ -1,5 +1,5 @@
 import * as jose from "jose";
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -26,5 +26,5 @@ export async function POST(request: NextRequest) {
       },
     });
   }
-  return NextResponse.json("User not registered", { status: 412 });
+  return NextResponse.json("User authentication failed", { status: 412 });
 }

@@ -1,7 +1,7 @@
-import request from "@/utils/request";
+import request from "@/lib/request";
 
 import type { TypeCommon } from "@/interface/common";
-import type { Msg, Post, User } from "@prisma/client";
+import type { Msg, Post, Tag, User } from "@prisma/client";
 
 /**
  * @name getBasicDetails 获取 “网站、个人基本信息”
@@ -11,7 +11,9 @@ export function getBasicDetails() {
 }
 
 /** @name updateBasicDetails 编辑 “网站、个人基本信息” */
-export function updateBasicDetails(data: TypeCommon.BasisDTO) {
+export function updateBasicDetails(
+  data: Partial<TypeCommon.BasisDTO<Partial<Tag>>>,
+) {
   return request(`/api/basic`, {
     method: "POST",
     data,
@@ -42,9 +44,19 @@ export function getPost(
 /**
  * @name insertPost 新增 “帖子”
  */
-export function insertPost(data: Omit<Post, "createTime" | "updateTime">) {
+export function insertPost(data: TypeCommon.UpdatePost) {
   return request<boolean>("/api/post", {
     method: "POST",
+    data,
+  });
+}
+
+/**
+ * @name updatePost 编辑 “帖子”
+ */
+export function updatePost(data: TypeCommon.UpdatePost) {
+  return request<boolean>("/api/post", {
+    method: "PUT",
     data,
   });
 }
@@ -55,17 +67,7 @@ export function insertPost(data: Omit<Post, "createTime" | "updateTime">) {
 export function deletePost(params: TypeCommon.DeletePost) {
   return request<Post>(`/api/post`, {
     method: "DELETE",
-    params
-  });
-}
-
-/**
- * @name updatePost 编辑 “帖子”
- */
-export function updatePost(data: Omit<Post, "createTime" | "updateTime">) {
-  return request<boolean>("/api/post", {
-    method: "PUT",
-    data,
+    params,
   });
 }
 
@@ -82,7 +84,9 @@ export function updatePostStatus({ id, status }: Pick<Post, "id" | "status">) {
 /**
  * @name getMessage 查询 “留言” 列表
  */
-export function getMessages(params: TypeCommon.PageTurning) {
+export function getMessages(
+  params: TypeCommon.PageTurning & Partial<Pick<Msg, "read">>,
+) {
   return request<TypeCommon.Response<Msg>>(`/api/message`, {
     method: "GET",
     params,
@@ -93,7 +97,7 @@ export function getMessages(params: TypeCommon.PageTurning) {
  * @name insertMessage 新增 “消息”
  */
 export function insertMessage(data: Omit<Msg, "id" | "read" | "createTime">) {
-  return request<boolean>("/api/message", {
+  return request<boolean>("/api/contact", {
     method: "POST",
     data,
   });
@@ -157,6 +161,16 @@ export function register(data: Pick<User, "account" | "password">) {
   return request<boolean>(`/api/auth/register`, {
     data,
     method: "POST",
+  });
+}
+
+/**
+ * @name updatePwd 修改管理员密码
+ */
+export function updatePwd(data: Record<"password" | "newPassword", string>) {
+  return request<boolean>(`/api/auth/password`, {
+    method: "PUT",
+    data,
   });
 }
 

@@ -9,6 +9,7 @@ export const config = {
     "/api/post/:path*",
     "/api/basic/:path*",
     "/api/message/:path*",
+    "/api/auth/password/:path*",
   ],
 };
 

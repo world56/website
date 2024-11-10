@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://devtt.com">
-    <img width="72" src="https://raw.githubusercontent.com/world56/static/main/website/icon.png">
+    <img width="72" src="https://raw.githubusercontent.com/world56/static/main/website/icon.svg">
   </a>
 </p>
 
@@ -16,6 +16,7 @@
 - 🍔 **Next.JS**（React）
 - 🥯 **ISR**（On-demand Revalidation）
 - 🥪 **TypeScript**
+- 🧑‍🎨 **Tailwind CSS**
 - 🍟 **Prisma**（MySQL）
 - 🍣 **Docker**
 

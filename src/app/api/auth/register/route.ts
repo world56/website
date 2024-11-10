@@ -1,4 +1,4 @@
-import { prisma } from "@/utils/db";
+import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     where: { type: ENUM_COMMON.USER_TYPE.ADMIN },
   });
   if (admin) {
-    return NextResponse.json("User is already registered", { status: 409 });
+    return NextResponse.json("User registration failed", { status: 409 });
   }
   await prisma.user.create({
     data: {

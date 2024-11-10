@@ -1,86 +1,126 @@
 "use client";
 
+import {
+  Form,
+  FormItem,
+  FormLabel,
+  FormField,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import md5 from "md5";
+import { z } from "zod";
 import Image from "next/image";
 import { useState } from "react";
-import styles from "./index.module.sass";
-import { Button, Form, Input } from "antd";
+import { useRequest } from "ahooks";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import ICON_SIGN_IN from "@/assets/panda.svg";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import LoadingButton from "@/components/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { existAdmin, signIn, register } from "@/app/api";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import type { TypeCommon } from "@/interface/common";
-
-const RULES_DEFAULT = [
-  { required: true, message: "This field must not be empty" },
-  {
-    min: 5,
-    max: 12,
-    message: "Minimum 5 bits, maximum 12 bits",
-  },
-  {
-    pattern: /^[a-zA-Z0-9_-]{5,12}$/,
-    message: "The field supports letters, numbers, underscore, minus sign",
-  },
-];
+const formSchema = z.object({
+  account: z.string().regex(/^[a-zA-Z0-9_]{5,12}$/, {
+    message:
+      "Supports 5 to 12 characters, including numbers, letters, and underscores.",
+  }),
+  password: z.string().regex(/^[a-zA-Z0-9_]{5,12}$/, {
+    message:
+      "Supports 5 to 12 characters, including numbers, letters, and underscores.",
+  }),
+});
 
 const SignIn = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-  const [form] = Form.useForm<TypeCommon.Sign>();
+  const { data, loading: adminLoad } = useRequest(existAdmin);
 
-  async function onSubmit() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { account: "", password: "" },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
       const exist = await existAdmin();
-      const values = await form.validateFields();
       values.password = md5(values.password);
       !exist && (await register(values));
       await signIn(values);
       router.push("/console");
+      setLoading(false);
     } catch (error) {
-      console.log(error);
-    } finally {
       setLoading(false);
     }
   }
 
-  return (
-    <Form
-      form={form}
-      layout="vertical"
-      name="website-sign"
-      className={styles.signIn}
-    >
-      <Image src={ICON_SIGN_IN} alt="#" width={60} priority />
+  function toMainPage(e: React.MouseEvent<HTMLButtonElement>) {
+    router.push("/");
+  }
 
-      <Form.Item label="ADMIN ACCOUNT" name="account" rules={RULES_DEFAULT}>
-        <Input
-          allowClear
-          prefix={<UserOutlined />}
-          placeholder="USER ACCOUNT"
+  return (
+    <Card className="w-[400px] mx-auto absolute left-[50%] top-[50%] ml-[-200px] mt-[-176px]">
+      <CardHeader className="pt-[25px] pb-[5px]">
+        <Image
+          alt="#"
+          priority
+          width={60}
+          src={ICON_SIGN_IN}
+          className="mx-auto"
         />
-      </Form.Item>
-      <Form.Item label="PASSWORD" name="password" rules={RULES_DEFAULT}>
-        <Input.Password
-          allowClear
-          onPressEnter={onSubmit}
-          visibilityToggle={false}
-          prefix={<LockOutlined />}
-          placeholder="ADMIN PASSWORD"
-        />
-      </Form.Item>
-      <Button
-        type="primary"
-        loading={loading}
-        onClick={onSubmit}
-        disabled={loading}
-      >
-        SIGN IN
-      </Button>
-    </Form>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              name="account"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ACCOUNT</FormLabel>
+                  <FormControl>
+                    <Input placeholder="PLEASE ENTER" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              name="password"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>PASSWORD</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="PLEASE ENTER"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="flex justify-between">
+              <Button onClick={toMainPage} type="button" variant="outline">
+                RETURN
+              </Button>
+              <LoadingButton loading={loading || adminLoad} type="submit">
+                SIGN {data ? "IN" : "UP"}
+              </LoadingButton>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 

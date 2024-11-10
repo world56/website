@@ -1,137 +1,154 @@
 "use client";
 
+import {
+  Form,
+  FormItem,
+  FormLabel,
+  FormField,
+  FormControl,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
+import { z } from "zod";
+import { toast } from "sonner";
+import { useState } from "react";
 import { useRequest } from "ahooks";
-import styles from "./console.module.sass";
-import TxtEditor from "@/components/TextEditor";
-import CenterBtn from "@/components/Form/CenterBtn";
-import EditLabel from "@/components/Form/EditLabel";
-import UploadImage from "@/components/Upload/Image";
+import Card from "@/components/Card";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import Upload from "@/components/Upload/Image";
+import LoadingButton from "@/components/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { getBasicDetails, updateBasicDetails } from "../api";
-import { Button, Card, Form, Input, Spin, message } from "antd";
 
-import { ENUM_COMMON } from "@/enum/common";
-
-import type { TypeCommon } from "@/interface/common";
+const formSchema = z.object({
+  title: z.string().min(2, {
+    message: "站点标题至少2位字符，且不得为空",
+  }),
+  favicon: z.string(),
+  description: z.string(),
+  forTheRecord: z.string(),
+});
 
 /**
  * @name Console 控制台
  */
 const Console = () => {
-  const [form] = Form.useForm<TypeCommon.BasisDTO>();
+  const [submitLoad, setSubmitLoad] = useState(false);
 
-  const { loading } = useRequest(async () => {
-    const data = await getBasicDetails();
-    form.setFieldsValue(data);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      favicon: "",
+      description: "",
+      forTheRecord: "",
+    },
   });
 
-  async function onSubmit() {
-    const values = await form.validateFields();
-    values.items.forEach((v, i) => {
-      v.index = i;
-      v.type = ENUM_COMMON.TAG.PERSONAL_PANEL;
-    });
-    values.skills.forEach((v, i) => {
-      v.index = i;
-      v.type = ENUM_COMMON.TAG.PERSONAL_SKILL;
-    });
-    await updateBasicDetails(values);
-    message.success("保存成功");
-  }
+  const { loading } = useRequest(async () => {
+    const res = await getBasicDetails();
+    const { title, favicon, description, forTheRecord } = res;
+    form.reset({ title, favicon, description, forTheRecord });
+  });
 
-  /**
-   * @name onInsertItem 新增 “技能”、“个人信息”
-   */
-  function onInsertItem(
-    field: Extract<keyof TypeCommon.BasisDTO, "items" | "skills">,
-  ) {
-    const items = form.getFieldValue(field);
-    items.push({});
-    form.setFieldValue(field, items);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setSubmitLoad(true);
+      await updateBasicDetails(values);
+      toast.success("保存成功", { description: "用户刷新页面生效" });
+      setSubmitLoad(false);
+    } catch (error) {
+      setSubmitLoad(false);
+    }
   }
 
   return (
-    <Spin spinning={loading}>
-      <Form form={form} name="basic" layout="vertical" className={styles.basic}>
-        <Card title="网站信息">
-          <div style={{ padding: "24px 24px 12px 24px" }}>
-            <Form.Item name="title" label="站点标题">
-              <Input
-                allowClear
-                placeholder="清输入站点标题（例：周杰伦的个人主页）"
-              />
-            </Form.Item>
-            <Form.Item name="forTheRecord" label="站点备案号">
-              <Input
-                allowClear
-                placeholder="清输入网站备案号（大陆站点必填，默认展示在页面底部并居中）"
-              />
-            </Form.Item>
-          </div>
-        </Card>
-
-        <Card title="个人信息面板">
-          <div style={{ padding: "24px 24px 0px 24px" }}>
-            <Form.Item label="头像" name="icon">
-              <UploadImage radius="50%" />
-            </Form.Item>
-
-            <Form.Item label="您的姓名" name="name">
-              <Input allowClear placeholder="请输入您的姓名（例：周杰伦）" />
-            </Form.Item>
-
-            <Form.Item label="您的岗位" name="position">
-              <Input
-                allowClear
-                placeholder="请输入您的岗位（例：前端开发工程师）"
-              />
-            </Form.Item>
-          </div>
-
-          <h4 className={styles.personalItem}>
-            <span>其他关键信息</span>
-            <Form.Item shouldUpdate noStyle>
-              {(form) => (
-                <Button
-                  type="link"
-                  className={styles.addBtn}
-                  onClick={() => onInsertItem("items")}
-                  disabled={form.getFieldValue("items")?.length === 5}
-                >
-                  添加个人信息
-                </Button>
-              )}
-            </Form.Item>
-          </h4>
-
-          <EditLabel name="items" initialValue={[]} />
-        </Card>
-
-        <Card title="个人简介">
-          <Form.Item name="profile">
-            <TxtEditor />
-          </Form.Item>
-        </Card>
-
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card
-          title="技能简介"
-          extra={
-            <Button
-              type="link"
-              className={styles.addBtn}
-              onClick={() => onInsertItem("skills")}
-            >
-              添加技能
-            </Button>
-          }
+          title="站点信息"
+          description="设置站点基本信息，提升SEO效率"
+          loading={loading}
         >
-          <EditLabel name="skills" initialValue={[]} />
+          <FormField
+            name="favicon"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>站点图标</FormLabel>
+                <FormControl>
+                  <Upload {...field} />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>
+                  浏览器标签显示的站点图标，支持ico、png、svg等常用格式
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="title"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>站点标题</FormLabel>
+                <FormControl>
+                  <Input placeholder="请输入站点标题" {...field} />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>浏览器标签显示的站点名称</FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="description"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>站点描述</FormLabel>
+                <FormControl>
+                  <Input placeholder="请输入站点描述" {...field} />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>
+                  搜索引擎会读取该信息，并将其用作搜索结果中的摘要
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="forTheRecord"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>站点备案号</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="请输入网站备案号" />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>
+                  根据中国大陆法规，域名备案号必须展示在页面底部（填写保存后生效）
+                </FormDescription>
+              </FormItem>
+            )}
+          />
         </Card>
 
-        <CenterBtn onClick={onSubmit} type="primary">
-          保存网站基本信息
-        </CenterBtn>
-      </Form>
-    </Spin>
+        <div className="text-center">
+          <LoadingButton
+            type="submit"
+            className="my-5"
+            loading={loading || submitLoad}
+          >
+            保存网站设置
+          </LoadingButton>
+        </div>
+      </form>
+    </Form>
   );
 };
 

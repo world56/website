@@ -1,115 +1,107 @@
 import Image from "next/image";
-import { useState } from "react";
-import { toJSON } from "@/utils/filter";
-import styles from "./index.module.sass";
-import { Tooltip, Upload, message } from "antd";
-import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import { uploadFiles } from "@/app/api";
+import { useState, forwardRef } from "react";
+import { getUploadFiles } from "@/lib/filter";
+import { CameraFilled, LoadingOutlined } from "@ant-design/icons";
 
-import type { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
+import type { ForwardRefRenderFunction } from "react";
 
-function beforeUpload(file: RcFile) {
-  const isLt1M = file.size / 1024 / 1024 < 1;
-  !isLt1M && message.error("图片最大不得超过1MB");
-  return isLt1M;
-}
+type TypeUploadImageRefProps<T = string> = ForwardRefRenderFunction<
+  HTMLDivElement,
+  {
+    radius?: boolean;
+    size?: keyof typeof SIZE;
+    readonly value?: T;
+    onChange?(value?: T): void;
+    className?: string;
+  }
+>;
 
-const IMAGE_STYLE = {
-  width: "100%",
-  height: "auto",
+const SIZE = {
+  small: { IMG: `w-11 h-11`, NAME: undefined, SIZE: 80 },
+  middle: { IMG: `w-20 h-20`, NAME: `text-xs`, SIZE: 108 },
+  large: { IMG: `w-36 h-36`, NAME: `text-sm`, SIZE: 140 },
 };
 
-interface TypeUploadImageProps<T = string> {
-  readonly value?: T;
-  onChange?(value: T): void;
-  /** @param textButton 文本样式上传按钮 */
-  textButton?: boolean;
-  /**
-   * @param radius 弧度
-   * @description 默认 10px
-   */
-  radius?: string | number;
-  style?: React.CSSProperties;
-}
-
 /**
- * @name UploadImage 上传文件
+ * @name UploadImage 上传图片
  */
-const UploadImage: React.FC<TypeUploadImageProps> = ({
-  value,
-  onChange,
-  textButton,
-  style = {},
-  radius = "8px",
-}) => {
+const UploadImage: TypeUploadImageRefProps = (
+  { size = "middle", radius = true, className = "", value, onChange },
+  ref,
+) => {
   const [load, setLoad] = useState(false);
+  const [val, setVal] = useState<string>();
 
-  function handleChange(e: UploadChangeParam<UploadFile>) {
-    switch (e.file.status) {
-      case "uploading":
-        return setLoad(true);
-      case "done":
-        onChange?.(toJSON(e.file.xhr?.response)?.[0]?.url);
-        return setLoad(false);
-      default:
-        return;
+  async function onStart() {
+    try {
+      const chunk = await getUploadFiles({
+        size: 3145728,
+        accept: ".svg, .jpg, .jpeg, .png, .ico, .webp",
+      });
+      setLoad(true);
+      const [res] = await uploadFiles(chunk);
+      updateValue(res?.url);
+      setLoad(false);
+    } catch (error) {
+      setLoad(false);
     }
   }
 
-  const url = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${value}`;
-
-  function getButtonStyle(value?: string) {
-    if (textButton) {
-      return value ? (
-        <Tooltip placement="left" title="点击重新上传">
-          <Image
-            alt="#"
-            src={url}
-            width={0}
-            height={0}
-            className={styles.text}
-            style={{ ...IMAGE_STYLE, ...style }}
-          />
-        </Tooltip>
-      ) : (
-        <div className={styles.text}>
-          <span>{load ? <LoadingOutlined /> : <PlusOutlined />}点击上传</span>
-        </div>
-      );
-    } else {
-      return (
-        <div className={styles.circle} style={{ borderRadius: radius }}>
-          {value ? (
-            <Image
-              alt="#"
-              src={url}
-              width={50}
-              height={50}
-              className={styles.text}
-              style={{ ...IMAGE_STYLE, ...style }}
-            />
-          ) : (
-            <>
-              {load ? <LoadingOutlined /> : <PlusOutlined />}
-              <span>点击上传</span>
-            </>
-          )}
-        </div>
-      );
-    }
+  function updateValue(val?: string) {
+    onChange ? onChange(val) : setVal(val);
   }
+
+  function getValue() {
+    return value || val || "";
+  }
+
+  const RESOURCE_URL = getValue();
+
+  const STYLE = SIZE[size];
+
+  const borderRadius = radius ? "rounded-full" : "rounded-md";
+
+  const url = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${RESOURCE_URL}`;
 
   return (
-    <Upload
-      name="files"
-      action="/api/upload"
-      showUploadList={false}
-      onChange={handleChange}
-      beforeUpload={beforeUpload}
-      accept=".svg, .jpg, .jpeg, .png, .webp"
+    <div
+      ref={ref}
+      onClick={onStart}
+      className={`
+         relative flex justify-center items-center flex-col ${STYLE.IMG} 
+         cursor-pointer border border-dashed overflow-hidden select-none ${className}
+        border-gray-400 text-gray-600 hover:border-black hover:text-black ${borderRadius}
+      `}
     >
-      {getButtonStyle(value)}
-    </Upload>
+      {RESOURCE_URL ? (
+        <>
+          <Image
+            alt="#"
+            priority
+            src={url}
+            width={STYLE.SIZE}
+            height={STYLE.SIZE}
+            className={`w-full h-auto object-cover ${borderRadius}`}
+          />
+          {load ? (
+            <LoadingOutlined className="text-sm text-black absolute" />
+          ) : (
+            <CameraFilled className="text-sm text-black absolute" />
+          )}
+        </>
+      ) : (
+        <>
+          {load ? <LoadingOutlined /> : <CameraFilled />}
+          {STYLE?.NAME ? (
+            <span className={`mt-1 ${STYLE.NAME}`}>
+              {load ? "正在上传" : "点击上传"}
+            </span>
+          ) : null}
+        </>
+      )}
+    </div>
   );
 };
 
-export default UploadImage;
+export default forwardRef(UploadImage);

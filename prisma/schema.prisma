@@ -26,13 +26,13 @@ model User {
 }
 
 model Tag {
-  id          String  @id @default(cuid())
+  id          String @id @default(cuid())
   type        Int
   icon        String
-  name        String?
-  url         String?
+  name        String @default("")
+  url         String @default("")
   index       Int
-  description String?
+  description String @default("")
 
   @@index(type)
   @@map("tag")
@@ -51,9 +51,9 @@ model Msg {
 }
 
 model Post {
-  id          String   @id @default(cuid())
+  id          Int      @id @default(autoincrement())
   title       String
-  type        Int
+  type        String
   icon        String
   description String?
   status      Int      @default(1)

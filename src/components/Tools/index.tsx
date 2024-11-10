@@ -1,8 +1,7 @@
 "use client";
 
-import { Tooltip } from "antd";
-import styles from "./tools.module.sass";
-import { useRouter } from "next/navigation";
+import Tooltip from "@/components/Tooltip";
+import { useParams, useRouter } from "next/navigation";
 import { RollbackOutlined, ShareAltOutlined } from "@ant-design/icons";
 
 /**
@@ -10,34 +9,41 @@ import { RollbackOutlined, ShareAltOutlined } from "@ant-design/icons";
  */
 const ReadingTools = () => {
   const router = useRouter();
+  const params = useParams<{ type: string }>();
 
   function onBack() {
-    router.back();
+    if (window.history.length > 2) {
+      router.back();
+    } else {
+      router.push(`/${params!.type}`);
+    }
   }
 
   function onCopy() {
-    const textarea = document.createElement('textarea');
+    const textarea = document.createElement("textarea");
     textarea.value = window.location.href;
-    textarea.style.position = 'fixed';
-    textarea.style.top = '0px';
-    textarea.style.left = '0px';
-    textarea.style.width = '1px';
-    textarea.style.height = '1px';
-    textarea.style.opacity = '0';
+    textarea.style.position = "fixed";
+    textarea.style.top = "0px";
+    textarea.style.left = "0px";
+    textarea.style.width = "1px";
+    textarea.style.height = "1px";
+    textarea.style.opacity = "0";
     document.body.appendChild(textarea);
     textarea.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(textarea);
   }
 
   return (
-    <div className={styles.tools}>
+    <div className="flex items-center">
       <Tooltip title="复制链接">
-        <ShareAltOutlined onClick={onCopy} />
+        <ShareAltOutlined
+          onClick={onCopy}
+          className="mr-2 hover:text-black block"
+        />
       </Tooltip>
-
       <Tooltip title="返回上页">
-        <RollbackOutlined onClick={onBack} />
+        <RollbackOutlined onClick={onBack} className="hover:text-black block" />
       </Tooltip>
     </div>
   );

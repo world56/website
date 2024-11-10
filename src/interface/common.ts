@@ -32,14 +32,23 @@ export namespace TypeCommon {
   /**
    * @name Basis 网站、个人基本信息
    * @param title 网站标题
+   * @param favicon 网站图标
    * @param icon 您的头像
    * @param name 您的姓名
    * @param position 您的岗位
    * @param profile 个人简介
    */
-  export interface BasisDTO<T = Tag>
-    extends Record<"title" | "icon" | "name" | "position" | "profile", string> {
-    type: ENUM_COMMON.TAG;
+  export interface BasisDTO<T = Omit<Tag, "id" | "type" | "index">>
+    extends Record<
+      | "icon"
+      | "name"
+      | "title"
+      | "profile"
+      | "favicon"
+      | "position"
+      | "description",
+      string
+    > {
     /** @param forTheRecord 网站备案号 */
     forTheRecord?: string;
     /**
@@ -58,6 +67,14 @@ export namespace TypeCommon {
     extends PageTurning,
       Partial<Pick<Post, "title" | "type" | "status">> {}
 
+  /**
+   * @name UpdatePost 编辑 “文本”
+   */
+  export interface UpdatePost
+    extends Partial<Pick<Post, "id">>,
+      Pick<Post, "icon" | "title" | "type" | "content"> {
+    description?: string;
+  }
 
   /**
    * @name DeletePost 删除 “文本”

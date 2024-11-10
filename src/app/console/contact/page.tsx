@@ -1,29 +1,40 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import { useRequest } from "ahooks";
+import Card from "@/components/Card";
+import { set, format } from "date-fns";
+import { readMessage } from "@/app/api";
+import Select from "@/components/Select";
+import { dateToTime } from "@/lib/format";
 import Details from "./component/Details";
-import styles from "./contact.module.sass";
-import { dateToTime } from "@/utils/format";
+import DataTable from "@/components/Table";
+import Confirm from "@/components/Confirm";
+import Tooltip from "@/components/Tooltip";
+import { Button } from "@/components/ui/button";
+import LoadingButton from "@/components/Button";
 import { SyncOutlined } from "@ant-design/icons";
+import PageTurning from "@/components/PageTurning";
 import { deleteMessage, getMessages } from "@/app/api";
-import ConfirmButton from "@/components/ConfirmButton";
-import { Button, Card, Select, Table, message, DatePicker } from "antd";
+import { DateRangePicker } from "@/components/DatePicker";
 
-import type { Dayjs } from "dayjs";
 import type { Msg } from "@prisma/client";
-import type { TableProps } from "antd/es/table";
-import type { BaseRangePickerProps } from "rc-picker/lib/PickerInput/RangePicker";
+import type { DateRange } from "react-day-picker";
+import type { ColumnDef } from "@tanstack/react-table";
 
-type TypeTableProps = TableProps<Msg>;
+const SELECT_ITEMS = [
+  { value: "true", label: "已读" },
+  { value: "false", label: "未读" },
+];
 
-/**
- * @name Contact 联系留言板
- */
 const Contact = () => {
-  const [query, setQuery] = useState<Parameters<typeof getMessages>[0]>({
+  const [msg, setMsg] = useState<Msg>();
+  const [deleteId, setDeleteId] = useState<Msg["id"]>();
+
+  const [query, setQuery] = useState<Parameters<typeof getMessages>[number]>({
     current: 1,
-    pageSize: 20,
+    pageSize: 25,
   });
 
   const { data, loading, run } = useRequest(
@@ -31,118 +42,159 @@ const Contact = () => {
     { debounceWait: 100, refreshDeps: [query] },
   );
 
-  async function onDelete(row: Msg) {
-    await deleteMessage({ id: row.id });
-    message.success("删除成功");
-    run(query);
+  async function onDelete(id?: Msg["id"]) {
+    if (id) {
+      await deleteMessage({ id });
+      toast.success("删除成功");
+      run(query);
+    }
+    setDeleteId(undefined);
   }
 
-  const onTimeChange: BaseRangePickerProps<Dayjs>["onChange"] = (time) => {
-    const endTime = time?.[1]?.hour(23).minute(59).second(59);
-    setQuery((s) => ({
-      ...s,
-      current: 1,
-      endTime: endTime?.format("YYYY-MM-DD HH:mm:ss"),
-      startTime: time?.[0]?.format("YYYY-MM-DD HH:mm:ss"),
-    }));
-  };
+  async function onRead(row: Msg) {
+    await readMessage({ id: row.id });
+    toast.success("标记成功");
+    run();
+  }
 
-  function onStatusChange(read: boolean) {
+  function onConfirmDelete(row: Msg) {
+    setDeleteId(row.id);
+  }
+
+  function onSelectRead(read: boolean) {
     setQuery((s) => ({ ...s, current: 1, read }));
   }
 
-  const onPageChange: TypeTableProps["onChange"] = (pagination) => {
-    const { current = 1, pageSize = 15 } = pagination;
-    const params = { ...query, current, pageSize };
-    setQuery(params);
-  };
+  function onTimeChange(e?: DateRange) {
+    const { from, to } = e || {};
+    const endTime = to
+      ? set(to, { hours: 23, minutes: 59, seconds: 59 })
+      : undefined;
+    const startTime = from ? format(from, "yyyy-MM-dd HH:mm:ss") : undefined;
+    setQuery((s) => ({
+      ...s,
+      current: 1,
+      endTime: endTime ? format(endTime, "yyyy-MM-dd HH:mm:ss") : undefined,
+      startTime,
+    }));
+  }
 
-  const columns: TypeTableProps["columns"] = [
+  function onPageTurningChange(current: number) {
+    setQuery((v) => ({ ...v, current }));
+  }
+
+  function onClose() {
+    setMsg(undefined);
+    run();
+  }
+
+  const columns: ColumnDef<Msg>[] = [
     {
-      dataIndex: "name",
-      title: "留言人",
-      align: "center",
-      ellipsis: { showTitle: false },
-    },
-    {
-      dataIndex: "content",
-      title: "留言信息",
-      align: "center",
-      ellipsis: { showTitle: false },
-    },
-    {
-      dataIndex: "read",
-      title: "状态",
-      width: 100,
-      align: "center",
-      render: (read: boolean) => (
-        <span style={{ color: read ? "#34C7A6" : "#FE695A" }}>
-          {read ? "已读" : "未读"}
-        </span>
+      accessorKey: "name",
+      header: "留言人",
+      cell: ({ row }) => (
+        <Tooltip
+          title={row.original.name}
+          className="truncate w-full text-left inline py-2 px-1"
+        >
+          {row.original.name}
+        </Tooltip>
       ),
     },
     {
-      dataIndex: "createTime",
-      title: "时间",
-      width: 180,
-      align: "center",
-      render: dateToTime,
+      accessorKey: "content",
+      header: "留言信息",
+      cell: ({ row }) => (
+        <Tooltip
+          title={row.original.content}
+          className="truncate w-full text-left inline py-2 px-1"
+        >
+          {row.original.content}
+        </Tooltip>
+      ),
     },
     {
-      key: "id",
-      title: "操作",
-      width: 100,
-      align: "center",
-      render: (row: Msg) => (
-        <ConfirmButton onClick={() => onDelete(row)}>删除</ConfirmButton>
+      accessorKey: "read",
+      size: 50,
+      header: "状态",
+      cell: ({ row }) => {
+        const { read } = row.original;
+        const color = read ? "" : "text-red-500";
+        return (
+          <Tooltip
+            type="button"
+            disabled={read}
+            onClick={() => onRead(row.original)}
+            className={`mx-auto block p-0 ${color}`}
+            title={read ? undefined : "点击标记为已读"}
+          >
+            {read ? "已读" : "未读"}
+          </Tooltip>
+        );
+      },
+    },
+    {
+      accessorKey: "createTime",
+      header: "时间",
+      size: 80,
+      cell: ({ row }) => (
+        <p className="text-center">{dateToTime(row.original.createTime)}</p>
+      ),
+    },
+    {
+      accessorKey: "id",
+      header: "操作",
+      size: 52,
+      cell: ({ row }) => (
+        <>
+          <Button
+            variant="link"
+            className="p-2 ml-[4px]"
+            onClick={() => setMsg(row.original)}
+          >
+            预览
+          </Button>
+          <Button
+            variant="link"
+            className="p-2 text-red-500"
+            onClick={() => onConfirmDelete(row.original)}
+          >
+            删除
+          </Button>
+        </>
       ),
     },
   ];
 
   return (
     <Card
-      title="联系面板"
-      className={styles.layout}
-      extra={
-        <>
-          <DatePicker.RangePicker onChange={onTimeChange} />
-          <Select
-            allowClear
-            placeholder="消息状态"
-            onChange={onStatusChange}
-            options={[
-              { value: true, label: "已读" },
-              { value: false, label: "未读" },
-            ]}
-          />
-          <Button
-            type="primary"
-            loading={loading}
-            disabled={loading}
-            onClick={() => run()}
-            icon={<SyncOutlined spin={loading} />}
-          >
-            刷新
-          </Button>
-        </>
-      }
+      spacing={4}
+      title="留言列表"
+      description="主页访问用户主动给您留下的消息"
     >
-      <Table
-        rowKey="id"
-        size="middle"
-        loading={loading}
-        columns={columns}
-        onChange={onPageChange}
-        dataSource={data?.list}
-        pagination={{
-          ...query,
-          total: data?.total,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          pageSizeOptions: [20, 50, 80, 100],
-        }}
-        expandable={{ expandedRowRender: (row) => <Details data={row} /> }}
+      <div className="flex">
+        <Select
+          value={query.read}
+          items={SELECT_ITEMS}
+          placeholder="阅读状态"
+          onChange={onSelectRead}
+        />
+        <DateRangePicker onChange={onTimeChange} className="mx-3" />
+        <LoadingButton
+          loading={loading}
+          icon={SyncOutlined}
+          onClick={() => run()}
+        />
+      </div>
+      <DataTable loading={loading} columns={columns} data={data?.list || []} />
+      <PageTurning
+        total={data?.total}
+        current={query.current}
+        pageSize={query.pageSize}
+        onChange={onPageTurningChange}
       />
+      <Details data={msg} onClose={onClose} />
+      <Confirm id={deleteId} onOk={onDelete} onCancel={onDelete} />
     </Card>
   );
 };

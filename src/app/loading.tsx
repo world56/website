@@ -1,7 +1,1 @@
-import { Spin } from "antd";
-
-const Loading = () => {
-  return <Spin className="loading" />;
-};
-
-export default Loading;
+export { default } from "@/components/Loading";
