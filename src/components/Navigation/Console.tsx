@@ -8,9 +8,8 @@ import {
   MessageOutlined,
   SettingOutlined,
   FileTextOutlined,
+  HighlightOutlined,
 } from "@ant-design/icons";
-import Image from "next/image";
-import ICON_SIGN_IN from "@/assets/panda.svg";
 import { usePathname, useRouter } from "next/navigation";
 
 const MENU = [
@@ -69,15 +68,14 @@ const Console = () => {
   const routePath = path.split("/").splice(0, 4).join("/");
 
   return (
-    <aside className="w-[250px] h-full px-3 rounded-xl overflow-hidden shadow-custom bg-white sticky top-14">
-      <Image
-        alt="#"
-        priority
-        width={60}
-        src={ICON_SIGN_IN}
-        className="mx-auto py-5"
-      />
-      <hr className="m-auto mb-2 border border-slate-50" />
+    <aside className="w-[250px] h-full px-3 rounded-xl overflow-hidden shadow-custom bg-white sticky top-14 select-none">
+      <div className="flex items-center">
+        <div className="bg-black/5 p-1 rounded-full inline-block my-4">
+          <HighlightOutlined className="text-2xl m-1" />
+        </div>
+        <h3 className="ml-2 font-bold">主页管理</h3>
+      </div>
+      <hr className="m-auto mb-2 border-b border-slate-50" />
       <ul onClick={onChange}>
         {MENU.map((v) => (
           <li
