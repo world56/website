@@ -10,12 +10,10 @@ import {
 } from "@/components/ui/form";
 import md5 from "md5";
 import { z } from "zod";
-import Image from "next/image";
 import { useState } from "react";
 import { useRequest } from "ahooks";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import ICON_SIGN_IN from "@/assets/panda.svg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/Button";
@@ -64,15 +62,14 @@ const SignIn = () => {
   }
 
   return (
-    <Card className="w-[400px] mx-auto absolute left-[50%] top-[50%] ml-[-200px] mt-[-176px]">
-      <CardHeader className="pt-[25px] pb-[5px]">
-        <Image
-          alt="#"
-          priority
-          width={60}
-          src={ICON_SIGN_IN}
-          className="mx-auto"
-        />
+    <Card className="w-[400px] mx-auto absolute left-[50%] top-[50%] ml-[-200px] mt-[-198px]">
+      <CardHeader className="pt-[25px] pb-[5px] select-none">
+        <h1 className="text-4xl mt-3 font-bold text-center">Welcome</h1>
+        <p className="!my-5 text-sm text-gray-400 text-center">
+          {data === false
+            ? "系统初始化，请注册您的帐号"
+            : "使用管理员账户密码进行登录"}
+        </p>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -82,9 +79,8 @@ const SignIn = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ACCOUNT</FormLabel>
                   <FormControl>
-                    <Input placeholder="PLEASE ENTER" {...field} />
+                    <Input placeholder="账户" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,26 +92,31 @@ const SignIn = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>PASSWORD</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="PLEASE ENTER"
-                    />
+                    <Input {...field} type="password" placeholder="密码" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="flex justify-between">
-              <Button onClick={toMainPage} type="button" variant="outline">
-                RETURN
-              </Button>
-              <LoadingButton loading={loading || adminLoad} type="submit">
-                SIGN {data ? "IN" : "UP"}
+            <div>
+              <LoadingButton
+                type="submit"
+                className="w-full"
+                loading={loading || adminLoad}
+              >
+                {loading || adminLoad ? "正在加载" : data ? "登陆" : "注册"}
               </LoadingButton>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={toMainPage}
+                className="w-full mt-5"
+              >
+                返回首页
+              </Button>
             </div>
           </form>
         </Form>
