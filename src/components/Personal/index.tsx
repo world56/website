@@ -31,7 +31,7 @@ const Personal = async () => {
           width={150}
           height={150}
           src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${local.icon}`}
-          className="md:mx-auto w-[150px] h-[150px] rounded-full object-cover"
+          className="m-auto w-[150px] h-[150px] block rounded-full object-cover"
         />
       ) : null}
       <h1 className="my-6 text-2xl font-bold">{local.name}</h1>
