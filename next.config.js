@@ -1,28 +1,25 @@
 const path = require("path");
 
-const { protocol, hostname, port } = new URL(
-  process.env.NEXT_PUBLIC_IMAGE_BASE_URL,
-);
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: "http",
         hostname: "127.0.0.1",
-        port: process.env.PORT,
         pathname: "/api/resource/**",
+        port: process.env.PORT || "3000",
       },
-      process.env.NEXT_PUBLIC_IMAGE_BASE_URL
-        ? {
-            port,
-            hostname,
-            pathname: "/api/resource/**",
-            protocol: protocol.replace(":", ""),
-          }
-        : undefined,
-    ].filter(Boolean),
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "/api/resource/**",
+        port: process.env.PORT || "3000",
+      },
+    ],
   },
   async rewrites() {
     return [

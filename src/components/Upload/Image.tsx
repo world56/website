@@ -4,6 +4,8 @@ import { useState, forwardRef } from "react";
 import { getUploadFiles } from "@/lib/filter";
 import { CameraFilled, LoadingOutlined } from "@ant-design/icons";
 
+import { BASE_URL } from "@/lib/request";
+
 import type { ForwardRefRenderFunction } from "react";
 
 type TypeUploadImageRefProps<T = string> = ForwardRefRenderFunction<
@@ -62,8 +64,6 @@ const UploadImage: TypeUploadImageRefProps = (
 
   const borderRadius = radius ? "rounded-full" : "rounded-md";
 
-  const url = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${RESOURCE_URL}`;
-
   return (
     <div
       ref={ref}
@@ -79,9 +79,9 @@ const UploadImage: TypeUploadImageRefProps = (
           <Image
             alt="#"
             priority
-            src={url}
             width={STYLE.SIZE}
             height={STYLE.SIZE}
+            src={`${BASE_URL}${RESOURCE_URL}`}
             className={`w-full h-auto object-cover ${borderRadius}`}
           />
           {load ? (
