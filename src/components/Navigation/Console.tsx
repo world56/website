@@ -71,7 +71,7 @@ const Console = () => {
     <aside className="w-[250px] h-full px-3 rounded-xl overflow-hidden shadow-custom bg-white sticky top-14 select-none">
       <div className="flex items-center">
         <div className="bg-black/5 p-1 rounded-full inline-block my-4">
-          <HighlightOutlined className="text-2xl m-1" />
+          <HighlightOutlined className="text-2xl m-1 flex" />
         </div>
         <h3 className="ml-2 font-bold">主页管理</h3>
       </div>
