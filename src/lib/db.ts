@@ -9,6 +9,10 @@ import {
 import { join } from "path";
 import { PrismaClient } from "@prisma/client";
 
+declare global {
+  var prisma: PrismaClient;
+}
+
 /**
  * @name LocalStorage 本地存储
  */
@@ -63,14 +67,14 @@ class LocalStorage {
   }
 }
 
-const prisma = new PrismaClient();
+const prisma = global.prisma || new PrismaClient();
 const DBlocal = new LocalStorage();
 
-prisma.$disconnect().then(() => {
-  console.log("Mysql disconnect", process.env.DATABASE_URL);
-});
+global.prisma = prisma;
+
+prisma.$disconnect();
 prisma.$connect().catch(() => {
-  console.log("Mysql connection error", process.env.DATABASE_URL);
+  console.log("prisma connection error");
 });
 
 export { DBlocal, prisma };
