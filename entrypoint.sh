@@ -11,6 +11,10 @@ else
   echo ""
 
   cd ./builder
+  mkdir -p resource
+  if [ -f ../resource/config.json ]; then
+    cp ../resource/config.json ./resource
+  fi
 
   npx prisma db push
   npm run build --verbose

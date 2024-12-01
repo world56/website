@@ -17,8 +17,8 @@ declare global {
  * @name LocalStorage 本地存储
  */
 class LocalStorage {
-  private readonly FILE_PATH = join("./resource/config.json");
-  private readonly FOLDER_PATH = join("./resource");
+  private readonly FOLDER_PATH = join(process.cwd(), "./resource");
+  private readonly FILE_PATH = join(process.cwd(), "./resource/config.json");
 
   /**
    * @name set 新增、设置值
