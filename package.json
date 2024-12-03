@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pm2": "next build && sh ./pm2.sh",
     "start": "next start",
     "lint": "next lint"
   },

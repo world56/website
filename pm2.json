@@ -1,5 +1,5 @@
 {
-  "name": "website:0.1",
-  "script": "npx prisma db push & npm run start",
+  "name": "website:1.0.1",
+  "script": "node server.js",
   "cwd": "./"
 }
