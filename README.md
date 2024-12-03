@@ -47,8 +47,8 @@ $ npm run dev
 
 ### 🐳 Docker
 
-<p><b>拉取镜像：</b>若dockerhub无法访问，可将 <b>world56/website</b> 替换为阿里云源 <b>registry.cn-hangzhou.aliyuncs.com/world56/website</b> 即可。</p>
-<p><b>静态资源：</b>静态资源都在/app/resource目录，一定得绑定数据卷，防止意外情况导致静态资源丢失，示例命令已携带-v命令。</p>
+<p><b>拉取镜像：</b>可将<b>world56/website</b>替换为阿里云源<b> registry.cn-hangzhou.aliyuncs.com/world56/website </b></p>
+<p><b>静态资源：</b>静态资源托管在/app/resource目录，建议绑定数据卷（-v），防止意外丢失。</p>
 
 #### 1.拉取镜像
 
@@ -94,7 +94,7 @@ $ pm2 ls
 ```
 
 
-## 🔍 访问地址
+## 🔍 访问地址（例）
 <p>普通访客：<a href="http://127.0.0.1:3000">http://127.0.0.1:3000</a></p>
 <p>后台管理：<a href="http://127.0.0.1:3000/signin">http://127.0.0.1:3000/signin</a>  (首次使用需要注册) </p>
 
