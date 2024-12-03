@@ -12,15 +12,15 @@ COPY ./next.config.js ./builder/next.config.js
 COPY ./postcss.config.js ./builder/postcss.config.js
 COPY ./tailwind.config.js ./builder/tailwind.config.js
 COPY ./tsconfig.json ./builder/tsconfig.json
-COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+COPY docker.sh ./docker.sh
+RUN chmod +x ./docker.sh
 
 WORKDIR /app/builder
 
 RUN npm i --verbose
 RUN npx prisma generate
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/app/docker.sh"]
 
 WORKDIR /app
 
