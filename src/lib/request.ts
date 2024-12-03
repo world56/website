@@ -3,6 +3,8 @@ import { extend } from "umi-request";
 
 import type { ResponseError } from "umi-request";
 
+export const BASE_URL = `http://127.0.0.1:${process.env.PORT || 3000}`;
+
 export function isServer() {
   return typeof window === "undefined";
 }
@@ -27,7 +29,7 @@ const request = extend({
 request.interceptors.request.use(
   (url, options) => {
     return {
-      url: isServer() ? `http://127.0.0.1:${process.env.PORT}${url}` : url,
+      url: isServer() ? `${BASE_URL}${url}` : url,
       options,
     };
   },

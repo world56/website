@@ -1,26 +1,32 @@
-# next.js SSG 是 npm run build 阶段构建生成的
-# 所以应 先本地 npm run build 之后，在执行docker build
-
 FROM node:20.9.0-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+RUN mkdir -p builder
 
-COPY ./.next ./.next
+COPY package*.json ./builder
+COPY ./prisma ./builder/prisma
+COPY ./public ./builder/public
+COPY ./src ./builder/src
+COPY ./next.config.js ./builder/next.config.js
+COPY ./postcss.config.js ./builder/postcss.config.js
+COPY ./tailwind.config.js ./builder/tailwind.config.js
+COPY ./tsconfig.json ./builder/tsconfig.json
+COPY docker.sh ./docker.sh
+RUN chmod +x ./docker.sh
 
-COPY ./prisma ./prisma
+WORKDIR /app/builder
 
-COPY ./public ./public
-
-COPY ./resource ./resource
-
-COPY ./next.config.js ./next.config.js
-
-RUN npm i --production --loglevel info
-
+RUN npm i --verbose
 RUN npx prisma generate
+
+ENTRYPOINT ["/app/docker.sh"]
+
+WORKDIR /app
+
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
 EXPOSE 3000
 
-CMD npx prisma db push && npm start
+CMD ["node", "server.js"]

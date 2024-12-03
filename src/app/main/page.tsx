@@ -4,6 +4,8 @@ import Image from "next/image";
 import Tooltip from "@/components/Tooltip";
 import { DBlocal, prisma } from "@/lib/db";
 
+import { BASE_URL } from "@/lib/request";
+
 import { ENUM_COMMON } from "@/enum/common";
 
 const requestPerson = cache(async () => {
@@ -49,7 +51,7 @@ const About = async () => {
                   alt="#"
                   width={60}
                   height={50}
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${v.icon}`}
+                  src={`${BASE_URL}${v.icon}`}
                   className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer"
                 />
               </Link>
@@ -58,7 +60,7 @@ const About = async () => {
                 alt="#"
                 width={60}
                 height={50}
-                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${v.icon}`}
+                src={`${BASE_URL}${v.icon}`}
                 className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default"
               />
             )}

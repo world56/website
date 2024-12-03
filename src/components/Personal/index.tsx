@@ -3,6 +3,8 @@ import { cache } from "react";
 import Image from "next/image";
 import { DBlocal, prisma } from "@/lib/db";
 
+import { BASE_URL } from "@/lib/request";
+
 import { ENUM_COMMON } from "@/enum/common";
 
 const requestPerson = cache(async () => {
@@ -30,7 +32,7 @@ const Personal = async () => {
           priority
           width={150}
           height={150}
-          src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${local.icon}`}
+          src={`${BASE_URL}${local.icon}`}
           className="m-auto w-[150px] h-[150px] block rounded-full object-cover"
         />
       ) : null}
