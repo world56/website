@@ -31,42 +31,49 @@ const About = async () => {
           local.profile ? { __html: local.profile } : undefined
         }
       />
-      <div className="w-[150px] h-[45px] p-x-[39px] my-[30px] flex items-center justify-center font-bold text-[16px] bg-black rounded-[1px_20px_1px_20px]">
-        <span className="text-white">技能简介</span>
-      </div>
-      <div className="flex flex-wrap">
-        {skills.map((v) => (
-          <Tooltip
-            key={v.name}
-            title={
-              <div className="max-w-56 text-left text-sm">
-                {v.name ? <p className="font-bold mb-1">{v.name}</p> : null}
-                {v.description ? <p className="mb-1">{v.description}</p> : null}
-              </div>
-            }
-          >
-            {v.url ? (
-              <Link target="_blank" href={v.url}>
-                <Image
-                  alt="#"
-                  width={60}
-                  height={50}
-                  src={`${BASE_URL}${v.icon}`}
-                  className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer"
-                />
-              </Link>
-            ) : (
-              <Image
-                alt="#"
-                width={60}
-                height={50}
-                src={`${BASE_URL}${v.icon}`}
-                className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default"
-              />
-            )}
-          </Tooltip>
-        ))}
-      </div>
+
+      {skills?.length ? (
+        <>
+          <div className="w-[150px] h-[45px] p-x-[39px] my-[30px] flex items-center justify-center font-bold text-[16px] bg-black rounded-[1px_20px_1px_20px]">
+            <span className="text-white">技能简介</span>
+          </div>
+          <div className="flex flex-wrap">
+            {skills.map((v) => (
+              <Tooltip
+                key={v.name}
+                title={
+                  <div className="max-w-56 text-left text-sm">
+                    {v.name ? <p className="font-bold mb-1">{v.name}</p> : null}
+                    {v.description ? (
+                      <p className="mb-1">{v.description}</p>
+                    ) : null}
+                  </div>
+                }
+              >
+                {v.url ? (
+                  <Link target="_blank" href={v.url}>
+                    <Image
+                      alt="#"
+                      width={60}
+                      height={50}
+                      src={`${BASE_URL}${v.icon}`}
+                      className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer"
+                    />
+                  </Link>
+                ) : (
+                  <Image
+                    alt="#"
+                    width={60}
+                    height={50}
+                    src={`${BASE_URL}${v.icon}`}
+                    className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default"
+                  />
+                )}
+              </Tooltip>
+            ))}
+          </div>
+        </>
+      ) : null}
     </>
   );
 };
