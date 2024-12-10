@@ -24,7 +24,7 @@ const PaginationWithLinks: React.FC<PaginationWithLinksProps> = ({
   current,
   pageSize,
   onChange,
-  className = '',
+  className = "",
   total = 0,
 }) => {
   const style = radius ? `cursor-pointer rounded-full` : `cursor-pointer`;
@@ -109,10 +109,10 @@ const PaginationWithLinks: React.FC<PaginationWithLinksProps> = ({
             aria-disabled={current === 1}
             tabIndex={current === 1 ? -1 : undefined}
             className={`${style} w-[36px] h-[36px] px-0 py-0 ${
-              current === 1 ? `opacity-50` : ""
+              current === 1 || !total ? `opacity-50` : ""
             }`}
             onClick={
-              current === 1
+              current === 1 || !total
                 ? undefined
                 : () => onChange?.(Math.max(current - 1, 1))
             }
@@ -124,10 +124,10 @@ const PaginationWithLinks: React.FC<PaginationWithLinksProps> = ({
             aria-disabled={current === totalPageCount}
             tabIndex={current === totalPageCount ? -1 : undefined}
             className={`${style} w-[36px] h-[36px] px-0 py-0  ${
-              current === totalPageCount ? `opacity-50` : ""
+              current === totalPageCount || !total ? `opacity-50` : ""
             }`}
             onClick={
-              current === totalPageCount
+              current === totalPageCount || !total
                 ? undefined
                 : () => onChange?.(Math.min(current + 1, totalPageCount))
             }
