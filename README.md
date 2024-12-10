@@ -47,13 +47,15 @@ $ npm run dev
 
 ### 🐳 Docker
 
-<p><b>拉取镜像：</b>国内用户，可将<b>world56/website</b>替换为阿里云源<b> registry.cn-hangzhou.aliyuncs.com/world56/website </b></p>
 <p><b>静态资源：</b>静态资源托管在/app/resource目录，建议绑定数据卷（-v），防止意外丢失。</p>
 
 #### 1.拉取镜像
 
 ```bash
 $ docker pull world56/website
+
+# 阿里云（备用）
+$ docker pull registry.cn-hangzhou.aliyuncs.com/world56/website
 ```
 
 #### 2.启动容器
