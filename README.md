@@ -47,7 +47,7 @@ $ npm run dev
 
 ### 🐳 Docker
 
-<p><b>拉取镜像：</b>可将<b>world56/website</b>替换为阿里云源<b> registry.cn-hangzhou.aliyuncs.com/world56/website </b></p>
+<p><b>拉取镜像：</b>国内用户，可将<b>world56/website</b>替换为阿里云源<b> registry.cn-hangzhou.aliyuncs.com/world56/website </b></p>
 <p><b>静态资源：</b>静态资源托管在/app/resource目录，建议绑定数据卷（-v），防止意外丢失。</p>
 
 #### 1.拉取镜像
@@ -99,11 +99,6 @@ $ pm2 ls
 <p>后台管理：<a href="http://127.0.0.1:3000/signin">http://127.0.0.1:3000/signin</a>  (首次使用需要注册) </p>
 
 
-## 🙏 特别鸣谢 Special Thanks
-
-本项目 UI 灵感来源于[@codewithsadee](https://github.com/codewithsadee)，和他优秀的开源项目 [vcard-personal-portfolio](https://github.com/codewithsadee/vcard-personal-portfolio)，感谢他的付出与开源精神。  
-The UI inspiration for this project come from [@codewithsadee](https://github.com/codewithsadee) and his outstanding open-source project [vcard-personal-portfolio](https://github.com/codewithsadee/vcard-personal-portfolio). Grateful for his dedication and open-source spirit.
-
 ## 📷 效果图预览
 
 <img width="1000" style="border-radius:20px"  src="https://raw.githubusercontent.com/world56/static/main/website/1.png" alt="个人主页">
@@ -119,3 +114,9 @@ The UI inspiration for this project come from [@codewithsadee](https://github.co
 <img width="1000" style="border-radius:20px"  src="https://raw.githubusercontent.com/world56/static/main/website/5.png" alt="个人主页">
 
 <img width="1000" style="border-radius:20px"  src="https://raw.githubusercontent.com/world56/static/main/website/6.png" alt="个人主页">
+
+
+## 🙏 特别鸣谢 Special Thanks
+
+本项目 UI 灵感来源于[@codewithsadee](https://github.com/codewithsadee)，和他优秀的开源项目 [vcard-personal-portfolio](https://github.com/codewithsadee/vcard-personal-portfolio)，感谢他的付出与开源精神。  
+The UI inspiration for this project come from [@codewithsadee](https://github.com/codewithsadee) and his outstanding open-source project [vcard-personal-portfolio](https://github.com/codewithsadee/vcard-personal-portfolio). Grateful for his dedication and open-source spirit.
