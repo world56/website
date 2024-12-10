@@ -8,14 +8,16 @@ export async function generateMetadata() {
   return {
     title: config.title,
     description: config.description,
-    icons: { icon: config.favicon, apple: config.favicon },
+    icons: config.favicon
+      ? { icon: config.favicon, apple: config.favicon }
+      : undefined,
   };
 }
 
 interface TypeAppEntranceProps extends Record<"children", React.ReactNode> {}
 
 const Layout: React.FC<TypeAppEntranceProps> = ({ children }) => (
-  <html lang="cn">
+  <html lang="zh-CN">
     <body>
       <TooltipProvider delayDuration={150}>{children}</TooltipProvider>
       <Toaster position="top-right" richColors expand={false} closeButton />
