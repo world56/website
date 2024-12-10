@@ -18,6 +18,9 @@ interface TypeParams {
 export async function GET(request: NextRequest, params: TypeParams) {
   const { name } = params.params;
   try {
+    if (name.includes("config.json")) {
+      throw new Error("No resources found");
+    }
     const filePath = resolve(__dirname, "../../../../../../resource", name);
     const file = await asyncReadFile(filePath);
     const contentType = mime.getType(filePath) || "application/octet-stream";
