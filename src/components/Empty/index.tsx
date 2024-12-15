@@ -1,4 +1,4 @@
-import { FolderOpenOutlined } from "@ant-design/icons";
+import { CoffeeOutlined } from "@ant-design/icons";
 
 interface TypeEmpty {
   height?: number;
@@ -9,7 +9,7 @@ const Empty: React.FC<TypeEmpty> = ({ height = "100%" }) => (
     style={{ height }}
     className="flex justify-center flex-col items-center select-none"
   >
-    <FolderOpenOutlined className="text-[32px]" />
+    <CoffeeOutlined className="text-[32px]" />
     <p className="mt-2">暂无内容</p>
   </div>
 );
