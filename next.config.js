@@ -72,6 +72,13 @@ if (process.env.NODE_ENV === "development") {
             filter: (resourcePath) =>
               /(\.min\.js|\Hans\.js|\.min\.css)$/.test(resourcePath),
           },
+          {
+            from: path.join(
+              __dirname,
+              "node_modules/media-chrome/dist/iife/index.js",
+            ),
+            to: path.join(__dirname, "public/lib/player"),
+          },
         ],
       }),
     );

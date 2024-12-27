@@ -2863,6 +2863,11 @@ mdn-data@2.0.30:
   resolved "https://registry.npmmirror.com/mdn-data/-/mdn-data-2.0.30.tgz#ce4df6f80af6cfbe218ecd5c552ba13c4dfa08cc"
   integrity sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==
 
+media-chrome@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.npmmirror.com/media-chrome/-/media-chrome-4.3.0.tgz#e18a7bb910f005746261ddbaa1a0a2624ed2c74e"
+  integrity sha512-Gr8Jd7eEjG53u8w0kJSWVUf1AbqUhRmMO9g2CvMDU4/V3ixy+FRKNRDNkPTQLHU6YN8PsCwfQVv619HL7lm8+Q==
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/merge-stream/-/merge-stream-2.0.0.tgz"
@@ -4298,10 +4303,10 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
-tinymce@7.5.0:
-  version "7.5.0"
-  resolved "https://registry.npmmirror.com/tinymce/-/tinymce-7.5.0.tgz#56388d314399c288a100df4aaf468153f29477f1"
-  integrity sha512-A7iuQPIfeze5rO6bvnnPwP7TiWnPA9AGr8U/9ssLwrEG+FMYPzvLPt3RT8ktVn/wPSJkVBBSLCAZX2dAHb8YEA==
+tinymce@7.6.0:
+  version "7.6.0"
+  resolved "https://registry.npmmirror.com/tinymce/-/tinymce-7.6.0.tgz#476069a3e98f46f3f6e7875ca878313d6b3345b9"
+  integrity sha512-kUrklnD7H8JbpSDEGRh51GKK6Mrf+pR9neSDzUHvXKV+2oRtMB7sqfAtEOnM0/WKdstwaX0qoNCZNo2H1Y0EFA==
 
 titleize@^3.0.0:
   version "3.0.0"

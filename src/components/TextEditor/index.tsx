@@ -9,11 +9,12 @@ import {
 } from "react";
 import { toast } from "sonner";
 import Script from "next/script";
+import template from "./template";
+import { CONFIG } from "./config";
 import { useDebounceFn } from "ahooks";
 import { uploadFiles } from "@/app/api";
 import Loading from "@/components/Loading";
-import { getUploadFiles } from "@/lib/filter";
-import { CONFIG, HTML_TEMPLATE } from "./config";
+import { getFileType, getUploadFiles } from "@/lib/filter";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -55,25 +56,30 @@ const TxtEditor: TypeTxtEditorProps = (
 
   const [load, setLoad] = useState(true);
 
-  async function upload(type: ENUM_COMMON.UPLOAD_FILE_TYPE) {
-    const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
+  async function upload() {
     const data = await getUploadFiles({
       multiple: true,
-      size: IS_IMAGE ? 10485760 : 31457280,
-      accept: IS_IMAGE ? ".svg, .jpg, .jpeg, .png, .webp" : ".mp4, .mp3",
+      accept: ".svg, .jpg, .jpeg, .png, .webp, .mp4, .mp3, .aac, .m4a",
     });
     toast.promise(
       async () => {
         const files = await uploadFiles(data);
         let html = "";
         for (let v of files) {
-          const IS_IMAGE = type === ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
-          html += IS_IMAGE
-            ? `<img src='${v.url}' alt='#' style='width:max-content;' />`
-            : `<video controls  controlsList="nodownload"><source src='${v.url}' type='video/mp4' /></video>`;
+          const type = getFileType(v.url);
+          switch (type) {
+            case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
+              html += template.getImage(v.url);
+              break;
+            case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
+              html += template.getVideo(v.url);
+              break;
+            case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
+              html += template.getAudio(v.url);
+              break;
+          }
         }
         edit?.current?.execCommand("mceInsertContent", false, html);
-        onChange?.(edit.current?.getContent());
         return Promise.resolve(files);
       },
       {
@@ -84,6 +90,14 @@ const TxtEditor: TypeTxtEditorProps = (
     );
   }
 
+  const { run: updateValue } = useDebounceFn(
+    () => {
+      const value = edit.current?.getContent();
+      onChange?.(value);
+    },
+    { wait: 100 },
+  );
+
   const { run: onCreate } = useDebounceFn(() => {
     window?.tinymce?.init({
       ...CONFIG,
@@ -91,39 +105,110 @@ const TxtEditor: TypeTxtEditorProps = (
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
-        edit.current?.on("change", (e) => onChange?.(e?.target.getContent()));
-        edit.current?.on("remove", (e) => onChange?.(undefined));
+        edit.current?.on("input", updateValue);
+        edit.current?.on("change", updateValue);
+        edit.current?.on("setcontent", updateValue);
         setLoad(false);
       },
       setup(editor) {
+        editor.on("init", () => {
+          const iframe = editor.iframeElement?.contentDocument!;
+          const script = iframe.createElement("script");
+          script.src = `/lib/player/index.js`;
+          iframe!.head.appendChild(script);
+        });
         editor.ui.registry.addButton("title", {
-          icon: "template",
-          tooltip: "标题",
-          enabled: false,
-          onAction: () => editor?.insertContent(HTML_TEMPLATE.TITLE),
-          onSetup: (buttonApi) => {
-            const editorEventCallback = () => buttonApi.setEnabled(true);
-            editor?.on("NodeChange", editorEventCallback);
-            return () => editor?.off("NodeChange", editorEventCallback);
-          },
+          icon: "permanent-pen",
+          tooltip: "插入标题",
+          onAction: () => editor?.insertContent(template.getTitle()),
         });
-        editor.ui.registry.addButton("uploadImage", {
-          icon: "image",
-          tooltip: "上传图片",
-          onAction: () => upload(ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE),
+        editor.ui.registry.addButton("upload", {
+          icon: "upload",
+          tooltip: "上传资源（图片、音频、视频）",
+          onAction: upload,
         });
-        editor.ui.registry.addButton("uploadVideo", {
-          icon: "embed",
-          tooltip: "上传视频",
-          onAction: () => upload(ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO),
+        editor.ui.registry.addButton("player-left", {
+          icon: "align-left",
+          tooltip: "左",
+          onAction: () => changeAlign(editor, "left"),
+        });
+        editor.ui.registry.addButton("player-center", {
+          icon: "align-center",
+          tooltip: "居中",
+          onAction: () => changeAlign(editor, "center"),
+        });
+        editor.ui.registry.addButton("player-right", {
+          icon: "align-right",
+          tooltip: "右",
+          onAction: () => changeAlign(editor, "right"),
+        });
+        editor.ui.registry.addButton("player-zoom-in", {
+          icon: "zoom-in",
+          tooltip: "放大",
+          onAction: () => changeWidth(editor, "ADD"),
+        });
+        editor.ui.registry.addButton("player-zoom-out", {
+          icon: "zoom-out",
+          tooltip: "缩小",
+          onAction: () => changeWidth(editor, "REDUCE"),
+        });
+        editor.ui.registry.addContextToolbar("Format", {
+          predicate: (e) =>
+            !edit.current?.selection.isCollapsed() &&
+            !/(\btiny-pageembed\b|\bplayer-media\b)/.test(e.className) &&
+            !["BODY", "PRE"].includes(e.tagName),
+          position: "selection",
+          scope: "node",
+          items:
+            "bold strikethrough removeformat blockquote link | alignleft aligncenter alignright",
+        });
+        editor.ui.registry.addContextToolbar("player", {
+          predicate: (e) => e.className === "player-media",
+          items:
+            "player-left player-center player-right | player-zoom-in player-zoom-out",
+          position: "node",
+          scope: "node",
+        });
+        editor.ui.registry.addContextToolbar("delete", {
+          predicate: (e) =>
+            /(\btiny-pageembed\b|\bplayer-media\b|\blanguage-\b)/.test(
+              e.className,
+            ),
+          items: "remove",
+          position: "node",
+          scope: "node",
         });
       },
     });
   });
 
+  function changeWidth(editor: Editor, type: "ADD" | "REDUCE") {
+    const ele = editor?.selection.getNode().children[0] as HTMLElement;
+    const num = Number(ele.style.width.slice(0, -1));
+    if (type === "ADD" && num === 100) {
+      return toast.warning("已达最大尺寸");
+    } else if (type === "REDUCE") {
+      const IS_AUDIO = ele.hasAttribute("audio");
+      if ((IS_AUDIO && num === 50) || (!IS_AUDIO && num === 40)) {
+        return toast.warning("已达最小尺寸");
+      }
+    }
+    const width = `${type === "ADD" ? num + 10 : num - 10}%`;
+    editor.dom.setStyle(ele, "width", width);
+    editor.fire("change");
+  }
+
+  function changeAlign(editor: Editor, type: "left" | "center" | "right") {
+    editor.dom.setStyle(editor.selection.getNode(), "text-align", type);
+    editor.fire("change");
+  }
+
   useEffect(() => {
     onCreate();
     return () => {
+      edit.current?.off("input");
+      edit.current?.off("change");
+      edit.current?.off("setcontent");
       edit.current && window?.tinymce?.remove();
     };
   }, [onCreate]);
@@ -142,6 +227,7 @@ const TxtEditor: TypeTxtEditorProps = (
 
   return (
     <Loading loading={load}>
+      {value}
       <textarea id="editor" style={{ minHeight: 780 }} />
       <Script onReady={onCreate} src="/lib/tinymce/tinymce.min.js" />
     </Loading>

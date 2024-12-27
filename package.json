@@ -47,6 +47,7 @@
     "jose": "^5.9.6",
     "lucide-react": "^0.452.0",
     "md5": "^2.3.0",
+    "media-chrome": "^4.3.0",
     "mime": "^4.0.4",
     "next": "^14.2.15",
     "prisma": "^5.22.0",
@@ -59,7 +60,7 @@
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "tinymce": "7.5.0",
+    "tinymce": "7.6.0",
     "umi-request": "^1.4.0",
     "uuid": "^9.0.1",
     "zod": "^3.23.8"

@@ -1,6 +1,8 @@
 import { toast } from "sonner";
 import { filesize } from "filesize";
 
+import { ENUM_COMMON } from "@/enum/common";
+
 import type { TypeCommon } from "@/interface/common";
 
 /**
@@ -40,16 +42,48 @@ export function filterCUD<
 }
 
 /**
+ * @name getFileType 获取资源类型
+ */
+export function getFileType(fileName: string) {
+  const suffix = fileName.split(".")?.pop()?.toLocaleUpperCase()!;
+  if (["SVG", "JPG", "JPEG", "PNG", "WEBP"].includes(suffix)) {
+    return ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
+  } else if (["MP4"].includes(suffix)) {
+    return ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO;
+  } else if (["MP3", "ACC", "M4A"].includes(suffix)) {
+    return ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO;
+  } else {
+    return;
+  }
+}
+
+/**
  * @name verifyFile 校验文件格式
  * @param file 文件对象
  * @param type 校验文件类型
  */
 function verifyFile(file: File, size?: number) {
-  if (size === undefined) return true;
-  if (file.size > size) {
-    const maxSize = filesize(size);
+  let MAX_SIZE = size || 0;
+  if (size === undefined) {
+    switch (getFileType(file.name)) {
+      case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
+        MAX_SIZE = 10485760;
+        break;
+      case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
+        MAX_SIZE = 31457280;
+        break;
+      case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
+        MAX_SIZE = 15728640;
+        break;
+      default:
+        break;
+    }
+  }
+  if (file.size > MAX_SIZE) {
     toast.error("文件大小超过最大限制", {
-      description: `${file.name} 文件，超过上传最大限制${maxSize}，上传失败`,
+      description: `${file.name}，超过上传最大限制${filesize(
+        MAX_SIZE,
+      )}，上传失败`,
     });
     return false;
   } else {
@@ -92,13 +126,3 @@ export function getUploadFiles(params: {
   });
 }
 
-/**
- * @name toJSON 转换成JSON
- */
-export function toJSON(str: string) {
-  try {
-    return JSON.parse(str);
-  } catch (error) {
-    return undefined;
-  }
-}

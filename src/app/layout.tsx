@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 import { Toaster } from "sonner";
 import { DBlocal } from "@/lib/db";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +22,7 @@ const Layout: React.FC<TypeAppEntranceProps> = ({ children }) => (
     <body>
       <TooltipProvider delayDuration={150}>{children}</TooltipProvider>
       <Toaster position="top-right" richColors expand={false} closeButton />
+      <Script src="/lib/player/index.js" strategy="lazyOnload" />
     </body>
   </html>
 );

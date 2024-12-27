@@ -6,6 +6,7 @@ import { dateToTime } from "@/lib/format";
 import ReadingTools from "@/components/Tools";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
+import "media-chrome/media-theme-element";
 import "prismjs/components/prism-c.min.js";
 import "prismjs/components/prism-go.min.js";
 import "prismjs/components/prism-php.min.js";
@@ -18,7 +19,6 @@ import "prismjs/components/prism-dart.min.js";
 import "prismjs/components/prism-swift.min.js";
 import "prismjs/components/prism-kotlin.min.js";
 import "prismjs/components/prism-python.min.js";
-import "prismjs/components/prism-csharp.min.js";
 import "prismjs/components/prism-csharp.min.js";
 import "prismjs/components/prism-javascript.min.js";
 import "prismjs/components/prism-markup-templating.min.js";
@@ -113,7 +113,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
         <div
           style={{ minHeight: 398 }}
           dangerouslySetInnerHTML={{ __html }}
-          className="mce-content-body no-tailwindcss-base"
+          className="text-no-tailwind mce-content-body"
         />
         <p className="text-sm mt-3 text-gray-400 text-center select-none">
           © 著作权归作者所有 转载请注明原链接

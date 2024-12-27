@@ -40,6 +40,10 @@ export namespace ENUM_COMMON {
      * @param VIDEO 视频
      */
     VIDEO,
+    /**
+     * @param VIDEO 音频
+     */
+    AUDIO,
   }
 
   /**
