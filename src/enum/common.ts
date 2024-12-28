@@ -60,4 +60,13 @@ export namespace ENUM_COMMON {
      */
     OTHER,
   }
+
+  /**
+   * @name POST_TYPE 文本类型
+   */
+  export enum POST_TYPE {
+    ACHIEVEMENTS = "achievements",
+    NOTES = "notes",
+    LIFE = "life",
+  }
 }

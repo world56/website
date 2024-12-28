@@ -15,7 +15,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       {children}
     </div>
     <Script src="/lib/tinymce/tinymce.min.js" />
-    <Script src="/lib/tinymce/langs/zh_CN.js" />
     <Script src="/lib/tinymce/models/dom/model.min.js" />
     <Script src="/lib/tinymce/themes/silver/theme.min.js" />
     <Script src="/lib/tinymce/icons/default/icons.min.js" />
@@ -28,6 +27,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Script src="/lib/tinymce/plugins/pageembed/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/codesample/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/searchreplace/plugin.min.js" />
+    <Script src="/lib/tinymce/langs/zh_CN.js" />
     </main>
 );
 

@@ -22,7 +22,7 @@ const TITLE = {
  * @name usePosts 帖子列表
  */
 export default function usePosts(status?: ENUM_COMMON.STATUS) {
-  const params = useParams<{ type: "achievements" | "notes" | "life" }>();
+  const params = useParams<{ type: ENUM_COMMON.POST_TYPE }>();
   const type = params?.type!;
   const title = TITLE[type];
 
