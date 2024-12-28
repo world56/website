@@ -1,4 +1,4 @@
-export const CONFIG = {
+export const CONFIG:any = {
   language: "zh_CN",
   license_key: "gpl",
   language_url: "/lib/tinymce/langs/zh_CN.js",

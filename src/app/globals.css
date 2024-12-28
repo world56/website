@@ -111,6 +111,12 @@ a {
   border-radius: 6px;
 }
 
+.mce-content-body {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
 .mce-content-body pre {
   border-radius: 5px;
   padding: 1em !important;
@@ -240,6 +246,7 @@ media-volume-range {
 .player-video,
 .player-video > video {
   border-radius: 6px;
+  height: revert-layer !important;
 }
 
 .player-video media-control-bar {
@@ -262,6 +269,11 @@ media-volume-range {
   --media-range-thumb-height: 12px;
   --media-range-track-height: 6px;
   --media-range-track-border-radius: 10px;
+}
+
+.player-video media-time-display {
+  width: 50px;
+  padding: 10px 0;
 }
 
 .tiny-pageembed--21by9,

@@ -56,46 +56,11 @@ const TxtEditor: TypeTxtEditorProps = (
 
   const [load, setLoad] = useState(true);
 
-  async function upload() {
-    const data = await getUploadFiles({
-      multiple: true,
-      accept: ".svg, .jpg, .jpeg, .png, .webp, .mp4, .mp3, .aac, .m4a",
-    });
-    toast.promise(
-      async () => {
-        const files = await uploadFiles(data);
-        let html = "";
-        for (let v of files) {
-          const type = getFileType(v.url);
-          switch (type) {
-            case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
-              html += template.getImage(v.url);
-              break;
-            case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
-              html += template.getVideo(v.url);
-              break;
-            case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
-              html += template.getAudio(v.url);
-              break;
-          }
-        }
-        edit?.current?.execCommand("mceInsertContent", false, html);
-        return Promise.resolve(files);
-      },
-      {
-        loading: "正在上传资源",
-        success: (data) => `${data.length}个资源上传成功`,
-        error: () => `资源上传失败`,
-      },
-    );
-  }
-
   const { run: updateValue } = useDebounceFn(
     () => {
-      const value = edit.current?.getContent();
-      onChange?.(value);
+      onChange?.(edit.current?.getContent());
     },
-    { wait: 100 },
+    { wait: 200 },
   );
 
   const { run: onCreate } = useDebounceFn(() => {
@@ -106,8 +71,9 @@ const TxtEditor: TypeTxtEditorProps = (
       init_instance_callback: (e) => {
         edit.current = e;
         edit.current?.on("input", updateValue);
-        edit.current?.on("change", updateValue);
-        edit.current?.on("setcontent", updateValue);
+        edit.current?.on("change", () =>
+          onChange?.(edit.current?.getContent()),
+        );
         setLoad(false);
       },
       setup(editor) {
@@ -125,7 +91,7 @@ const TxtEditor: TypeTxtEditorProps = (
         editor.ui.registry.addButton("upload", {
           icon: "upload",
           tooltip: "上传资源（图片、音频、视频）",
-          onAction: upload,
+          onAction: () => upload(editor),
         });
         editor.ui.registry.addButton("player-left", {
           icon: "align-left",
@@ -182,6 +148,41 @@ const TxtEditor: TypeTxtEditorProps = (
     });
   });
 
+  async function upload(editor: Editor) {
+    const data = await getUploadFiles({
+      multiple: true,
+      accept: ".svg, .jpg, .jpeg, .png, .webp, .mp4, .mp3, .aac, .m4a",
+    });
+    toast.promise(
+      async () => {
+        const files = await uploadFiles(data);
+        let html = "";
+        for (let v of files) {
+          const type = getFileType(v.url);
+          switch (type) {
+            case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
+              html += template.getImage(v.url);
+              break;
+            case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
+              html += template.getVideo(v.url);
+              break;
+            case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
+              html += template.getAudio(v.url);
+              break;
+          }
+        }
+        edit?.current?.execCommand("mceInsertContent", false, html);
+        editor.fire("input");
+        return Promise.resolve(files);
+      },
+      {
+        loading: "正在上传资源",
+        success: (e) => `${e.length}个资源上传成功`,
+        error: () => `资源上传失败`,
+      },
+    );
+  }
+
   function changeWidth(editor: Editor, type: "ADD" | "REDUCE") {
     const ele = editor?.selection.getNode().children[0] as HTMLElement;
     const num = Number(ele.style.width.slice(0, -1));
@@ -195,12 +196,12 @@ const TxtEditor: TypeTxtEditorProps = (
     }
     const width = `${type === "ADD" ? num + 10 : num - 10}%`;
     editor.dom.setStyle(ele, "width", width);
-    editor.fire("change");
+    editor.fire("input");
   }
 
   function changeAlign(editor: Editor, type: "left" | "center" | "right") {
     editor.dom.setStyle(editor.selection.getNode(), "text-align", type);
-    editor.fire("change");
+    editor.fire("input");
   }
 
   useEffect(() => {
@@ -215,11 +216,11 @@ const TxtEditor: TypeTxtEditorProps = (
 
   useEffect(() => {
     if (!load) {
-      const index = edit.current?.selection?.getBookmark(2)!;
       if (edit.current?.getContent() !== value) {
+        let index = edit.current?.selection?.getBookmark(2)!;
         edit.current?.setContent(value);
+        edit.current?.selection?.moveToBookmark?.(index);
       }
-      edit.current?.selection?.moveToBookmark?.(index);
     }
   }, [load, value]);
 
@@ -227,7 +228,6 @@ const TxtEditor: TypeTxtEditorProps = (
 
   return (
     <Loading loading={load}>
-      {value}
       <textarea id="editor" style={{ minHeight: 780 }} />
       <Script onReady={onCreate} src="/lib/tinymce/tinymce.min.js" />
     </Loading>
