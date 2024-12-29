@@ -34,7 +34,7 @@ const formSchema = z
     path: ["confirmPassword"],
   });
 
-const Setting = () => {
+const ChangePwd = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onSubmit",
     resolver: zodResolver(formSchema),
@@ -124,4 +124,4 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+export default ChangePwd;

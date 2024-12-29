@@ -1,7 +1,7 @@
 import * as jose from "jose";
 import { NextResponse } from "next/server";
 
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
 export const config = {
   matcher: [
@@ -9,6 +9,7 @@ export const config = {
     "/api/post/:path*",
     "/api/basic/:path*",
     "/api/message/:path*",
+    "/api/auth/log/:path*",
     "/api/auth/password/:path*",
   ],
 };
@@ -16,8 +17,14 @@ export const config = {
 export async function middleware(request: NextRequest) {
   const { url, method, cookies } = request;
   const IS_CONSOLE = url.includes("/console");
+
   try {
-    if (method === "GET" && !url.includes("/api/message") && !IS_CONSOLE) {
+    if (
+      method === "GET" &&
+      !url.includes("/api/message") &&
+      !url.includes("/api/auth/log") &&
+      !IS_CONSOLE
+    ) {
       return NextResponse.next();
     }
     await jose.jwtVerify(
@@ -25,11 +32,9 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode(process.env.SECRET),
     );
   } catch (error) {
-    console.log('@-middleware-error',error);
+    console.log("@-middleware-error", error);
     return IS_CONSOLE
       ? NextResponse.redirect(new URL("/", request.url), { status: 302 })
-      : NextResponse.json("Identity exception", {
-          status: 401,
-        });
+      : NextResponse.json("Identity exception", { status: 401 });
   }
 }

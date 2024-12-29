@@ -1,7 +1,7 @@
 import request from "@/lib/request";
 
 import type { TypeCommon } from "@/interface/common";
-import type { Msg, Post, Tag, User } from "@prisma/client";
+import type { Log, Msg, Post, Tag, User } from "@prisma/client";
 
 /**
  * @name getBasicDetails 获取 “网站、个人基本信息”
@@ -171,6 +171,20 @@ export function updatePwd(data: Record<"password" | "newPassword", string>) {
   return request<boolean>(`/api/auth/password`, {
     method: "PUT",
     data,
+  });
+}
+
+/**
+ * @name getLogs 获取系统日志
+ */
+export function getLogs(
+  params: TypeCommon.PageTurning &
+    Partial<Pick<Log, "type">> &
+    Partial<Record<"startTime" | "endTime", number | string>>,
+) {
+  return request<TypeCommon.Response<Log>>(`/api/auth/log`, {
+    method: "GET",
+    params,
   });
 }
 

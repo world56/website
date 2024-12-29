@@ -44,8 +44,8 @@ const MENU = [
     icon: <MessageOutlined />,
   },
   {
-    title: "其他",
-    path: "/console/other",
+    title: "系统",
+    path: "/console/system",
     icon: <SettingOutlined />,
   },
 ];

@@ -65,8 +65,31 @@ export namespace ENUM_COMMON {
    * @name POST_TYPE 文本类型
    */
   export enum POST_TYPE {
+    /**
+     * @param ACHIEVEMENTS 成功
+     */
     ACHIEVEMENTS = "achievements",
+    /**
+     * @param NOTES 笔记
+     */
     NOTES = "notes",
+    /**
+     * @param LIFE 生活
+     */
     LIFE = "life",
+  }
+
+  /**
+   * @name LOG 日志类型
+   */
+  export enum LOG {
+    /**
+     * @param LOGIN 管理员登陆
+     */
+    LOGIN,
+    /**
+     * @param ACCESS 访客访问
+     */
+    ACCESS,
   }
 }
