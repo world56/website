@@ -4,8 +4,8 @@ import {
   usePathname,
   useSearchParams,
 } from "next/navigation";
-import { getPosts } from "@/app/api";
 import { useEffect, useState } from "react";
+import { getClientPosts, getPosts } from "@/app/api";
 import { useDebounceEffect, useRequest } from "ahooks";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -13,9 +13,9 @@ import { ENUM_COMMON } from "@/enum/common";
 import type { TypeCommon } from "@/interface/common";
 
 const TITLE = {
-  life: "个人生活",
-  notes: "学习笔记",
-  achievements: "学习成果",
+  [ENUM_COMMON.POST_TYPE.LIFE]: "个人生活",
+  [ENUM_COMMON.POST_TYPE.NOTES]: "学习笔记",
+  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "学习成果",
 };
 
 /**
@@ -40,10 +40,10 @@ export default function usePosts(status?: ENUM_COMMON.STATUS) {
     title: IS_CONSOLE ? search?.get("title") || undefined : undefined,
   });
 
-  const hook = useRequest(() => getPosts(query), {
-    debounceWait: 150,
-    refreshDeps: [query],
-  });
+  const hook = useRequest(
+    () => (IS_CONSOLE ? getPosts(query) : getClientPosts(query)),
+    { debounceWait: 150, refreshDeps: [query] },
+  );
 
   function getDefaultStatus() {
     const status = search?.get("status");

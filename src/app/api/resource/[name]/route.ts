@@ -1,5 +1,5 @@
 import mime from "mime";
-import { resolve } from "path";
+import { join } from "path";
 import { promisify } from "util";
 import { readFile, stat } from "fs";
 import { NextResponse } from "next/server";
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, params: TypeParams) {
     if (name.includes("config.json")) {
       throw new Error("No resources found");
     }
-    const filePath = resolve(__dirname, "../../../../../../resource", name);
+    const filePath = join(process.cwd(), "resource", name);
     const file = await asyncReadFile(filePath);
     const contentType = mime.getType(filePath) || "application/octet-stream";
     const stat = await asyncStat(filePath);

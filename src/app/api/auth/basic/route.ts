@@ -1,4 +1,4 @@
-import { pageRevalidate } from "..";
+import { pageRevalidate } from "../..";
 import { filterCUD } from "@/lib/filter";
 import { NextResponse } from "next/server";
 import { DBlocal, prisma } from "@/lib/db";
@@ -60,6 +60,6 @@ export async function POST(request: Request) {
     ]);
   }
   DBlocal.set(data);
-  await pageRevalidate({ path: "/", type: "layout" });
+  await pageRevalidate({ path: "/", type: "layout", key: process.env.SECRET! });
   return NextResponse.json({ status: 200 });
 }

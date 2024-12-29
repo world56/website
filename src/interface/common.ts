@@ -119,5 +119,9 @@ export namespace TypeCommon {
      * @param 类型
      */
     type?: "layout" | "page";
+    /**
+     * @param key 内部验证
+     */
+    key: string;
   }
 }

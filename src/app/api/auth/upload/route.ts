@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 import type { TypeCommon } from "@/interface/common";
 
-const STATIC_PATH = join(__dirname, "../../../../../resource");
+const STATIC_PATH = join(process.cwd(), "resource");
 
 export async function POST(request: Request) {
   const res: Array<TypeCommon.File> = [];

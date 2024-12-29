@@ -14,10 +14,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json("User registration failed", { status: 409 });
   }
   await prisma.user.create({
-    data: {
-      ...data,
-      type: ENUM_COMMON.USER_TYPE.ADMIN,
-    },
+    data: { ...data, type: ENUM_COMMON.USER_TYPE.ADMIN },
   });
   return NextResponse.json(true);
 }

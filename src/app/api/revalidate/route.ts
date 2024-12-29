@@ -1,9 +1,14 @@
+import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+import type { NextRequest } from "next/server";
+
+export async function PUT(request: NextRequest) {
   try {
-    const { path, type } = await request.json();
+    const { path, type, key } = await request.json();
+    if (key !== process.env.SECRET) {
+      return NextResponse.json(false, { status: 401 });
+    }
     path && revalidatePath(path, type);
     return NextResponse.json({
       revalidated: true,

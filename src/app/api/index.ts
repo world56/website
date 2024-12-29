@@ -7,14 +7,14 @@ import type { Log, Msg, Post, Tag, User } from "@prisma/client";
  * @name getBasicDetails 获取 “网站、个人基本信息”
  */
 export function getBasicDetails() {
-  return request<TypeCommon.BasisDTO>(`/api/basic`, { method: "GET" });
+  return request<TypeCommon.BasisDTO>(`/api/auth/basic`, { method: "GET" });
 }
 
 /** @name updateBasicDetails 编辑 “网站、个人基本信息” */
 export function updateBasicDetails(
   data: Partial<TypeCommon.BasisDTO<Partial<Tag>>>,
 ) {
-  return request(`/api/basic`, {
+  return request(`/api/auth/basic`, {
     method: "POST",
     data,
   });
@@ -24,6 +24,16 @@ export function updateBasicDetails(
  * @name getPosts 获取 “帖子” 列表
  */
 export function getPosts(params: TypeCommon.QueryPosts) {
+  return request<TypeCommon.Response<Post>>(`/api/auth/post`, {
+    method: "GET",
+    params,
+  });
+}
+
+/**
+ * @name getPosts 获取 “帖子” 列表
+ */
+export function getClientPosts(params: TypeCommon.QueryPosts) {
   return request<TypeCommon.Response<Post>>(`/api/post`, {
     method: "GET",
     params,
@@ -31,7 +41,7 @@ export function getPosts(params: TypeCommon.QueryPosts) {
 }
 
 /**
- * @name getPost 获取 “帖子” 单个
+ * @name getPost 获取 “帖子” 列表
  */
 export function getPost(
   params: Pick<Post, "id"> & Partial<Pick<Post, "status">>,
@@ -45,7 +55,7 @@ export function getPost(
  * @name insertPost 新增 “帖子”
  */
 export function insertPost(data: TypeCommon.UpdatePost) {
-  return request<boolean>("/api/post", {
+  return request<boolean>("/api/auth//post", {
     method: "POST",
     data,
   });
@@ -55,7 +65,7 @@ export function insertPost(data: TypeCommon.UpdatePost) {
  * @name updatePost 编辑 “帖子”
  */
 export function updatePost(data: TypeCommon.UpdatePost) {
-  return request<boolean>("/api/post", {
+  return request<boolean>("/api/auth/post", {
     method: "PUT",
     data,
   });
@@ -65,7 +75,7 @@ export function updatePost(data: TypeCommon.UpdatePost) {
  * @name deletePost 删除 “帖子”
  */
 export function deletePost(params: TypeCommon.DeletePost) {
-  return request<Post>(`/api/post`, {
+  return request<Post>(`/api/auth/post`, {
     method: "DELETE",
     params,
   });
@@ -75,7 +85,7 @@ export function deletePost(params: TypeCommon.DeletePost) {
  * @name updatePostStatus 变更 “帖子” 状态
  */
 export function updatePostStatus({ id, status }: Pick<Post, "id" | "status">) {
-  return request<Post>(`/api/post/${id}`, {
+  return request<Post>(`/api/auth/post/${id}`, {
     method: "PUT",
     data: { status },
   });
@@ -87,7 +97,7 @@ export function updatePostStatus({ id, status }: Pick<Post, "id" | "status">) {
 export function getMessages(
   params: TypeCommon.PageTurning & Partial<Pick<Msg, "read">>,
 ) {
-  return request<TypeCommon.Response<Msg>>(`/api/message`, {
+  return request<TypeCommon.Response<Msg>>(`/api/auth/msg`, {
     method: "GET",
     params,
   });
@@ -97,7 +107,7 @@ export function getMessages(
  * @name insertMessage 新增 “消息”
  */
 export function insertMessage(data: Omit<Msg, "id" | "read" | "createTime">) {
-  return request<boolean>("/api/contact", {
+  return request<boolean>("/api/msg", {
     method: "POST",
     data,
   });
@@ -107,7 +117,7 @@ export function insertMessage(data: Omit<Msg, "id" | "read" | "createTime">) {
  * @name deletePost 删除 “留言”
  */
 export function deleteMessage(params: TypeCommon.PrimaryID) {
-  return request<Post>(`/api/message`, {
+  return request<Post>(`/api/auth/msg`, {
     method: "DELETE",
     params,
   });
@@ -117,7 +127,7 @@ export function deleteMessage(params: TypeCommon.PrimaryID) {
  * @name readMessage 标记 “留言” 已读
  */
 export function readMessage(data: TypeCommon.PrimaryID) {
-  return request<boolean>(`/api/message`, {
+  return request<boolean>(`/api/auth/message`, {
     method: "PUT",
     data,
   });
@@ -127,7 +137,7 @@ export function readMessage(data: TypeCommon.PrimaryID) {
  * @name upload 上传文件
  */
 export function uploadFiles(data: FormData) {
-  return request<TypeCommon.File[]>(`/api/upload`, {
+  return request<TypeCommon.File[]>(`/api/auth/upload`, {
     data,
     method: "POST",
     headers: { contentType: "multipart/form-data" },
@@ -138,7 +148,7 @@ export function uploadFiles(data: FormData) {
  * @name existAdmin 是否存在管理员
  */
 export function existAdmin() {
-  return request<boolean>(`/api/auth`, {
+  return request<boolean>(`/api/exists`, {
     method: "GET",
     cache: "no-store",
   });
@@ -148,7 +158,7 @@ export function existAdmin() {
  * @name signIn 验证管理员
  */
 export function signIn(data: Pick<User, "account" | "password">) {
-  return request<boolean>(`/api/auth/signin`, {
+  return request<boolean>(`/api/signin`, {
     data,
     method: "POST",
   });
@@ -158,7 +168,7 @@ export function signIn(data: Pick<User, "account" | "password">) {
  * @name register 注册管理员（个人主页所有者）
  */
 export function register(data: Pick<User, "account" | "password">) {
-  return request<boolean>(`/api/auth/register`, {
+  return request<boolean>(`/api/register`, {
     data,
     method: "POST",
   });
@@ -182,7 +192,7 @@ export function getLogs(
     Partial<Pick<Log, "type">> &
     Partial<Record<"startTime" | "endTime", number | string>>,
 ) {
-  return request<TypeCommon.Response<Log>>(`/api/auth/log`, {
+  return request<TypeCommon.Response<Log>>(`/api/auth/logs`, {
     method: "GET",
     params,
   });
@@ -194,7 +204,7 @@ export function getLogs(
 export function pageRevalidate(data: TypeCommon.ISR) {
   return request<object>(`/api/revalidate`, {
     data,
-    method: "POST",
+    method: "PUT",
   });
 }
 
