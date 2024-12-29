@@ -56,13 +56,6 @@ const TxtEditor: TypeTxtEditorProps = (
 
   const [load, setLoad] = useState(true);
 
-  const { run: updateValue } = useDebounceFn(
-    () => {
-      onChange?.(edit.current?.getContent());
-    },
-    { wait: 200 },
-  );
-
   const { run: onCreate } = useDebounceFn(() => {
     window?.tinymce?.init({
       ...CONFIG,
@@ -70,7 +63,6 @@ const TxtEditor: TypeTxtEditorProps = (
       selector: `#editor`,
       init_instance_callback: (e) => {
         edit.current = e;
-        edit.current?.on("input", updateValue);
         edit.current?.on("change", () =>
           onChange?.(edit.current?.getContent()),
         );
@@ -172,7 +164,7 @@ const TxtEditor: TypeTxtEditorProps = (
           }
         }
         edit?.current?.execCommand("mceInsertContent", false, html);
-        editor.fire("input");
+        editor.fire("change");
         return Promise.resolve(files);
       },
       {
@@ -196,20 +188,18 @@ const TxtEditor: TypeTxtEditorProps = (
     }
     const width = `${type === "ADD" ? num + 10 : num - 10}%`;
     editor.dom.setStyle(ele, "width", width);
-    editor.fire("input");
+    editor.fire("change");
   }
 
   function changeAlign(editor: Editor, type: "left" | "center" | "right") {
     editor.dom.setStyle(editor.selection.getNode(), "text-align", type);
-    editor.fire("input");
+    editor.fire("change");
   }
 
   useEffect(() => {
     onCreate();
     return () => {
-      edit.current?.off("input");
       edit.current?.off("change");
-      edit.current?.off("setcontent");
       edit.current && window?.tinymce?.remove();
     };
   }, [onCreate]);

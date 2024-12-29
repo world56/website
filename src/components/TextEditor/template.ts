@@ -1,4 +1,4 @@
-export default {
+const template = {
   getVideo(url: string) {
     return `<div class='player-media' contenteditable="false"><media-controller class="player-video" style="width:60%;" gesturesdisabled><video slot="media" src="${url}"></video><div slot="centered-chrome" style="border-radius: 50%;overflow: hidden;"><media-play-button></media-play-button></div><media-control-bar><media-play-button></media-play-button><media-time-range></media-time-range><media-time-display></media-time-display><media-mute-button></media-mute-button><media-volume-range></media-volume-range><media-fullscreen-button></media-fullscreen-button></media-control-bar></media-controller></div>`;
   },
@@ -25,3 +25,5 @@ export default {
     '>标题</span> `;
   },
 };
+
+export default template;
