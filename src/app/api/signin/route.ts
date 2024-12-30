@@ -1,5 +1,6 @@
 import * as jose from "jose";
 import { prisma } from "@/lib/db";
+import { insertLog } from "@/app/api";
 import { getClientIP } from "@/lib/format";
 import { NextResponse } from "next/server";
 
@@ -8,11 +9,11 @@ import { ENUM_COMMON } from "@/enum/common";
 import type { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const ip = getClientIP(req);
   const data = await req.json();
   const admin = await prisma.user.findFirst({
     where: { ...data, type: ENUM_COMMON.USER_TYPE.ADMIN },
   });
+  const ip = getClientIP(req);
   if (admin) {
     const token = await new jose.SignJWT({
       id: admin.id,
@@ -22,8 +23,10 @@ export async function POST(req: NextRequest) {
       .setIssuedAt()
       .setExpirationTime("24h")
       .sign(new TextEncoder().encode(process.env.SECRET));
-    await prisma.log.create({
-      data: { ...ip, type: ENUM_COMMON.LOG.LOGIN, description: "200" },
+    insertLog({
+      ...ip,
+      key: process.env.SECRET!,
+      type: ENUM_COMMON.LOG.LOGIN,
     });
     return NextResponse.json(true, {
       headers: {
@@ -31,8 +34,11 @@ export async function POST(req: NextRequest) {
       },
     });
   }
-  await prisma.log.create({
-    data: { ...ip, type: ENUM_COMMON.LOG.LOGIN, description: "412" },
+  insertLog({
+    ...ip,
+    description: "401",
+    key: process.env.SECRET!,
+    type: ENUM_COMMON.LOG.LOGIN,
   });
-  return NextResponse.json("User authentication failed", { status: 412 });
+  return NextResponse.json("User authentication failed", { status: 401 });
 }

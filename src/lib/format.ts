@@ -1,4 +1,4 @@
-import { userAgent, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
 /**
  * @name dateToTime 转换时间
@@ -21,8 +21,8 @@ export function dateToTime(isoDateString?: string | Date) {
   @name getClientIP 获取客户端IP（IPv4 和 IPv6）
  */
 export function getClientIP(request: NextRequest): {
-  ipv4?: string;
-  ipv6?: string;
+  ipv4: string | null;
+  ipv6: string | null;
 } {
   try {
     const forwarded = request.headers.get("x-forwarded-for");
@@ -31,12 +31,12 @@ export function getClientIP(request: NextRequest): {
     const isIPv6 = (ip: string) => /^[a-fA-F0-9:]+$/.test(ip);
     const ipv4 =
       ips.find((ip) => isIPv4(ip)) ||
-      (isIPv4(request.ip || "") ? request.ip : undefined);
+      (isIPv4(request.ip || "") ? request.ip : null);
     const ipv6 =
       ips.find((ip) => isIPv6(ip)) ||
-      (isIPv6(request.ip || "") ? request.ip : undefined);
-    return { ipv4, ipv6 };
+      (isIPv6(request.ip || "") ? request.ip : null);
+    return { ipv4: ipv4 || null, ipv6: ipv6 || null };
   } catch (error) {
-    return {};
+    return { ipv4: null, ipv6: null };
   }
 }

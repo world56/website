@@ -22,6 +22,19 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/lib/welcome",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=900, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     return [
       {

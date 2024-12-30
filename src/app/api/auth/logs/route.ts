@@ -5,13 +5,13 @@ import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const type = Number(searchParams.get("type")!);
+  const type = searchParams.get("type");
   const endTime = searchParams.get("endTime");
   const startTime = searchParams.get("startTime");
   const take = Number(searchParams.get("pageSize"));
   const skip = (Number(searchParams.get("current")) - 1) * take;
   const where = {
-    type,
+    type: type ? Number(type) : undefined,
     createTime: startTime
       ? { gte: new Date(startTime!), lte: new Date(endTime!) }
       : undefined,

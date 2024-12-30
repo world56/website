@@ -23,17 +23,19 @@ import { ENUM_COMMON } from "@/enum/common";
 const LOG_ITEMS = [
   { value: ENUM_COMMON.LOG.LOGIN, label: "系统登陆" },
   { value: ENUM_COMMON.LOG.ACCESS, label: "访客访问" },
+  { value: ENUM_COMMON.LOG.PASSWORD, label: "修改密码" },
 ];
 
 const LOG_NAME = {
   [ENUM_COMMON.LOG.LOGIN]: "系统登陆",
   [ENUM_COMMON.LOG.ACCESS]: "访客访问",
+  [ENUM_COMMON.LOG.PASSWORD]: "修改密码",
 };
 
 const Logs = () => {
   const [query, setQuery] = useState<Parameters<typeof getLogs>[number]>({
     current: 1,
-    pageSize: 25,
+    pageSize: 10,
   });
 
   const { data, loading, run } = useRequest(() => getLogs(query), {
@@ -57,8 +59,8 @@ const Logs = () => {
     const startTime = from ? format(from, "yyyy-MM-dd HH:mm:ss") : undefined;
     setQuery((s) => ({
       ...s,
-      current: 1,
       startTime,
+      current: 1,
       endTime: endTime ? format(endTime, "yyyy-MM-dd HH:mm:ss") : undefined,
     }));
   }
@@ -78,7 +80,7 @@ const Logs = () => {
     {
       accessorKey: "description",
       size: 80,
-      header: "描述",
+      header: "状态码",
       cell: ({ row }) => (
         <p className="text-center">{row.original.description}</p>
       ),

@@ -185,6 +185,21 @@ export function updatePwd(data: Record<"password" | "newPassword", string>) {
 }
 
 /**
+ * @name updatePwd 新增日志
+ */
+export function insertLog(
+  data: Pick<Log, "type" | "ipv4" | "ipv6"> & {
+    key: string;
+    description?: string;
+  },
+) {
+  return request<boolean>(`/api/log`, {
+    method: "POST",
+    data,
+  });
+}
+
+/**
  * @name getLogs 获取系统日志
  */
 export function getLogs(

@@ -91,5 +91,9 @@ export namespace ENUM_COMMON {
      * @param ACCESS 访客访问
      */
     ACCESS,
+    /**
+     * @param PASSWORD 修改密码
+     */
+    PASSWORD,
   }
 }

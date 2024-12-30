@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { DBlocal } from "@/lib/db";
 import Personal from "@/components/Personal";
 import Navigation from "@/components/Navigation/Main";
@@ -28,6 +29,7 @@ const Layout: React.FC<TypeMainProps> = ({ children }) => {
           </a>
         </footer>
       ) : null}
+      <Script src="/lib/welcome" />
     </>
   );
 };
