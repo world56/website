@@ -1,12 +1,13 @@
 "use client";
 
 import {
+  LockOutlined,
   UserOutlined,
   CameraOutlined,
-  GlobalOutlined,
   TrophyOutlined,
+  PictureOutlined,
   MessageOutlined,
-  SettingOutlined,
+  DesktopOutlined,
   FileTextOutlined,
   HighlightOutlined,
 } from "@ant-design/icons";
@@ -14,13 +15,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 const MENU = [
   {
-    title: "站点信息",
+    title: "基本信息",
     path: "/console",
-    icon: <GlobalOutlined />,
-  },
-  {
-    title: "个人信息",
-    path: "/console/individual",
     icon: <UserOutlined />,
   },
   {
@@ -44,9 +40,19 @@ const MENU = [
     icon: <MessageOutlined />,
   },
   {
-    title: "系统",
-    path: "/console/system",
-    icon: <SettingOutlined />,
+    title: "资源管理",
+    path: "/console/files",
+    icon: <PictureOutlined />,
+  },
+  {
+    title: "访问日志",
+    path: "/console/logs",
+    icon: <DesktopOutlined />,
+  },
+  {
+    title: "修改密码",
+    path: "/console/pwd",
+    icon: <LockOutlined />,
   },
 ];
 
