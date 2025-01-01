@@ -127,7 +127,7 @@ export function deleteMessage(params: TypeCommon.PrimaryID) {
  * @name readMessage 标记 “留言” 已读
  */
 export function readMessage(data: TypeCommon.PrimaryID) {
-  return request<boolean>(`/api/auth/message`, {
+  return request<boolean>(`/api/auth/msg`, {
     method: "PUT",
     data,
   });
