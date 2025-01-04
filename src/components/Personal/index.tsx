@@ -3,7 +3,7 @@ import { cache } from "react";
 import Image from "next/image";
 import { DBlocal, prisma } from "@/lib/db";
 
-import { BASE_URL } from "@/lib/request";
+import { API_RESOURCE } from "@/app/api";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -32,7 +32,7 @@ const Personal = async () => {
           priority
           width={150}
           height={150}
-          src={`${BASE_URL}${local.icon}`}
+          src={`${API_RESOURCE}${local.icon}`}
           className="m-auto w-[150px] h-[150px] block rounded-full object-cover"
         />
       ) : null}

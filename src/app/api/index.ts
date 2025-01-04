@@ -1,7 +1,14 @@
 import request from "@/lib/request";
 
+import { BASE_URL } from "@/lib/request";
+
 import type { TypeCommon } from "@/interface/common";
-import type { Log, Msg, Post, Tag, User } from "@prisma/client";
+import type { Log, Msg, Post, Tag, User, Resource } from "@prisma/client";
+
+/**
+ * @name API_RESOURCE 静态资源获取
+ */
+export const API_RESOURCE = `${BASE_URL}/api/resource/`;
 
 /**
  * @name getBasicDetails 获取 “网站、个人基本信息”
@@ -136,8 +143,8 @@ export function readMessage(data: TypeCommon.PrimaryID) {
 /**
  * @name upload 上传文件
  */
-export function uploadFiles(data: FormData) {
-  return request<TypeCommon.File[]>(`/api/auth/upload`, {
+export function uploadFile(data: FormData) {
+  return request<Pick<Resource, "name" | "path" | "size">>(`/api/auth/upload`, {
     data,
     method: "POST",
     headers: { contentType: "multipart/form-data" },

@@ -101,7 +101,7 @@ export function getUploadFiles(params: {
   multiple?: boolean;
 }) {
   const { accept, multiple, size } = params;
-  return new Promise<FormData>((resolve, reject) => {
+  return new Promise<FormData[]>((resolve, reject) => {
     const btn = document.createElement("input");
     btn.setAttribute("type", "file");
     multiple && btn.setAttribute("multiple", "true");
@@ -110,12 +110,16 @@ export function getUploadFiles(params: {
     btn.onchange = async (e) => {
       try {
         const { files } = e.target as HTMLInputElement;
-        const body = new FormData();
+        const chunks: FormData[] = [];
         Array.prototype.forEach.call(files, (file: File) => {
-          verifyFile(file, size) && body.append("files", file);
+          if (verifyFile(file, size)) {
+            const body = new FormData();
+            body.append("file", file);
+            chunks.push(body);
+          }
         });
-        if (body.getAll("files").length) {
-          return resolve(body);
+        if (chunks.length) {
+          return resolve(chunks);
         } else {
           return reject();
         }
@@ -125,4 +129,3 @@ export function getUploadFiles(params: {
     };
   });
 }
-

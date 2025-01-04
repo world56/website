@@ -12,19 +12,13 @@ import Script from "next/script";
 import template from "./template";
 import { CONFIG } from "./config";
 import { useDebounceFn } from "ahooks";
-import { uploadFiles } from "@/app/api";
 import Loading from "@/components/Loading";
+import { API_RESOURCE, uploadFile } from "@/app/api";
 import { getFileType, getUploadFiles } from "@/lib/filter";
 
 import { ENUM_COMMON } from "@/enum/common";
 
-import type { Editor, EditorManager } from "tinymce";
-
-declare global {
-  interface Window {
-    tinymce?: EditorManager;
-  }
-}
+import type { Editor } from "tinymce";
 
 interface TypeTxtEditorProps<T = string>
   extends React.ForwardRefRenderFunction<
@@ -141,36 +135,39 @@ const TxtEditor: TypeTxtEditorProps = (
   });
 
   async function upload(editor: Editor) {
-    const data = await getUploadFiles({
+    const files = await getUploadFiles({
       multiple: true,
       accept: ".svg, .jpg, .jpeg, .png, .webp, .mp4, .mp3, .aac, .m4a",
     });
+    let num = 0;
     toast.promise(
       async () => {
-        const files = await uploadFiles(data);
         let html = "";
-        for (let v of files) {
-          const type = getFileType(v.url);
+        files.forEach(async (file) => {
+          const { path } = await uploadFile(file);
+          num++;
+          const type = getFileType(path);
+          const url = `${API_RESOURCE}${path}`;
           switch (type) {
             case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
-              html += template.getImage(v.url);
+              html += template.getImage(url);
               break;
             case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
-              html += template.getVideo(v.url);
+              html += template.getVideo(url);
               break;
             case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
-              html += template.getAudio(v.url);
+              html += template.getAudio(url);
               break;
           }
-        }
+        });
         edit?.current?.execCommand("mceInsertContent", false, html);
         editor.fire("change");
         return Promise.resolve(files);
       },
       {
         loading: "正在上传资源",
-        success: (e) => `${e.length}个资源上传成功`,
         error: () => `资源上传失败`,
+        success: () => `${num}个资源上传成功`,
       },
     );
   }

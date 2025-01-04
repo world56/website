@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { BASE_URL } from "@/lib/request";
+import { API_RESOURCE } from "@/app/api";
 
 import type { Tag } from "@prisma/client";
 
@@ -23,7 +23,7 @@ const Item: React.FC<TypeItemProps> = ({
 }) => (
   <li className={`flex mb-${last ? 0 : 6}`}>
     <div className="w-[46px] h-[46px] bg-black/[0.06] rounded-full flex items-center justify-center">
-      <Image alt="#" width={30} height={30} src={`${BASE_URL}${icon}`} />
+      <Image alt="#" width={30} height={30} src={`${API_RESOURCE}${icon}`} />
     </div>
     <div
       className="ml-5 leading-0 truncate"

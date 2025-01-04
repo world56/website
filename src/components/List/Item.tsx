@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { BASE_URL } from "@/lib/request";
+import { API_RESOURCE } from "@/app/api";
 
 interface TypeListItemProps {
   /** @param src 封面地址 */
@@ -30,7 +30,7 @@ const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
         priority
         width={280}
         height={180}
-        src={`${BASE_URL}${src}`}
+        src={`${API_RESOURCE}${src}`}
         className="min-w-[280px] h-[180px] object-cover w-auto transition hover:scale-110"
       />
     </div>

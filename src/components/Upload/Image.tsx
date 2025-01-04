@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { uploadFiles } from "@/app/api";
+import { uploadFile } from "@/app/api";
 import { useState, forwardRef } from "react";
 import { getUploadFiles } from "@/lib/filter";
 import { CameraFilled, LoadingOutlined } from "@ant-design/icons";
 
-import { BASE_URL } from "@/lib/request";
+import { API_RESOURCE } from "@/app/api";
 
 import type { ForwardRefRenderFunction } from "react";
 
@@ -37,13 +37,13 @@ const UploadImage: TypeUploadImageRefProps = (
 
   async function onStart() {
     try {
-      const chunk = await getUploadFiles({
+      const [file] = await getUploadFiles({
         size: 3145728,
         accept: ".svg, .jpg, .jpeg, .png, .ico, .webp",
       });
       setLoad(true);
-      const [res] = await uploadFiles(chunk);
-      updateValue(res?.url);
+      const { path } = await uploadFile(file);
+      updateValue(path);
       setLoad(false);
     } catch (error) {
       setLoad(false);
@@ -81,7 +81,7 @@ const UploadImage: TypeUploadImageRefProps = (
             priority
             width={STYLE.SIZE}
             height={STYLE.SIZE}
-            src={`${BASE_URL}${RESOURCE_URL}`}
+            src={`${API_RESOURCE}${RESOURCE_URL}`}
             className={`w-full h-auto object-cover ${borderRadius}`}
           />
           {load ? (

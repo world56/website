@@ -1,6 +1,7 @@
 import mime from "mime";
 import { join } from "path";
 import { promisify } from "util";
+import { DBlocal } from "@/lib/db";
 import { readFile, stat } from "fs";
 import { NextResponse } from "next/server";
 
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest, params: TypeParams) {
     if (name.includes("config.json")) {
       throw new Error("No resources found");
     }
-    const filePath = join(process.cwd(), "resource", name);
+    const filePath = join(DBlocal.FOLDER_PATH, name);
     const file = await asyncReadFile(filePath);
     const contentType = mime.getType(filePath) || "application/octet-stream";
     const stat = await asyncStat(filePath);
@@ -33,10 +34,7 @@ export async function GET(request: NextRequest, params: TypeParams) {
       "Cache-Control": "public, max-age=3600",
       "Content-Range": `bytes 0-${fileSize - 1}/${fileSize}`,
     };
-    return new NextResponse(file, {
-      status: 200,
-      headers,
-    });
+    return new NextResponse(file, { status: 200, headers });
   } catch (error) {
     return new NextResponse("No resources found", {
       status: 404,

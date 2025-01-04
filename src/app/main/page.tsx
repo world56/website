@@ -4,8 +4,7 @@ import Image from "next/image";
 import Tooltip from "@/components/Tooltip";
 import { DBlocal, prisma } from "@/lib/db";
 
-import { BASE_URL } from "@/lib/request";
-
+import { API_RESOURCE } from "@/app/api";
 import { ENUM_COMMON } from "@/enum/common";
 
 const requestPerson = cache(async () => {
@@ -56,7 +55,7 @@ const About = async () => {
                       alt="#"
                       width={60}
                       height={50}
-                      src={`${BASE_URL}${v.icon}`}
+                      src={`${API_RESOURCE}${v.icon}`}
                       className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer"
                     />
                   </Link>
@@ -65,7 +64,7 @@ const About = async () => {
                     alt="#"
                     width={60}
                     height={50}
-                    src={`${BASE_URL}${v.icon}`}
+                    src={`${API_RESOURCE}${v.icon}`}
                     className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default"
                   />
                 )}

@@ -1,30 +1,23 @@
 import sharp from "sharp";
-import { join } from "path";
 import * as uuid from "uuid";
+import { DBlocal } from "@/lib/db";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 
-import type { TypeCommon } from "@/interface/common";
-
-const STATIC_PATH = join(process.cwd(), "resource");
-
 export async function POST(request: Request) {
-  const res: Array<TypeCommon.File> = [];
   const formData = await request.formData();
-  const files = formData.getAll("files") as File[];
-  await Promise.all(
-    files.map(async (file: File) => {
-      let format = file.name.split(".").at(-1)?.toLocaleLowerCase();
-      const IS_IMAGE = ["jpg", "jpeg", "png"].includes(format!);
-      let buffer = Buffer.from(await file.arrayBuffer());
-      if (IS_IMAGE) {
-        buffer = await sharp(buffer).webp().toBuffer();
-        format = "webp";
-      }
-      const fileName = `${uuid.v1()}.${format}`;
-      await writeFile(`${STATIC_PATH}/${fileName}`, new Uint8Array(buffer));
-      res.push({ type: 0, url: `/api/resource/${fileName}` });
-    }),
-  );
-  return NextResponse.json(res);
+  const file = formData.get("file") as File;
+  let suffix = file.name.split(".").at(-1)?.toLocaleLowerCase();
+  if (!suffix) {
+    return NextResponse.json("Missing file extension", { status: 400 });
+  }
+  let buffer = Buffer.from(await file.arrayBuffer());
+  if (["jpg", "jpeg", "png"].includes(suffix)) {
+    buffer = await sharp(buffer).webp().toBuffer();
+    suffix = "webp";
+  }
+  const { name, size } = file;
+  const path = `${uuid.v1()}.${suffix}`;
+  await writeFile(`${DBlocal.FOLDER_PATH}/${path}`, new Uint8Array(buffer));
+  return NextResponse.json({ name, path, size });
 }

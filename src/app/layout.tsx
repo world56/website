@@ -4,14 +4,15 @@ import { Toaster } from "sonner";
 import { DBlocal } from "@/lib/db";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
+import { API_RESOURCE } from "./api";
+
 export async function generateMetadata() {
   const config = DBlocal.get();
+  const favicon = `${API_RESOURCE}${config.favicon}`;
   return {
     title: config.title,
     description: config.description,
-    icons: config.favicon
-      ? { icon: config.favicon, apple: config.favicon }
-      : undefined,
+    icons: config.favicon ? { icon: favicon, apple: favicon } : undefined,
   };
 }
 
