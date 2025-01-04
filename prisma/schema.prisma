@@ -82,6 +82,7 @@ model Resource {
   size       Int
   name       String
   path       String   @unique
+  type       Int      @default(-1)
   createTime DateTime @default(now()) @map("create_time")
 
   @@index(name)
