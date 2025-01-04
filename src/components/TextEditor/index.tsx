@@ -143,23 +143,27 @@ const TxtEditor: TypeTxtEditorProps = (
     toast.promise(
       async () => {
         let html = "";
-        files.forEach(async (file) => {
-          const { path } = await uploadFile(file);
-          num++;
-          const type = getFileType(path);
-          const url = `${API_RESOURCE}${path}`;
-          switch (type) {
-            case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
-              html += template.getImage(url);
-              break;
-            case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
-              html += template.getVideo(url);
-              break;
-            case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
-              html += template.getAudio(url);
-              break;
+        for await (const file of files) {
+          try {
+            const { path } = await uploadFile(file);
+            num++;
+            const type = getFileType(path);
+            const url = `${API_RESOURCE}${path}`;
+            switch (type) {
+              case ENUM_COMMON.RESOURCE.IMAGE:
+                html += template.getImage(url);
+                break;
+              case ENUM_COMMON.RESOURCE.VIDEO:
+                html += template.getVideo(url);
+                break;
+              case ENUM_COMMON.RESOURCE.AUDIO:
+                html += template.getAudio(url);
+                break;
+            }
+          } catch (error) {
+            console.log("@-upload-error", error);
           }
-        });
+        }
         edit?.current?.execCommand("mceInsertContent", false, html);
         editor.fire("change");
         return Promise.resolve(files);

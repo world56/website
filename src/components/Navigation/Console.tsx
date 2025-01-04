@@ -41,7 +41,7 @@ const MENU = [
   },
   {
     title: "资源管理",
-    path: "/console/files",
+    path: "/console/resources",
     icon: <PictureOutlined />,
   },
   {

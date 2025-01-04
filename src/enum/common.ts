@@ -28,22 +28,25 @@ export namespace ENUM_COMMON {
   }
 
   /**
-   * @name UPLOAD_FILE_TYPE 上传文件的类型
-   * @description 文本编辑器
+   * @name RESOURCE 资源类型
    */
-  export enum UPLOAD_FILE_TYPE {
+  export enum RESOURCE {
     /**
-     * @param IMAGE 图片
+     * @param UNKNOWN 未知
+     */
+    UNKNOWN = -1,
+    /**
+     * @param IMAGE 图像
      */
     IMAGE,
-    /**
-     * @param VIDEO 视频
-     */
-    VIDEO,
     /**
      * @param VIDEO 音频
      */
     AUDIO,
+    /**
+     * @param VIDEO 视频
+     */
+    VIDEO,
   }
 
   /**

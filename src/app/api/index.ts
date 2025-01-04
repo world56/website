@@ -221,6 +221,29 @@ export function getLogs(
 }
 
 /**
+ * @name getResources 获取资源列表
+ */
+export function getResources(
+  params: TypeCommon.PageTurning &
+    Partial<Pick<Resource, "type"> & { size: "desc" | "asc" }>,
+) {
+  return request<TypeCommon.Response<Resource>>(`/api/auth/resource/list`, {
+    method: "GET",
+    params,
+  });
+}
+
+/**
+ * @name deleteResource 删除资源
+ */
+export function deleteResource(params: Pick<Resource, "id">) {
+  return request<boolean>(`/api/auth/resource`, {
+    method: "DELETE",
+    params,
+  });
+}
+
+/**
  * @name pageRevalidate ISR
  */
 export function pageRevalidate(data: TypeCommon.ISR) {

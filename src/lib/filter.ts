@@ -47,13 +47,13 @@ export function filterCUD<
 export function getFileType(fileName: string) {
   const suffix = fileName.split(".")?.pop()?.toLocaleUpperCase()!;
   if (["SVG", "JPG", "JPEG", "PNG", "WEBP"].includes(suffix)) {
-    return ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE;
+    return ENUM_COMMON.RESOURCE.IMAGE;
   } else if (["MP4"].includes(suffix)) {
-    return ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO;
+    return ENUM_COMMON.RESOURCE.VIDEO;
   } else if (["MP3", "ACC", "M4A"].includes(suffix)) {
-    return ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO;
+    return ENUM_COMMON.RESOURCE.AUDIO;
   } else {
-    return;
+    return ENUM_COMMON.RESOURCE.UNKNOWN;
   }
 }
 
@@ -66,13 +66,13 @@ function verifyFile(file: File, size?: number) {
   let MAX_SIZE = size || 0;
   if (size === undefined) {
     switch (getFileType(file.name)) {
-      case ENUM_COMMON.UPLOAD_FILE_TYPE.IMAGE:
+      case ENUM_COMMON.RESOURCE.IMAGE:
         MAX_SIZE = 10485760;
         break;
-      case ENUM_COMMON.UPLOAD_FILE_TYPE.VIDEO:
+      case ENUM_COMMON.RESOURCE.VIDEO:
         MAX_SIZE = 31457280;
         break;
-      case ENUM_COMMON.UPLOAD_FILE_TYPE.AUDIO:
+      case ENUM_COMMON.RESOURCE.AUDIO:
         MAX_SIZE = 15728640;
         break;
       default:

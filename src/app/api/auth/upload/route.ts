@@ -1,8 +1,9 @@
 import sharp from "sharp";
 import * as uuid from "uuid";
-import { DBlocal } from "@/lib/db";
 import { writeFile } from "fs/promises";
+import { DBlocal, prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { getFileType } from "@/lib/filter";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
@@ -19,5 +20,7 @@ export async function POST(request: Request) {
   const { name, size } = file;
   const path = `${uuid.v1()}.${suffix}`;
   await writeFile(`${DBlocal.FOLDER_PATH}/${path}`, new Uint8Array(buffer));
-  return NextResponse.json({ name, path, size });
+  const type = getFileType(name);
+  await prisma.resource.create({ data: { name, path, size, type } });
+  return NextResponse.json({ name, path, size, type });
 }
