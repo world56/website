@@ -9,16 +9,12 @@ import {
 import { join } from "path";
 import { PrismaClient } from "@prisma/client";
 
-declare global {
-  var prisma: PrismaClient;
-}
-
 /**
  * @name LocalStorage 本地存储
  */
 class LocalStorage {
-  private readonly FOLDER_PATH = join(process.cwd(), "./resource");
-  private readonly FILE_PATH = join(process.cwd(), "./resource/config.json");
+  readonly FOLDER_PATH = join(process.cwd(), "./resource");
+  readonly FILE_PATH = join(process.cwd(), "./resource/config.json");
 
   /**
    * @name set 新增、设置值
@@ -52,29 +48,24 @@ class LocalStorage {
   }
 
   /**
-   * @name clear 清空配置
-   * @description 走的是删除配置文件逻辑，获取值若无配置，会自动创建
+   * @name remove 删除文件
    */
-  clear() {
-    existsSync(this.FILE_PATH) &&
-      unlink(this.FILE_PATH, (err) => {
-        if (err) {
-          console.error("配置文件删除失败", err);
-        } else {
-          console.log("配置文件删除成功", this.FILE_PATH);
-        }
-      });
+  remove(name: string) {
+    const path = `${this.FOLDER_PATH}/${name}`;
+    if (existsSync(path)) {
+      return unlink(path, (err) => (err ? false : true));
+    }
+    return false;
   }
 }
 
 const prisma = global.prisma || new PrismaClient();
-const DBlocal = new LocalStorage();
-
 global.prisma = prisma;
 
 prisma.$disconnect();
-prisma.$connect().catch(() => {
-  console.log("prisma connection error");
-});
+prisma.$connect().catch(() => console.log("prisma connection error"));
+
+const DBlocal = global.DBlocal || new LocalStorage();
+global.DBlocal = DBlocal;
 
 export { DBlocal, prisma };

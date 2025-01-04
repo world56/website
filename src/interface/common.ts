@@ -1,6 +1,18 @@
-import { ENUM_COMMON } from "@/enum/common";
+import type { EditorManager } from "tinymce";
+import type { PrismaClient, Msg, Post, Tag } from "@prisma/client";
 
-import type { Msg, Post, Tag } from "@prisma/client";
+declare global {
+  interface Window {
+    tinymce?: EditorManager;
+  }
+  var prisma: PrismaClient;
+  var DBlocal: {
+    FOLDER_PATH: string;
+    set(): Record<string, string>;
+    get(): Record<string, string | number>;
+    remove(path: string): boolean;
+  };
+}
 
 export namespace TypeCommon {
   /**
@@ -91,20 +103,6 @@ export namespace TypeCommon {
     startTime?: Date;
     /** @param endTime 结束时间 */
     endTime?: Date;
-  }
-
-  /**
-   * @name File 文件列表
-   */
-  export interface File {
-    /**
-     * @param type 文件类型
-     */
-    type: ENUM_COMMON.UPLOAD_FILE_TYPE;
-    /**
-     * @param url 文件地址
-     */
-    url: string;
   }
 
   /**
