@@ -1,8 +1,8 @@
 import { jwtVerify } from "jose";
+import { insertLog } from "./app/api";
 import { getClientIP } from "@/lib/format";
 import { NextResponse } from "next/server";
 
-import { BASE_URL } from "./lib/request";
 import { ENUM_COMMON } from "./enum/common";
 
 import type { NextRequest } from "next/server";
@@ -15,14 +15,10 @@ export async function middleware(request: NextRequest) {
   const { cookies } = request;
   const { pathname } = request.nextUrl;
   if (request.nextUrl.pathname === "/lib/welcome") {
-    // @see https://nextjs.org/docs/app/api-reference/edge
-    fetch(`${BASE_URL}/api/log`, {
-      method: "POST",
-      body: JSON.stringify({
-        ...getClientIP(request),
-        key: process.env.SECRET!,
-        type: ENUM_COMMON.LOG.ACCESS,
-      }),
+    insertLog({
+      ...getClientIP(request),
+      key: process.env.SECRET!,
+      type: ENUM_COMMON.LOG.ACCESS,
     });
     return;
   }
