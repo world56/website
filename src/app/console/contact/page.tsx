@@ -34,7 +34,7 @@ const Contact = () => {
 
   const [query, setQuery] = useState<Parameters<typeof getMessages>[number]>({
     current: 1,
-    pageSize: 25,
+    pageSize: 15,
   });
 
   const { data, loading, run } = useRequest(

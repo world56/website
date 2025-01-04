@@ -34,7 +34,7 @@ export default function usePosts(status?: ENUM_COMMON.STATUS) {
 
   const [query, setQuery] = useState<TypeCommon.QueryPosts>({
     type,
-    pageSize: IS_CONSOLE ? 25 : 9,
+    pageSize: IS_CONSOLE ? 15 : 9,
     current: Number(search?.get("current")) || 1,
     status: IS_CONSOLE ? getDefaultStatus() : status,
     title: IS_CONSOLE ? search?.get("title") || undefined : undefined,
