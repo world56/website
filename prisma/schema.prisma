@@ -47,7 +47,7 @@ model Msg {
   read       Boolean  @default(false)
   createTime DateTime @default(now()) @map("create_time")
 
-  @@map("message")
+  @@map("msg")
 }
 
 model Post {
@@ -75,4 +75,15 @@ model Log {
 
   @@index(type)
   @@map("log")
+}
+
+model Resource {
+  id         Int      @id @default(autoincrement())
+  size       Int
+  name       String
+  path       String   @unique
+  createTime DateTime @default(now()) @map("create_time")
+
+  @@index(name)
+  @@map("resource")
 }
