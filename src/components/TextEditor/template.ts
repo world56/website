@@ -9,20 +9,7 @@ const template = {
     return `<div class='player-media' contenteditable="false"><media-controller class='player-audio' style="width:50%;" audio><audio slot="media" src="${url}"></audio><media-control-bar><media-play-button notooltip></media-play-button><media-time-display show-duration></media-time-display><media-time-range></media-time-range><media-playback-rate-button></media-playback-rate-button><media-mute-button></media-mute-button><media-volume-range></media-volume-range></media-control-bar></media-controller></div>`;
   },
   getTitle: () => {
-    return `<span style='
-      width: max-content;
-      height: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 39px;
-      font-weight: bold;
-      font-size: 16px;
-      color: #fff;
-      margin: 30px 0;
-      background: black;
-      border-radius: 1px 20px;
-    '>标题</span> `;
+    return `<span class='main-title'>标题</span> `;
   },
 };
 
