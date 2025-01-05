@@ -68,6 +68,10 @@ const TxtEditor: TypeTxtEditorProps = (
           const script = iframe.createElement("script");
           script.src = `/lib/player/index.js`;
           iframe!.head.appendChild(script);
+          const link = iframe.createElement("link");
+          link.rel = "stylesheet";
+          link.href = "/lib/tinymce/global.css";
+          iframe.head.appendChild(link);
         });
         editor.ui.registry.addButton("title", {
           icon: "permanent-pen",
