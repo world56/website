@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 
 /** @type {import('next').NextConfig} */
@@ -91,6 +92,7 @@ if (process.env.NODE_ENV === "development") {
               "node_modules/media-chrome/dist/iife/index.js",
             ),
             to: path.join(__dirname, "public/lib/player"),
+            filter: (path) => !fs.existsSync(path),
           },
         ],
       }),
