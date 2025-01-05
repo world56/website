@@ -14,12 +14,14 @@ interface SelectProps<T = TypeValues> {
   value?: T | undefined;
   onChange?(value: T | undefined): void;
   items: Array<{ label: string; value: T }>;
+  className?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
   items,
   value,
   onChange,
+  className,
   placeholder,
 }) => {
   function onClear(e: React.MouseEvent<HTMLOrSVGElement>) {
@@ -42,7 +44,7 @@ const Select: React.FC<SelectProps> = ({
   const val = IS_VOID ? "" : String(value);
 
   return (
-    <div className="relative">
+    <div className={className ? `relative ${className}` : "relative"}>
       {IS_VOID ? null : (
         <CloseCircleOutlined
           onClick={onClear}

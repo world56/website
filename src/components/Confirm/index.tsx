@@ -12,16 +12,23 @@ interface TypeConfirmProps<T = string | number> {
   onOk(id?: T): void;
   onCancel(): void;
   id?: string | number;
+  description?: string;
 }
 
-const Confirm: React.FC<TypeConfirmProps> = ({ id, onOk, onCancel }) => (
+const Confirm: React.FC<TypeConfirmProps> = ({
+  id,
+  onOk,
+  onCancel,
+  description,
+}) => (
   <Dialog open={Boolean(id)} onOpenChange={() => onCancel()}>
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>确定删除吗？</DialogTitle>
         <DialogDescription>
           <span className="mt-3 mb-1 inline-block text-sm">
-            此操作执行后无法撤销，数据库将会永久删除该条数据！
+            {description ||
+              "此操作执行后无法撤销，数据库将会永久删除该条数据！"}
           </span>
         </DialogDescription>
       </DialogHeader>
