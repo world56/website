@@ -11,7 +11,11 @@ function showErrorMessage(e?: unknown) {
   if (isServer()) {
     console.log("request error", e);
   } else {
-    toast.error("请求异常，请检查后重试");
+    if ((e as Response).status === 429) {
+      toast.warning("亲，操作频繁，先歇会重试哦");
+    } else {
+      toast.error("请求异常，请检查后重试");
+    }
   }
 }
 
@@ -58,7 +62,7 @@ export default async function request<T = {}>(
       const data = await res.json();
       return Promise.resolve<T>(data);
     } else {
-      showErrorMessage();
+      showErrorMessage(res);
       return Promise.reject();
     }
   } catch (e) {

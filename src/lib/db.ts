@@ -7,7 +7,9 @@ import {
   createWriteStream,
 } from "fs";
 import { join } from "path";
+import { Cacheable } from "cacheable";
 import { PrismaClient } from "@prisma/client";
+import type { CacheableOptions } from "cacheable";
 
 /**
  * @name LocalStorage 本地存储
@@ -59,13 +61,27 @@ class LocalStorage {
   }
 }
 
+class MemoryStorage extends Cacheable {
+  constructor(props?: CacheableOptions) {
+    super(props);
+  }
+
+  async incr(key: string | null | undefined, maximum: number) {
+    const KEY = key ?? "unknown";
+    let int = (await this.get<number>(KEY)) ?? 0;
+    if (maximum === int) return false;
+    await this.set(KEY, ++int, "10m");
+    return await this.get(KEY);
+  }
+}
+
 const prisma = global.prisma || new PrismaClient();
 global.prisma = prisma;
-
-prisma.$disconnect();
-prisma.$connect().catch(() => console.log("prisma connection error"));
 
 const DBlocal = global.DBlocal || new LocalStorage();
 global.DBlocal = DBlocal;
 
-export { DBlocal, prisma };
+const cacheable = global.cacheable || new MemoryStorage();
+global.cacheable = cacheable;
+
+export { DBlocal, cacheable, prisma };

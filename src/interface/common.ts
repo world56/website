@@ -1,3 +1,4 @@
+import type { Cacheable } from "cacheable";
 import type { EditorManager } from "tinymce";
 import type { PrismaClient, Msg, Post, Tag } from "@prisma/client";
 
@@ -6,9 +7,15 @@ declare global {
     tinymce?: EditorManager;
   }
   var prisma: PrismaClient;
+  var cacheable: Cacheable & {
+    incr(
+      key: string | undefined | null,
+      maximum: number,
+    ): Promise<number | false>;
+  };
   var DBlocal: {
     FOLDER_PATH: string;
-    set(): Record<string, string>;
+    set(data: object): Record<string, string>;
     get(): Record<string, string | number>;
     remove(path: string): boolean;
   };
