@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:pm2": "next build && sh ./pm2.sh",
-    "start": "next start",
+    "build": "next build && sh ./build.sh",
+    "start": "node ./standalone/server",
     "lint": "next lint"
   },
   "devDependencies": {
