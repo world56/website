@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && sh ./build.sh",
-    "start": "node ./standalone/server",
+    "start": "node ./build/server",
     "lint": "next lint"
   },
   "devDependencies": {

@@ -19,9 +19,7 @@ else
   npx prisma db push
   npm run build --verbose
 
-  cp -r ./public ../
-  cp -r .next/static .next/standalone/.next/
-  cp -r ./.next/standalone/. ../
+  cp -r ./build/. ../
 
   cd ../
   rm -rf ./builder
