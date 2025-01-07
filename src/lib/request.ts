@@ -1,17 +1,13 @@
-import { toast } from "sonner";
 import { isVoid } from "./utils";
 
 export const BASE_URL = `http://127.0.0.1:${process.env.PORT || 3000}`;
 
-export function isServer() {
-  return typeof window === "undefined";
-}
-
-function showErrorMessage(e?: unknown) {
-  if (isServer()) {
-    console.log("request error", e);
+async function showErrorMessage(e?: unknown) {
+  if (typeof window === "undefined") {
+    console.log("@-request-error", e);
   } else {
-    if ((e as Response).status === 429) {
+    const { toast } = await import("sonner");
+    if ((e as Response)?.status === 429) {
       toast.warning("亲，操作频繁，先歇会重试哦");
     } else {
       toast.error("请求异常，请检查后重试");
@@ -56,7 +52,7 @@ export default async function request<T = {}>(
     } else {
       body = JSON.stringify(options.data);
     }
-    const URL = isServer() ? `${BASE_URL}${url}` : url;
+    const URL = typeof window === "undefined" ? `${BASE_URL}${url}` : url;
     const res = await fetch(`${URL}${query}`, { ...options, body });
     if (res.status === 200) {
       const data = await res.json();
