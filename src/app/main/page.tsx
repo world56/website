@@ -25,7 +25,7 @@ const About = async () => {
   return (
     <>
       <div
-        className="no-tailwindcss-base"
+        className="text-no-tailwind mce-content-body"
         dangerouslySetInnerHTML={
           local.profile ? { __html: local.profile } : undefined
         }
