@@ -12,8 +12,8 @@ import Script from "next/script";
 import template from "./template";
 import { CONFIG } from "./config";
 import { useDebounceFn } from "ahooks";
+import { uploadFile } from "@/app/api";
 import Loading from "@/components/Loading";
-import { API_RESOURCE, uploadFile } from "@/app/api";
 import { getFileType, getUploadFiles } from "@/lib/filter";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -152,7 +152,7 @@ const TxtEditor: TypeTxtEditorProps = (
             const { path } = await uploadFile(file);
             num++;
             const type = getFileType(path);
-            const url = `${API_RESOURCE}${path}`;
+            const url = `/api/resource/${path}`;
             switch (type) {
               case ENUM_COMMON.RESOURCE.IMAGE:
                 html += template.getImage(url);
