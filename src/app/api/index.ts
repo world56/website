@@ -195,7 +195,7 @@ export function updatePwd(data: Record<"password" | "newPassword", string>) {
  * @name updatePwd 新增日志
  */
 export function insertLog(
-  data: Pick<Log, "type" | "ipv4" | "ipv6"> & {
+  data: Pick<Log, "type" | "ip"> & {
     key: string;
     description?: string;
   },

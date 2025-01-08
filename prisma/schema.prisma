@@ -68,8 +68,7 @@ model Post {
 model Log {
   id          Int      @id @default(autoincrement())
   type        Int
-  ipv4        String?
-  ipv6        String?
+  ip          String?
   description String?
   createTime  DateTime @default(now()) @map("create_time")
 

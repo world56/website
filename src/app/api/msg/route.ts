@@ -5,8 +5,8 @@ import { prisma, cacheable } from "@/lib/db";
 import type { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { ipv4, ipv6 } = getClientIP(request);
-  const bol = await cacheable.incr(`msg_${ipv4 || ipv6}`, 3);
+  const ip = getClientIP(request);
+  const bol = await cacheable.incr(`msg_${ip}`, 3);
   if (!bol) {
     return NextResponse.json("Too many requests.", {
       status: 429,

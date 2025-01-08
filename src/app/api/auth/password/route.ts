@@ -18,15 +18,11 @@ export async function PUT(request: NextRequest) {
       where: { id: admin.id },
       data: { password: data.newPassword },
     });
-    insertLog({
-      ...ip,
-      key: process.env.SECRET!,
-      type: ENUM_COMMON.LOG.PASSWORD,
-    });
+    insertLog({ ip, key: process.env.SECRET!, type: ENUM_COMMON.LOG.PASSWORD });
     return NextResponse.json(true);
   } else {
     insertLog({
-      ...ip,
+      ip,
       description: "400",
       key: process.env.SECRET!,
       type: ENUM_COMMON.LOG.PASSWORD,

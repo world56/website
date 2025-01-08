@@ -67,15 +67,13 @@ const Logs = () => {
 
   const columns: ColumnDef<Log>[] = [
     {
-      accessorKey: "ipv6",
+      accessorKey: "ip",
       header: () => (
-        <Tooltip title="优先展示ipv4">
+        <Tooltip title="访客IP会因多种因素受到影响，准确性难以保证，仅供参考">
           IP <QuestionCircleOutlined className="ml-1" />
         </Tooltip>
       ),
-      cell: ({ row }) => (
-        <p className="text-center">{row.original.ipv4 || row.original.ipv6}</p>
-      ),
+      cell: ({ row }) => <p className="text-center">{row.original.ip}</p>,
     },
     {
       accessorKey: "description",
@@ -108,11 +106,7 @@ const Logs = () => {
   ];
 
   return (
-    <Card
-      spacing={4}
-      title="访问日志"
-      description="记录系统交互相关日志"
-    >
+    <Card spacing={4} title="访问日志" description="记录系统交互相关日志">
       <div className="flex">
         <Select
           items={LOG_ITEMS}

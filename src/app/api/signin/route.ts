@@ -9,8 +9,8 @@ import { ENUM_COMMON } from "@/enum/common";
 import type { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { ipv4, ipv6 } = getClientIP(req);
-  const bol = await cacheable.incr(`signin_${ipv4 || ipv6}`, 3);
+  const ip = getClientIP(req);
+  const bol = await cacheable.incr(`signin_${ip}`, 3);
   if (!bol) {
     return NextResponse.json("Too many requests.", {
       status: 429,
@@ -30,12 +30,7 @@ export async function POST(req: NextRequest) {
       .setIssuedAt()
       .setExpirationTime("24h")
       .sign(new TextEncoder().encode(process.env.SECRET));
-    insertLog({
-      ipv4,
-      ipv6,
-      key: process.env.SECRET!,
-      type: ENUM_COMMON.LOG.LOGIN,
-    });
+    insertLog({ ip, key: process.env.SECRET!, type: ENUM_COMMON.LOG.LOGIN });
     return NextResponse.json(true, {
       headers: {
         "Set-Cookie": `Authorization=${token}; SameSite=Lax; HttpOnly; Max-Age=86400; Path=/`,
@@ -43,8 +38,7 @@ export async function POST(req: NextRequest) {
     });
   }
   insertLog({
-    ipv4,
-    ipv6,
+    ip,
     description: "401",
     key: process.env.SECRET!,
     type: ENUM_COMMON.LOG.LOGIN,

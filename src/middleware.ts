@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (request.nextUrl.pathname === "/lib/welcome") {
     insertLog({
-      ...getClientIP(request),
+      ip: getClientIP(request),
       key: process.env.SECRET!,
       type: ENUM_COMMON.LOG.ACCESS,
     });
