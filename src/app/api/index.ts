@@ -6,7 +6,7 @@ import type { TypeCommon } from "@/interface/common";
 import type { Log, Msg, Post, Tag, User, Resource } from "@prisma/client";
 
 /**
- * @name API_RESOURCE 静态资源
+ * @name API_RESOURCE 静态资源获取
  */
 export const API_RESOURCE = `${typeof window ? "" : BASE_URL}/api/resource/`;
 
@@ -185,7 +185,7 @@ export function register(data: Pick<User, "account" | "password">) {
  * @name updatePwd 修改管理员密码
  */
 export function updatePwd(data: Record<"password" | "newPassword", string>) {
-  return request<boolean>(`/api/auth/pwd`, {
+  return request<boolean>(`/api/auth/password`, {
     method: "PUT",
     data,
   });
@@ -214,8 +214,18 @@ export function getLogs(
     Partial<Pick<Log, "type">> &
     Partial<Record<"startTime" | "endTime", number | string>>,
 ) {
-  return request<TypeCommon.Response<Log>>(`/api/auth/logs`, {
+  return request<TypeCommon.Response<Log>>(`/api/auth/log/list`, {
     method: "GET",
+    params,
+  });
+}
+
+/**
+ * @name deleteLog 删除系统日志
+ */
+export function deleteLog(params: Pick<Log, "id">) {
+  return request<boolean>(`/api/auth/log`, {
+    method: "DELETE",
     params,
   });
 }

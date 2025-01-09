@@ -1,7 +1,7 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
-import { getLogs } from "@/app/api";
 import { useRequest } from "ahooks";
 import Card from "@/components/Card";
 import { set, format } from "date-fns";
@@ -9,7 +9,9 @@ import Select from "@/components/Select";
 import { dateToTime } from "@/lib/format";
 import DataTable from "@/components/Table";
 import Tooltip from "@/components/Tooltip";
+import { deleteLog, getLogs } from "@/app/api";
 import LoadingButton from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import PageTurning from "@/components/PageTurning";
 import { DateRangePicker } from "@/components/DatePicker";
 import { SyncOutlined, QuestionCircleOutlined } from "@ant-design/icons";
@@ -38,10 +40,16 @@ const Logs = () => {
     pageSize: 15,
   });
 
-  const { data, loading, run } = useRequest(() => getLogs(query), {
-    debounceWait: 100,
-    refreshDeps: [query],
-  });
+  const { data, loading, run } = useRequest(
+    (params?: typeof query) => getLogs(params || query),
+    { debounceWait: 100, refreshDeps: [query] },
+  );
+
+  async function onDelete(row: Log) {
+    await deleteLog({ id: row.id });
+    toast.success("删除成功");
+    run();
+  }
 
   function onPageTurningChange(current: number) {
     setQuery((v) => ({ ...v, current }));
@@ -69,7 +77,7 @@ const Logs = () => {
     {
       accessorKey: "ip",
       header: () => (
-        <Tooltip title="访客IP会因多种因素受到影响，准确性难以保证，仅供参考">
+        <Tooltip title="访客IP会因多种因素受到干扰，准确性难以保证，仅供参考">
           IP <QuestionCircleOutlined className="ml-1" />
         </Tooltip>
       ),
@@ -102,6 +110,28 @@ const Logs = () => {
           {dateToTime(row.original.createTime)}
         </p>
       ),
+    },
+    {
+      accessorKey: "id",
+      header: () => (
+        <Tooltip title="仅可删除访客日志">
+          操作 <QuestionCircleOutlined className="ml-1" />
+        </Tooltip>
+      ),
+      size: 45,
+      cell: ({ row }) => {
+        const disabled = row.original.type !== ENUM_COMMON.LOG.ACCESS;
+        return (
+          <Button
+            variant="link"
+            disabled={disabled}
+            onClick={() => onDelete(row.original)}
+            className={`block m-auto ${disabled ? "" : "text-red-500"}`}
+          >
+            删除
+          </Button>
+        );
+      },
     },
   ];
 
