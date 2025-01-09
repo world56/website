@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function isVoid(value: any) {
-  return ["", undefined, null].includes(value);
+  return ["", undefined, null, NaN].includes(value);
 }
