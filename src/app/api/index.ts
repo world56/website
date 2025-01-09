@@ -6,9 +6,9 @@ import type { TypeCommon } from "@/interface/common";
 import type { Log, Msg, Post, Tag, User, Resource } from "@prisma/client";
 
 /**
- * @name API_RESOURCE 静态资源获取
+ * @name API_RESOURCE 静态资源
  */
-export const API_RESOURCE = `${BASE_URL}/api/resource/`;
+export const API_RESOURCE = `${typeof window ? "" : BASE_URL}/api/resource/`;
 
 /**
  * @name getBasicDetails 获取 “网站、个人基本信息”
@@ -185,7 +185,7 @@ export function register(data: Pick<User, "account" | "password">) {
  * @name updatePwd 修改管理员密码
  */
 export function updatePwd(data: Record<"password" | "newPassword", string>) {
-  return request<boolean>(`/api/auth/password`, {
+  return request<boolean>(`/api/auth/pwd`, {
     method: "PUT",
     data,
   });
