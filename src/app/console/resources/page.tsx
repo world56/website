@@ -10,6 +10,7 @@ import { dateToTime } from "@/lib/format";
 import Tooltip from "@/components/Tooltip";
 import DataTable from "@/components/Table";
 import Confirm from "@/components/Confirm";
+import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/Button";
 import { Button } from "@/components/ui/button";
 import { SyncOutlined } from "@ant-design/icons";
@@ -49,7 +50,7 @@ const Files = () => {
 
   const { data, loading, run } = useRequest(
     (params?: typeof query) => getResources(params || query),
-    { debounceWait: 100, refreshDeps: [query] },
+    { debounceWait: 200, refreshDeps: [query] },
   );
 
   async function onDelete(id?: Resource["id"]) {
@@ -63,6 +64,10 @@ const Files = () => {
 
   function onPreview(row: Resource) {
     window.open(`${API_RESOURCE}${row.path}`);
+  }
+
+  function onNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setQuery((v) => ({ ...v, current: 1, name: e.target.value }));
   }
 
   function onConfirmDelete(row: Resource) {
@@ -161,6 +166,11 @@ const Files = () => {
           value={query.size}
           placeholder="大小排序"
           onChange={onChangeSize}
+        />
+        <Input
+          className="w-52 mr-3"
+          onChange={onNameChange}
+          placeholder="请输入资源名称"
         />
         <LoadingButton
           loading={loading}

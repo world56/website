@@ -235,7 +235,7 @@ export function deleteLog(params: Pick<Log, "id">) {
  */
 export function getResources(
   params: TypeCommon.PageTurning &
-    Partial<Pick<Resource, "type"> & { size: "desc" | "asc" }>,
+    Partial<Pick<Resource, "type" | "name"> & { size: "desc" | "asc" }>,
 ) {
   return request<TypeCommon.Response<Resource>>(`/api/auth/resource/list`, {
     method: "GET",
