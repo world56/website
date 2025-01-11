@@ -8,7 +8,9 @@ export async function generateMetadata() {
   return {
     title: config.title,
     description: config.description,
-    icons: { icon: config.favicon, apple: config.favicon },
+    icons: config.favicon
+      ? { icon: config.favicon, apple: config.favicon }
+      : undefined,
   };
 }
 
