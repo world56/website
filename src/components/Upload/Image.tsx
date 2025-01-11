@@ -82,7 +82,7 @@ const UploadImage: TypeUploadImageRefProps = (
             width={STYLE.SIZE}
             height={STYLE.SIZE}
             src={`${API_RESOURCE}${RESOURCE_URL}`}
-            className={`w-full h-auto object-cover ${borderRadius}`}
+            className={`w-full h-full object-cover ${borderRadius}`}
           />
           {load ? (
             <LoadingOutlined className="text-sm text-black absolute" />

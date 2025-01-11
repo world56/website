@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN mkdir -p builder
 
-COPY package*.json ./builder
+COPY package*.json ./builder/
 COPY ./prisma ./builder/prisma
 COPY ./public ./builder/public
 COPY ./src ./builder/src
