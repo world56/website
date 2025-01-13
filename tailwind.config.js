@@ -75,6 +75,12 @@ module.exports = {
         ".display-inherit": {
           display: "inherit",
         },
+        ".dark-icon": {
+          filter: "brightness(1) saturate(0) invert(0.9)",
+        },
+        ".dark-icon-hover": {
+          filter: "brightness(1) saturate(0) invert(1)",
+        },
       });
     },
   ],

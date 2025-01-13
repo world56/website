@@ -13,7 +13,7 @@ const Layout: React.FC<TypeMainProps> = ({ children }) => {
     <>
       <main className="w-[1300px] mx-auto flex justify-between">
         <Personal />
-        <div className="w-[985px] min-h-[706px] mb-8 mt-14 p-[30px] pt-[90px] shadow-custom rounded-3xl relative bg-white">
+        <div className="w-[985px] min-h-[706px] mb-8 mt-14 p-[30px] pt-[90px] shadow-custom rounded-3xl relative bg-white dark:bg-[#191B20] dark:border">
           <Navigation />
           {children}
         </div>

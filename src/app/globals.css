@@ -7,9 +7,9 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 240 7% 96%;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 220 11% 11%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
@@ -32,11 +32,63 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    .main-title {
+      color: white;
+      background: black;
+    }
+
+    .nav-select {
+      color: white;
+      background: black;
+    }
+
+    .player-audio {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .player-audio media-play-button {
+      background: black;
+    }
+
+    .player-audio media-time-range,
+    media-mute-button,
+    media-time-display,
+    media-playback-rate-button,
+    media-volume-range {
+      background: #fff;
+    }
+
+    .player-audio media-time-display {
+      color: rgb(100, 116, 139);
+      border-left: 1px solid #e5e7eb;
+    }
+
+    .player-audio media-mute-button {
+      --media-icon-color: black;
+    }
+
+    .player-audio media-time-range {
+      --media-range-bar-color: #000;
+      --media-range-thumb-background: #000;
+      --media-range-track-background: #e5e7eb;
+    }
+
+    .player-audio media-playback-rate-button {
+      color: rgb(100, 116, 139);
+    }
+
+    .player-audio media-volume-range {
+      --media-range-bar-color: #000;
+      --media-range-thumb-background: #000;
+      --media-range-track-background: #e5e7eb;
+    }
   }
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 210 6% 17%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 240 2% 12%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -58,25 +110,61 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-  }
-  .no-tailwindcss-base,
-  .no-tailwindcss-base *,
-  .no-tailwindcss-base > * {
-    font-size: revert;
-    font-weight: revert;
-    margin: revert;
-    display: revert;
-    vertical-align: revert;
-    max-width: revert;
-    height: revert;
-    border-width: revert;
-    border-style: revert;
-    border-color: revert;
-    outline: revert;
-    list-style: revert;
-    padding: revert;
+
+    .main-title {
+      color: white;
+      background: #34363c;
+    }
+
+    .nav-select {
+      color: black;
+      background: white;
+    }
+
+    .player-audio {
+      background: #34363c;
+      border: 1px solid #27272a;
+    }
+
+    .player-audio media-play-button {
+      background: #1d1e26;
+    }
+
+    .player-audio media-time-range,
+    media-mute-button,
+    media-time-display,
+    media-playback-rate-button,
+    media-volume-range {
+      background: #34363c;
+    }
+
+    .player-audio media-time-display {
+      color: white;
+      border-left: 1px solid #2c2c30;
+    }
+
+    .player-audio media-time-range {
+      --media-range-bar-color: gray;
+      --media-range-thumb-background: white;
+      --media-range-track-background: #2c2c30;
+    }
+
+    .player-audio media-playback-rate-button {
+      color: white;
+    }
+
+    .player-audio media-volume-range {
+      --media-range-bar-color: gray;
+      --media-range-thumb-background: white;
+      --media-range-track-background: #2c2c30;
+    }
+
+    .player-audio media-mute-button {
+      --media-icon-color: white;
+    }
   }
 }
+
 @layer base {
   * {
     @apply border-border;
@@ -84,12 +172,6 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-html,
-body {
-  margin: 0;
-  background: #f6f6f6;
 }
 
 a {
@@ -164,6 +246,10 @@ a {
   padding: revert;
 }
 
+.text-no-tailwind p {
+  margin: 16px 0;
+}
+
 .player-media {
   width: 100%;
   margin: 10px 0 !important;
@@ -172,19 +258,9 @@ a {
 
 .player-audio {
   height: 62px;
-  background: #fff;
   border-radius: 10px;
   padding: 0 12px 0 20px;
-  border: 1px solid #e5e7eb;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
-}
-
-.player-audio media-time-range,
-media-mute-button,
-media-time-display,
-media-playback-rate-button,
-media-volume-range {
-  background: #fff;
 }
 
 .player-audio media-control-bar {
@@ -194,7 +270,6 @@ media-volume-range {
 }
 
 .player-audio media-play-button {
-  background: #000;
   --media-button-icon-width: 25px;
   --media-button-icon-height: 25px;
   padding: 7px;
@@ -204,8 +279,6 @@ media-volume-range {
 
 .player-audio media-time-display {
   padding-left: 15px;
-  color: rgb(100, 116, 139);
-  border-left: 1px solid #e5e7eb;
 }
 
 .player-audio media-time-range {
@@ -213,19 +286,11 @@ media-volume-range {
   --media-range-thumb-width: 5px;
   --media-range-thumb-height: 12px;
   --media-range-track-height: 6px;
-  --media-range-bar-color: #000;
   --media-range-track-border-radius: 10px;
-  --media-range-thumb-background: #000;
-  --media-range-track-background: #e5e7eb;
 }
 
 .player-audio media-mute-button {
   padding-right: 0;
-  --media-icon-color: rgb(100, 116, 139);
-}
-
-.player-audio media-playback-rate-button {
-  color: rgb(100, 116, 139);
 }
 
 .player-audio media-volume-range {
@@ -233,14 +298,7 @@ media-volume-range {
   --media-range-thumb-width: 5px;
   --media-range-thumb-height: 12px;
   --media-range-track-height: 6px;
-  --media-range-bar-color: #000;
   --media-range-track-border-radius: 10px;
-  --media-range-thumb-background: #000;
-  --media-range-track-background: #e5e7eb;
-}
-
-.player-video media-control-bar > * {
-  background: rgba(0, 0, 0, 0.8);
 }
 
 .player-video,
@@ -263,17 +321,23 @@ media-volume-range {
   --media-range-track-border-radius: 10px;
 }
 
+.player-video media-mute-button {
+  background: rgb(20 20 30 / 0.7);
+}
+
 .player-video media-volume-range {
   padding-right: 0;
   --media-range-thumb-width: 5px;
   --media-range-thumb-height: 12px;
   --media-range-track-height: 6px;
   --media-range-track-border-radius: 10px;
+  background: rgb(20 20 30 / 0.7);
 }
 
 .player-video media-time-display {
   width: 50px;
   padding: 10px 0;
+  background: rgb(20 20 30 / 0.7);
 }
 
 .tiny-pageembed--21by9,
@@ -317,15 +381,13 @@ media-volume-range {
 
 .main-title {
   width: max-content;
-  height: 45px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 39px;
   font-weight: bold;
   font-size: 16px;
-  color: #fff;
   margin: 30px 0;
-  background: black;
   border-radius: 1px 20px;
 }

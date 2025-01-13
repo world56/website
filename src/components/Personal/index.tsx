@@ -25,7 +25,7 @@ const Personal = async () => {
   const length = items.length;
 
   return (
-    <aside className="w-[300px] h-full top-14 mb-8 p-[30px] sticky text-center shadow-custom rounded-3xl bg-white">
+    <aside className="w-[300px] h-full top-14 mb-8 p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:dark:bg-[#191B20] dark:border">
       {local.icon ? (
         <Image
           alt="#"
@@ -37,10 +37,10 @@ const Personal = async () => {
         />
       ) : null}
       <h1 className="my-6 text-2xl font-bold">{local.name}</h1>
-      <span className="py-[5px] px-[10px] bg-black/[0.06] rounded-md text-[13px] select-none">
+      <span className="py-[5px] px-[10px] rounded-md text-[13px] select-none bg-black/[0.06] dark:bg-[#2B2B2C]">
         {local.position}
       </span>
-      <hr className="my-8 border border-slate-50" />
+      <hr className="my-8 border-t border-t-gray-100 dark:border-t-[#272729]" />
       <ul className="text-left mt-4">
         {items.map((v, i) => (
           <Item

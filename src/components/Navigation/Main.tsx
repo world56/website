@@ -16,8 +16,6 @@ function check(path: string | null, val: (typeof routes)[0]) {
   return val.url === "/" ? path === "/" : path?.includes(val.url);
 }
 
-const SELECT = { color: "white", background: "black" };
-
 /**
  * @name MainNavigation 导航-个人主页
  */
@@ -36,8 +34,10 @@ const MainNavigation = () => {
         {routes.map((v) => (
           <Link key={v.url} href={v.url}>
             <li
-              style={v.enName === location ? SELECT : undefined}
-              className="ml-2 py-2 px-3 font-medium hover:bg-black hover:text-white rounded-full cursor-pointer"
+              className={`
+              ${v.enName === location ? "nav-select" : ""}
+              ml-2 py-2 px-3 font-medium rounded-full cursor-pointer
+              hover:text-white hover:bg-black dark:hover:bg-white dark:hover:text-black`}
             >
               {v.cnName}
             </li>

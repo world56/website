@@ -22,7 +22,7 @@ interface TypeListItemProps {
 const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
   <Link
     href={url}
-    className="w-[302px] mb-[10px] p-[10px] rounded-md border border-slate-100 overflow-hidden cursor-pointer hover:shadow-post duration-75"
+    className="w-[302px] mb-[10px] p-[10px] rounded-md border border-slate-100 overflow-hidden cursor-pointer hover:shadow-post duration-75 dark:border-[#272729]"
   >
     <div className="overflow-hidden rounded-md">
       <Image
@@ -35,7 +35,7 @@ const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
       />
     </div>
     <h2 className="mt-[10px] text-[16px] font-bold truncate">{name}</h2>
-    <p className="mt-[4px] truncate text-black/[0.5]">{desc}</p>
+    <p className="mt-[4px] truncate text-black/[0.5] dark:text-[#A1A1AA]">{desc}</p>
   </Link>
 );
 
