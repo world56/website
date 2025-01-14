@@ -119,7 +119,7 @@ const Contact = () => {
       header: "状态",
       cell: ({ row }) => {
         const { read } = row.original;
-        const color = read ? "" : "text-red-500";
+        const color = read ? "dark:text-muted-foreground" : "text-red-500";
         return (
           <Tooltip
             type="button"

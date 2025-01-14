@@ -48,7 +48,7 @@ const Select: React.FC<SelectProps> = ({
       {IS_VOID ? null : (
         <CloseCircleOutlined
           onClick={onClear}
-          className="absolute top-[10px] right-3 bg-white z-50 text-gray-500 hover:text-black"
+          className="absolute top-[10px] right-3 z-50 text-gray-500 bg-white hover:text-black dark:bg-card dark:hover:text-white"
         />
       )}
       <Layout value={val} onValueChange={onValueChange}>

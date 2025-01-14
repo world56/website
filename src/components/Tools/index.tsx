@@ -39,11 +39,11 @@ const ReadingTools = () => {
       <Tooltip title="复制链接">
         <ShareAltOutlined
           onClick={onCopy}
-          className="mr-2 hover:text-black block"
+          className="block mr-2 hover:text-black dark:hover:text-white"
         />
       </Tooltip>
       <Tooltip title="返回上页">
-        <RollbackOutlined onClick={onBack} className="hover:text-black block" />
+        <RollbackOutlined onClick={onBack} className="block hover:text-black dark:hover:text-white" />
       </Tooltip>
     </div>
   );

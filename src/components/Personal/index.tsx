@@ -25,7 +25,7 @@ const Personal = async () => {
   const length = items.length;
 
   return (
-    <aside className="w-[300px] h-full top-14 mb-8 p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:dark:bg-[#191B20] dark:border">
+    <aside className="w-[300px] h-full top-14 mb-8 p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:bg-card dark:border">
       {local.icon ? (
         <Image
           alt="#"

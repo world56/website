@@ -156,7 +156,7 @@ const Edit = () => {
             type="button"
             onClick={onBack}
             variant="outline"
-            className="ml-5 my-5"
+            className="ml-5 my-5 dark:bg-black"
           >
             返回上页
           </Button>

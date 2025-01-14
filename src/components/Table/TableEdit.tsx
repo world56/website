@@ -47,7 +47,18 @@ const TableEdit: React.FC<TypeTableEditProps> = ({ name, form }) => {
     () => [
       {
         accessorKey: "icon",
-        header: "图标",
+        header: () => (
+          <Tooltip
+            title={
+              <>
+                <p>建议使用黑色svg图标，暗黑模式下，会自动转换为白色</p>
+                <p>svg图标资源下载：iconfont.cn</p>
+              </>
+            }
+          >
+            图标 <QuestionCircleOutlined className="ml-1" />
+          </Tooltip>
+        ),
         size: 30,
         cell: ({ row }) => (
           <FormField

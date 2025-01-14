@@ -19,6 +19,7 @@ import { getFileType, getUploadFiles } from "@/lib/filter";
 import { ENUM_COMMON } from "@/enum/common";
 
 import type { Editor } from "tinymce";
+import { useTheme } from "next-themes";
 
 interface TypeTxtEditorProps<T = string>
   extends React.ForwardRefRenderFunction<
@@ -48,6 +49,8 @@ const TxtEditor: TypeTxtEditorProps = (
 ) => {
   const edit = useRef<Editor>();
 
+  const { systemTheme } = useTheme();
+
   const [load, setLoad] = useState(true);
 
   const { run: onCreate } = useDebounceFn(() => {
@@ -55,6 +58,8 @@ const TxtEditor: TypeTxtEditorProps = (
       ...CONFIG,
       height,
       selector: `#editor`,
+      skin: systemTheme === "dark" ? "oxide-dark" : "oxide",
+      content_css: systemTheme === "dark" ? "dark" : "default",
       init_instance_callback: (e) => {
         edit.current = e;
         edit.current?.on("change", () =>
@@ -66,12 +71,8 @@ const TxtEditor: TypeTxtEditorProps = (
         editor.on("init", () => {
           const iframe = editor.iframeElement?.contentDocument!;
           const script = iframe.createElement("script");
-          script.src = `/lib/player/index.js`;
+          script.src = `/lib/tinymce/index.js`;
           iframe!.head.appendChild(script);
-          const link = iframe.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "/lib/tinymce/global.css";
-          iframe.head.appendChild(link);
         });
         editor.ui.registry.addButton("title", {
           icon: "permanent-pen",
@@ -220,6 +221,11 @@ const TxtEditor: TypeTxtEditorProps = (
   }, [load, value]);
 
   useImperativeHandle(ref, () => edit.current, [edit]);
+
+  useEffect(() => {
+    window?.tinymce?.remove();
+    onCreate();
+  }, [systemTheme]);
 
   return (
     <Loading loading={load}>

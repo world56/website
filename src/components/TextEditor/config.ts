@@ -2,10 +2,12 @@ export const CONFIG = {
   language: "zh_CN",
   license_key: "gpl",
   language_url: "/lib/tinymce/langs/zh_CN.js",
-  codesample_global_prismjs: true,
+  skin: false,
+  content_css: false,
   verify_html: false,
-  sandbox_iframes: false,
   relative_urls: false,
+  sandbox_iframes: false,
+  codesample_global_prismjs: true,
   custom_elements:
     "media-controller,media-control-bar,media-play-button,media-time-display,media-time-range,media-playback-rate-button,media-mute-button,media-volume-range",
   extended_valid_elements:
