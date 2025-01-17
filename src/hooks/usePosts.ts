@@ -4,7 +4,7 @@ import {
   usePathname,
   useSearchParams,
 } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getClientPosts, getPosts } from "@/app/api";
 import { useDebounceEffect, useRequest } from "ahooks";
 
@@ -71,17 +71,22 @@ export default function usePosts(status?: ENUM_COMMON.STATUS) {
     { wait: 500 },
   );
 
-  useEffect(() => {
-    const total = hook.data?.total;
-    const { current, pageSize } = query;
-    if (
-      typeof total !== "undefined" &&
-      pageSize * current > total &&
-      current !== 1
-    ) {
-      setQuery((v) => ({ ...v, current: 1 }));
-    }
-  }, [hook.data, query]);
+  const { current, pageSize } = query;
+
+  useDebounceEffect(
+    () => {
+      const total = hook.data?.total;
+      if (
+        total !== undefined &&
+        current > 1 &&
+        current > Math.ceil(total / pageSize)
+      ) {
+        setQuery((v) => ({ ...v, current: 1 }));
+      }
+    },
+    [hook.data, current, pageSize],
+    { wait: 300 },
+  );
 
   return {
     ...hook,
