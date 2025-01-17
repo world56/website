@@ -37,7 +37,6 @@ export const CONFIG = {
     "link",
     "table",
     "image",
-    "advlist",
     "preview",
     "checklist",
     "codesample",
@@ -47,7 +46,7 @@ export const CONFIG = {
   ],
   toolbar1: `
     blocks fontsizeinput 
-    | forecolor backcolor bold italic underline title 
+    | forecolor backcolor bold italic underline title codetag
     | align lineheight numlist bullist checklist table
     | upload pageembed codesample
   `,
