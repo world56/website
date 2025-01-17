@@ -19,11 +19,11 @@ interface TypeListProps
 const List: TypeListProps = ({ loading, children }) => (
   <Loading loading={loading} height={520}>
     {Array.isArray(children) && children.length ? (
-      <div className="flex flex-wrap justify-between">
+      <ul className="flex flex-wrap justify-between">
         {children}
-        <i style={{ width: "calc(33% - 5px)" }} />
-        <i style={{ width: "calc(33% - 5px)" }} />
-      </div>
+        <li style={{ width: "calc(33% - 5px)" }} />
+        <li style={{ width: "calc(33% - 5px)" }} />
+      </ul>
     ) : loading ? null : (
       <Empty height={520} />
     )}
