@@ -32,7 +32,7 @@ const MainNavigation = () => {
       <h2 className="ml-6 font-bold text-2xl">{location}</h2>
       <ul className="mr-6 flex w-max items-center">
         {routes.map((v) => (
-          <Link key={v.url} href={v.url}>
+          <Link key={v.url} href={v.url} draggable="false">
             <li
               className={`
               ${v.enName === location ? "nav-select" : ""}
