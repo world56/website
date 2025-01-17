@@ -25,13 +25,14 @@ const Personal = async () => {
   const length = items.length;
 
   return (
-    <aside className="w-[300px] h-full top-14 mb-8 p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:bg-card dark:border">
+    <aside className="w-[300px] h-full top-14 mb-8 p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:bg-card">
       {local.icon ? (
         <Image
           alt="#"
           priority
           width={150}
           height={150}
+          draggable="false"
           src={`${API_RESOURCE}${local.icon}`}
           className="m-auto w-[150px] h-[150px] block rounded-full object-cover"
         />

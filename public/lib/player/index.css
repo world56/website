@@ -1,14 +1,21 @@
 .player-media {
   width: 100%;
+  display: flex !important;
   margin: 10px 0 !important;
-  display: inline-block !important;
 }
 
 .player-audio {
   height: 62px;
   border-radius: 10px;
   padding: 0 12px 0 20px;
+  display: inline-block;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+}
+
+.player-audio media-controller {
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
 .player-audio media-control-bar {
@@ -20,7 +27,6 @@
 .player-audio media-play-button {
   --media-button-icon-width: 25px;
   --media-button-icon-height: 25px;
-  padding: 7px;
   border-radius: 50%;
   margin-right: 20px;
 }
@@ -50,8 +56,9 @@
 }
 
 .player-video,
-.player-video > video {
-  border-radius: 6px;
+.player-video video,
+.player-video media-controller {
+  border-radius: 6px !important;
   height: revert-layer !important;
 }
 
@@ -86,7 +93,17 @@
   padding: 10px 0;
 }
 
-:root {
+.player-audio media-time-range,
+.player-audio media-mute-button,
+.player-audio media-time-display,
+.player-audio media-volume-range,
+.player-audio media-playback-rate-button {
+  background: transparent !important;
+}
+
+:is(html.light):not(html.dark),
+html:not([class]),
+html[class=""] {
   .player-audio {
     background: #fff;
     border: 1px solid #e5e7eb;
@@ -94,14 +111,6 @@
 
   .player-audio media-play-button {
     background: black;
-  }
-
-  .player-audio media-time-range,
-  media-mute-button,
-  media-time-display,
-  media-playback-rate-button,
-  media-volume-range {
-    background: #fff;
   }
 
   .player-audio media-time-display {
@@ -130,7 +139,7 @@
   }
 }
 
-.dark {
+:is(html.dark) {
   .player-audio {
     background: #34363c;
     border: 1px solid #27272a;
@@ -138,14 +147,6 @@
 
   .player-audio media-play-button {
     background: #1d1e26;
-  }
-
-  .player-audio media-time-range,
-  media-mute-button,
-  media-time-display,
-  media-playback-rate-button,
-  media-volume-range {
-    background: #34363c;
   }
 
   .player-audio media-time-display {

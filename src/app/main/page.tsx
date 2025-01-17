@@ -25,7 +25,7 @@ const About = async () => {
   return (
     <>
       <div
-        className="text-no-tailwind mce-content-body"
+        className="mce-content-body no-tailwindcss"
         dangerouslySetInnerHTML={
           local.profile ? { __html: local.profile } : undefined
         }
@@ -52,6 +52,7 @@ const About = async () => {
                       alt="#"
                       width={60}
                       height={50}
+                      draggable="false"
                       src={`${API_RESOURCE}${v.icon}`}
                       className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer dark:dark-icon dark:hover:dark-icon-hover"
                     />
@@ -61,6 +62,7 @@ const About = async () => {
                     alt="#"
                     width={60}
                     height={50}
+                    draggable="false"
                     src={`${API_RESOURCE}${v.icon}`}
                     className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default dark:dark-icon dark:hover:dark-icon-hover"
                   />

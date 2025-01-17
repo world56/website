@@ -1,6 +1,6 @@
 @import "../../public/lib/player/index.css";
-@import "../../public/lib/tinymce/index.css";
-@import "~prismjs/themes/prism-tomorrow.min.css";
+@import "../../public/lib/tinymce/mount/code.css";
+@import "../../public/lib/tinymce/mount/index.css";
 @import "../../public/lib/tinymce/skins/content/default/content.min.css";
 
 @tailwind base;

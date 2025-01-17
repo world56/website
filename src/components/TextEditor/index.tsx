@@ -11,15 +11,16 @@ import { toast } from "sonner";
 import Script from "next/script";
 import template from "./template";
 import { CONFIG } from "./config";
-import { useDebounceFn } from "ahooks";
+import { useTheme } from "next-themes";
 import { uploadFile } from "@/app/api";
 import Loading from "@/components/Loading";
+import { loadStylesheet } from "@/lib/utils";
+import { useDebounceFn, useDebounceEffect } from "ahooks";
 import { getFileType, getUploadFiles } from "@/lib/filter";
 
 import { ENUM_COMMON } from "@/enum/common";
 
 import type { Editor } from "tinymce";
-import { useTheme } from "next-themes";
 
 interface TypeTxtEditorProps<T = string>
   extends React.ForwardRefRenderFunction<
@@ -50,6 +51,7 @@ const TxtEditor: TypeTxtEditorProps = (
   const edit = useRef<Editor>();
 
   const { systemTheme } = useTheme();
+  const IS_DARK = systemTheme === "dark";
 
   const [load, setLoad] = useState(true);
 
@@ -58,8 +60,6 @@ const TxtEditor: TypeTxtEditorProps = (
       ...CONFIG,
       height,
       selector: `#editor`,
-      skin: systemTheme === "dark" ? "oxide-dark" : "oxide",
-      content_css: systemTheme === "dark" ? "dark" : "default",
       init_instance_callback: (e) => {
         edit.current = e;
         edit.current?.on("change", () =>
@@ -71,8 +71,13 @@ const TxtEditor: TypeTxtEditorProps = (
         editor.on("init", () => {
           const iframe = editor.iframeElement?.contentDocument!;
           const script = iframe.createElement("script");
-          script.src = `/lib/tinymce/index.js`;
+          script.src = `/lib/tinymce/mount/index.js`;
           iframe!.head.appendChild(script);
+        });
+        editor.ui.registry.addButton("codetag", {
+          icon: "sourcecode",
+          tooltip: "代码块标签",
+          onAction: () => editor.execCommand("mceToggleFormat", false, "code"),
         });
         editor.ui.registry.addButton("title", {
           icon: "permanent-pen",
@@ -198,7 +203,7 @@ const TxtEditor: TypeTxtEditorProps = (
   }
 
   function changeAlign(editor: Editor, type: "left" | "center" | "right") {
-    editor.dom.setStyle(editor.selection.getNode(), "text-align", type);
+    editor.dom.setStyle(editor.selection.getNode(), "justify-content", type);
     editor.fire("change");
   }
 
@@ -220,16 +225,21 @@ const TxtEditor: TypeTxtEditorProps = (
     }
   }, [load, value]);
 
-  useImperativeHandle(ref, () => edit.current, [edit]);
+  useDebounceEffect(
+    () =>
+      loadStylesheet(
+        `/lib/tinymce/skins/ui/oxide${IS_DARK ? "-dark" : ""}/skin.min.css`,
+        "oxide",
+      ),
+    [IS_DARK],
+    { wait: 100 },
+  );
 
-  useEffect(() => {
-    window?.tinymce?.remove();
-    onCreate();
-  }, [systemTheme]);
+  useImperativeHandle(ref, () => edit.current, [edit]);
 
   return (
     <Loading loading={load}>
-      <textarea id="editor" style={{ minHeight: 780 }} />
+      <div id="editor" style={{ minHeight: 780 }} />
       <Script onReady={onCreate} src="/lib/tinymce/tinymce.min.js" />
     </Loading>
   );

@@ -22,14 +22,23 @@ const Item: React.FC<TypeItemProps> = ({
   description,
 }) => (
   <li className={`flex mb-${last ? 0 : 6}`}>
-    <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center bg-black/[0.06] dark:bg-[#27272A]">
-      <Image alt="#" width={30} height={30} src={`${API_RESOURCE}${icon}`} className="dark:dark-icon" />
+    <div className="w-[46px] h-[46px] rounded-full select-none flex items-center justify-center bg-black/[0.06] dark:bg-[#27272A]">
+      <Image
+        alt="#"
+        width={30}
+        height={30}
+        draggable="false"
+        className="dark:dark-icon"
+        src={`${API_RESOURCE}${icon}`}
+      />
     </div>
     <div
       className="ml-5 leading-0 truncate"
       style={{ width: "calc(100% - 66px)" }}
     >
-      <p className="mt-[5px] text-[13px] truncate text-zinc-600 dark:text-white">{name}</p>
+      <p className="mt-[5px] text-[13px] truncate text-zinc-600 dark:text-white">
+        {name}
+      </p>
       {url ? (
         <Link
           href={url}
