@@ -1,7 +1,7 @@
 .no-tailwindcss
   > *:not(.media-controller):not(.media-controller *):not(
     .mce-resizehandle
-  ):not(.tiny-pageembed *) {
+  ):not(.tiny-pageembed *):not(blockquote) {
   margin: revert;
   height: revert;
   display: revert;
