@@ -56,7 +56,7 @@
 }
 
 .tox-checklist > li:not(.tox-checklist--hidden)::before {
-  content: url("./check.svg");
+  content: url("/lib/tinymce/mount/check.svg");
   width: 1em;
   height: 1em;
   cursor: pointer;
@@ -138,7 +138,7 @@
   }
 
   .tox-checklist li:not(.tox-checklist--hidden).tox-checklist--checked::before {
-    content: url("./checked.svg");
+    content: url("/lib/tinymce/mount/checked.svg");
   }
 }
 
@@ -153,7 +153,7 @@
   }
 
   .tox-checklist li:not(.tox-checklist--hidden).tox-checklist--checked::before {
-    content: url("./checked-dark.svg");
+    content: url("/lib/tinymce/mount/checked-dark.svg");
   }
 
   .tox-editor-header,

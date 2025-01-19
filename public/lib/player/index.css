@@ -59,7 +59,7 @@
 .player-video video,
 .player-video media-controller {
   border-radius: 6px !important;
-  height: revert-layer !important;
+  /* height: revert-layer !important; */
 }
 
 .player-video media-control-bar {
