@@ -16,6 +16,7 @@ export const CONFIG = {
   codesample_languages: [
     { text: "HTML/XML", value: "markup" },
     { text: "JavaScript/TypeScript", value: "javascript" },
+    { text: "TSX", value: "tsx" },
     { text: "CSS", value: "css" },
     { text: "Bash", value: "bash" },
     { text: "Java", value: "java" },
@@ -31,6 +32,9 @@ export const CONFIG = {
     { text: "C", value: "c" },
     { text: "C#", value: "csharp" },
     { text: "C++", value: "cpp" },
+    { text: "Scala", value: "scala" },
+    { text: "Dockerfile", value: "docker" },
+    { text: "Nginx", value: "nginx" },
   ],
   plugins: [
     "lists",

@@ -16,6 +16,9 @@ import "prismjs/components/prism-java.min.js";
 import "prismjs/components/prism-rust.min.js";
 import "prismjs/components/prism-dart.min.js";
 import "prismjs/components/prism-swift.min.js";
+import "prismjs/components/prism-nginx.min.js";
+import "prismjs/components/prism-scala.min.js";
+import "prismjs/components/prism-docker.min.js";
 import "prismjs/components/prism-kotlin.min.js";
 import "prismjs/components/prism-python.min.js";
 import "prismjs/components/prism-csharp.min.js";
@@ -58,15 +61,18 @@ function highlightCodeInRichText(richText: string) {
   let match;
   while ((match = codeBlockRegex.exec(richText)) !== null) {
     const [text, language, code] = match;
-    const beautifyCode = Prism.highlight(
-      formatEntities(code),
-      Prism.languages[language],
-      language,
-    );
-    highlightedRichText = highlightedRichText.replace(
-      text,
-      `<pre class="language-${language}">${beautifyCode}</pre>`,
-    );
+    const grammar = Prism.languages?.[language];
+    if (grammar) {
+      const beautifyCode = Prism.highlight(
+        formatEntities(code),
+        grammar,
+        language,
+      );
+      highlightedRichText = highlightedRichText.replace(
+        text,
+        `<pre class="language-${language}">${beautifyCode}</pre>`,
+      );
+    }
   }
   return highlightedRichText;
 }
