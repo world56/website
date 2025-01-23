@@ -17,7 +17,7 @@ const Layout: React.FC<TypeMainProps> = ({ children }) => {
           className={`
           ${config.forTheRecord ? "" : "md:mb-14 mb-20"}
           md:w-[985px] md:mt-14 md:min-h-[706px] md:p-[30px] md:pt-[90px] 
-          mx-3 p-5 shadow-custom rounded-3xl relative bg-white dark:bg-card
+          mx-3 md:mr-0 p-5 shadow-custom rounded-3xl relative bg-white dark:bg-card
         `}
         >
           <Navigation />
