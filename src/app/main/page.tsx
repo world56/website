@@ -33,7 +33,7 @@ const About = async () => {
       {skills?.length ? (
         <>
           <span className="main-title">技能简介</span>
-          <div className="md:pb-0 md:flex-wrap md:overflow-scroll flex overflow-x-auto pb-1">
+          <div className="md:pb-0 md:flex-wrap flex pb-1 overflow-x-scroll">
             {skills.map((v) => (
               <Tooltip
                 key={v.name}
