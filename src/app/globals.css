@@ -87,3 +87,8 @@ a {
   text-decoration: none;
 }
 
+@media (max-width: 768px) {
+  .about-me > :first-child {
+    margin-top: 0 !important;
+  }
+}

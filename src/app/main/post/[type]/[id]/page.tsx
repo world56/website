@@ -119,9 +119,8 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
         </header>
 
         <section
-          style={{ minHeight: 398 }}
           dangerouslySetInnerHTML={{ __html }}
-          className="mce-content-body no-tailwindcss"
+          className="mce-content-body no-tailwindcss min-h-[340px] md:min-h-[398px]"
         />
         <footer>
           <p className="text-sm mt-8 text-gray-400 text-center select-none">

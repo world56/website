@@ -17,7 +17,9 @@
   vertical-align: revert;
 }
 
-.mce-content-body {
+.mce-content-body,
+.mce-content-body ul li span,
+.mce-content-body ol li span {
   white-space: normal;
   word-wrap: break-word;
   word-break: break-word;
@@ -34,6 +36,13 @@
 
 .mce-content-body img {
   max-width: 100%;
+}
+
+.mce-content-body blockquote {
+  overflow: hidden;
+  margin: 0 !important;
+  padding-right: 10px !important;
+  border-left: 3px solid #ccc !important;
 }
 
 .mce-content-body code {
@@ -137,6 +146,11 @@
     border: 1px solid #f1f1f3;
   }
 
+  .mce-content-body blockquote {
+    color: #666;
+    background: #f8f8f8;
+  }
+
   .tox-checklist li:not(.tox-checklist--hidden).tox-checklist--checked::before {
     content: url("/lib/tinymce/mount/checked.svg");
   }
@@ -150,6 +164,11 @@
 
   .tox-tinymce {
     border: 1px solid #3c4349;
+  }
+
+  .mce-content-body blockquote {
+    color: #e1e1e1cc;
+    background: #32323280;
   }
 
   .tox-checklist li:not(.tox-checklist--hidden).tox-checklist--checked::before {

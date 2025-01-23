@@ -9,7 +9,7 @@ const routes = [
   { url: "/life", cnName: "生活", enName: "My Life" },
   { url: "/achievements", cnName: "成果", enName: "Achievements" },
   { url: "/notes", cnName: "笔记", enName: "Notes" },
-  { url: "/contact", cnName: "取得联系", enName: "Contact" },
+  { url: "/contact", cnName: "留言", enName: "Contact" },
 ];
 
 /**
@@ -27,16 +27,17 @@ const MainNavigation = () => {
   }, [path]);
 
   return (
-    <nav className="w-full h-[65px] absolute top-[5px] left-0 flex justify-between items-center select-none">
-      <h2 className="ml-6 font-bold text-2xl">{name}</h2>
-      <ul className="mr-6 flex w-max items-center">
-        {routes.map((v) => (
+    <nav className="md:absolute md:top-[5px] md:h-[65px] w-full z-10 fixed bottom-3 h-[54px] left-0 flex justify-between items-center">
+      <h2 className="md:inline hidden ml-6 font-bold text-2xl select-none">{name}</h2>
+      <ul className="md:mr-6 md:shadow-none md:w-max md:items-center h-full rounded-3xl w-full mx-5 flex justify-around items-center bg-white dark:bg-black shadow-light md:dark:bg-transparent">
+        {routes.map((v, i) => (
           <Link key={v.url} href={v.url} draggable="false">
             <li
               className={`
+              ${i === 0 ? "" : "md:ml-2 ml-0"}
               ${v.enName === name ? "nav-select" : ""}
-              ml-2 py-2 px-3 font-medium rounded-full cursor-pointer
-              hover:text-white hover:bg-black dark:hover:bg-white dark:hover:text-black`}
+              py-1 px-2 md:py-2 md:px-3 font-medium rounded-full cursor-pointer
+              md:hover:text-white md:hover:bg-black md:dark:hover:bg-white md:dark:hover:text-black`}
             >
               {v.cnName}
             </li>

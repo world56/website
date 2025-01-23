@@ -25,7 +25,7 @@ const About = async () => {
   return (
     <>
       <div
-        className="mce-content-body no-tailwindcss"
+        className="mce-content-body no-tailwindcss about-me"
         dangerouslySetInnerHTML={
           local.profile ? { __html: local.profile } : undefined
         }
@@ -33,7 +33,7 @@ const About = async () => {
       {skills?.length ? (
         <>
           <span className="main-title">技能简介</span>
-          <div className="flex flex-wrap">
+          <div className="md:pb-0 md:flex-wrap md:overflow-scroll flex overflow-x-auto pb-1">
             {skills.map((v) => (
               <Tooltip
                 key={v.name}

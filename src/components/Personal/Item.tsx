@@ -7,8 +7,8 @@ import type { Tag } from "@prisma/client";
 
 interface TypeItemProps
   extends Pick<Tag, "name" | "icon" | "url" | "description"> {
-  children?: React.ReactNode;
   last?: boolean;
+  children?: React.ReactNode;
 }
 
 /**
@@ -21,7 +21,7 @@ const Item: React.FC<TypeItemProps> = ({
   icon,
   description,
 }) => (
-  <li className={`flex mb-${last ? 0 : 6}`}>
+  <li className={`flex ${last ? `mb-0` : `md:mb-6 mb-3`}`}>
     <div className="w-[46px] h-[46px] rounded-full select-none flex items-center justify-center bg-black/[0.06] dark:bg-[#27272A]">
       <Image
         alt="#"

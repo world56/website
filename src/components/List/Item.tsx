@@ -20,9 +20,9 @@ interface TypeListItemProps {
  * @description 凑合用吧
  */
 const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
-  <li className="w-[302px] mb-[10px] p-[10px] rounded-md border border-slate-100 overflow-hidden cursor-pointer hover:shadow-post duration-75 dark:border-[#272729]">
+  <li className="md:w-[302px] w-full mb-[10px] p-[10px] rounded-md border border-slate-100 overflow-hidden cursor-pointer hover:shadow-post duration-75 dark:border-[#272729]">
     <Link href={url} draggable="false">
-      <figure className="overflow-hidden rounded-md">
+      <figure className="overflow-hidden rounded-md w-full">
         <Image
           alt="#"
           priority
@@ -30,7 +30,7 @@ const Item: React.FC<TypeListItemProps> = ({ src, url, name, desc }) => (
           height={180}
           draggable="false"
           src={`${API_RESOURCE}${src}`}
-          className="min-w-[280px] h-[180px] object-cover w-auto transition hover:scale-110"
+          className=" w-full h-[180px] object-cover transition hover:scale-110"
         />
       </figure>
       <h2 className="mt-[10px] text-[16px] font-bold truncate">{name}</h2>

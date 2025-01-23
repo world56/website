@@ -35,11 +35,11 @@ const ReadingTools = () => {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center text-lg">
       <Tooltip title="复制链接">
         <ShareAltOutlined
           onClick={onCopy}
-          className="block mr-2 hover:text-black dark:hover:text-white"
+          className="block mr-4 hover:text-black dark:hover:text-white md:mr-3"
         />
       </Tooltip>
       <Tooltip title="返回上页">
