@@ -16,7 +16,6 @@ export const CONFIG = {
   codesample_languages: [
     { text: "HTML/XML", value: "markup" },
     { text: "JavaScript/TypeScript", value: "javascript" },
-    { text: "TSX", value: "tsx" },
     { text: "CSS", value: "css" },
     { text: "Bash", value: "bash" },
     { text: "Java", value: "java" },
