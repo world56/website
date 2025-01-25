@@ -35,6 +35,10 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
 
+    ::-webkit-scrollbar-thumb {
+      background: #c3c3c3;
+    }
+
     .nav-select {
       color: white;
       background: black;
@@ -66,6 +70,10 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
+    ::-webkit-scrollbar-thumb {
+      background: #727375 !important;
+    }
+
     .nav-select {
       color: black;
       background: white;
@@ -82,13 +90,35 @@
   }
 }
 
+@media (max-width: 768px) {
+  .about-me > :first-child {
+    margin-top: 0 !important;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
-@media (max-width: 768px) {
-  .about-me > :first-child {
-    margin-top: 0 !important;
-  }
+::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar {
+  height: 14px;
+  width: 14px;
+}
+
+body::-webkit-scrollbar-thumb {
+  border: 3px solid hsl(var(--background));
+}
+
+body::-webkit-scrollbar-track {
+  background: hsl(var(--background));
 }
