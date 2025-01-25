@@ -94,6 +94,14 @@
   .about-me > :first-child {
     margin-top: 0 !important;
   }
+
+  .text-content img {
+    transition: none !important;
+  }
+
+  .text-content:hover img {
+    transform: scale(1) !important;
+  }
 }
 
 a {
@@ -121,4 +129,12 @@ body::-webkit-scrollbar-thumb {
 
 body::-webkit-scrollbar-track {
   background: hsl(var(--background));
+}
+
+.text-content img {
+  transition: transform 0.5s ease;
+}
+
+.text-content:hover img {
+  transform: scale(1.1);
 }
