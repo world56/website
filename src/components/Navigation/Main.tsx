@@ -36,7 +36,7 @@ const MainNavigation = () => {
               className={`
               ${i === 0 ? "" : "md:ml-2 ml-0"}
               ${v.enName === name ? "nav-select" : ""}
-              py-1 px-2 md:py-2 md:px-3 font-medium rounded-full cursor-pointer
+              py-[6px] px-2 md:py-2 md:px-3 font-medium rounded-full cursor-pointer
               md:hover:text-white md:hover:bg-black md:dark:hover:bg-white md:dark:hover:text-black`}
             >
               {v.cnName}

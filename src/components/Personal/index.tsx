@@ -40,10 +40,10 @@ const Personal = async () => {
           />
         ) : null}
         <div className="pl-5 md:pl-0">
-          <h1 className="md:my-6 md:text-center text-left my-[14px] text-2xl font-bold">
+          <h1 className="md:my-6 md:text-center text-left mt-[16px] mb-[10px] text-2xl font-bold">
             {local.name}
           </h1>
-          <span className="md:py-[5px] md:px-[10px] rounded-md text-[13px] select-none md:bg-black/[0.06] md:dark:bg-[#2B2B2C]">
+          <span className="md:py-[5px] md:px-[10px] md:bg-black/[0.06] md:dark:bg-[#2B2B2C] rounded-md text-[13px] select-none">
             {local.position}
           </span>
         </div>
