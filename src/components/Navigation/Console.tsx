@@ -35,7 +35,7 @@ const MENU = [
     icon: <FileTextOutlined />,
   },
   {
-    title: "联系消息",
+    title: "留言消息",
     path: "/console/contact",
     icon: <MessageOutlined />,
   },
