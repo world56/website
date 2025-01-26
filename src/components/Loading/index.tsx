@@ -16,7 +16,7 @@ const Loading: React.FC<TypeLoadingProps> = ({
   <div style={{ minHeight: height }} className="relative w-full">
     <div className={className}>{children}</div>
     {loading ? (
-      <div className="w-full h-full absolute top-0 left-0 flex justify-center items-center flex-col select-none bg-white opacity-75">
+      <div className="w-full h-full absolute top-0 left-0 flex justify-center items-center flex-col select-none opacity-75 bg-white dark:bg-card">
         <LoadingOutlined className="text-[30px]" />
         {/* <p className="text-sm mt-4">正在加载</p> */}
       </div>

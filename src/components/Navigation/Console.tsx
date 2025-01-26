@@ -35,7 +35,7 @@ const MENU = [
     icon: <FileTextOutlined />,
   },
   {
-    title: "联系消息",
+    title: "留言消息",
     path: "/console/contact",
     icon: <MessageOutlined />,
   },
@@ -74,14 +74,14 @@ const Console = () => {
   const routePath = path.split("/").splice(0, 4).join("/");
 
   return (
-    <aside className="w-[250px] h-full px-3 rounded-xl overflow-hidden shadow-custom bg-white sticky top-14 select-none">
+    <aside className="w-[250px] h-full px-3 rounded-xl overflow-hidden shadow-custom sticky top-14 select-none bg-white dark:bg-card">
       <div className="flex items-center">
-        <div className="bg-black/5 p-1 rounded-full inline-block my-4">
+        <div className="p-1 rounded-full inline-block my-4 bg-black/5 dark:bg-[#34363c]">
           <HighlightOutlined className="text-2xl m-1 flex" />
         </div>
         <h3 className="ml-2 font-bold">主页管理</h3>
       </div>
-      <hr className="m-auto mb-2 border-b border-slate-50" />
+      <hr className="m-auto mb-2 border-t border-t-gray-100 dark:border-t-[#272729]" />
       <ul onClick={onChange}>
         {MENU.map((v) => (
           <li
@@ -90,8 +90,8 @@ const Console = () => {
             className={`
                   ${
                     routePath === v.path
-                      ? "bg-black text-white"
-                      : "hover:bg-black/5"
+                      ? "bg-black text-white dark:bg-white dark:text-black"
+                      : "hover:bg-black/5 dark:hover:bg-white dark:hover:text-black"
                   }
               flex items-center h-9 px-2 mt-1 mb-2
               text-sm cursor-pointer rounded-xl leading-9

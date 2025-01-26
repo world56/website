@@ -35,15 +35,15 @@ const ReadingTools = () => {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center text-lg">
       <Tooltip title="复制链接">
         <ShareAltOutlined
           onClick={onCopy}
-          className="mr-2 hover:text-black block"
+          className="block mr-4 md:hover:text-black md:dark:hover:text-white md:mr-3"
         />
       </Tooltip>
       <Tooltip title="返回上页">
-        <RollbackOutlined onClick={onBack} className="hover:text-black block" />
+        <RollbackOutlined onClick={onBack} className="block md:hover:text-black md:dark:hover:text-white" />
       </Tooltip>
     </div>
   );

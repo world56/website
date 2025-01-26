@@ -32,6 +32,8 @@ const UploadImage: TypeUploadImageRefProps = (
   { size = "middle", radius = true, className = "", value, onChange },
   ref,
 ) => {
+  const toWhite = size === "small" ? "dark:dark-icon" : "";
+
   const [load, setLoad] = useState(false);
   const [val, setVal] = useState<string>();
 
@@ -72,6 +74,7 @@ const UploadImage: TypeUploadImageRefProps = (
          relative flex justify-center items-center flex-col ${STYLE.IMG} 
          cursor-pointer border border-dashed overflow-hidden select-none ${className}
         border-gray-400 text-gray-600 hover:border-black hover:text-black ${borderRadius}
+        dark:text-white dark:hover:border-white
       `}
     >
       {RESOURCE_URL ? (
@@ -82,12 +85,12 @@ const UploadImage: TypeUploadImageRefProps = (
             width={STYLE.SIZE}
             height={STYLE.SIZE}
             src={`${API_RESOURCE}${RESOURCE_URL}`}
-            className={`w-full h-full object-cover ${borderRadius}`}
+            className={`w-full h-full object-cover ${toWhite} ${borderRadius}`}
           />
           {load ? (
-            <LoadingOutlined className="text-sm text-black absolute" />
+            <LoadingOutlined className="text-sm absolute text-black dark:text-white" />
           ) : (
-            <CameraFilled className="text-sm text-black absolute" />
+            <CameraFilled className="text-sm absolute text-black dark:text-white" />
           )}
         </>
       ) : (

@@ -120,9 +120,9 @@ const Posts = () => {
             <Tooltip
               type="button"
               disabled={!status}
-              className="p-2 ml-[2px]"
               onClick={() => onSkip(row.original)}
               title={status ? undefined : "开启'可预览'后预览"}
+              className={`p-2 ml-[2px] ${status ? "" : "dark:text-gray-500"}`}
             >
               预览
             </Tooltip>

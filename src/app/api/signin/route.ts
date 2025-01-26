@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       .setExpirationTime("24h")
       .sign(new TextEncoder().encode(process.env.SECRET));
     insertLog({ ip, key: process.env.SECRET!, type: ENUM_COMMON.LOG.LOGIN });
+    await cacheable.delete(`signin_${ip}`);
     return NextResponse.json(true, {
       headers: {
         "Set-Cookie": `Authorization=${token}; SameSite=Lax; HttpOnly; Max-Age=86400; Path=/`,

@@ -11,9 +11,11 @@ import { toast } from "sonner";
 import Script from "next/script";
 import template from "./template";
 import { CONFIG } from "./config";
-import { useDebounceFn } from "ahooks";
+import { useTheme } from "next-themes";
 import { uploadFile } from "@/app/api";
 import Loading from "@/components/Loading";
+import { loadStylesheet } from "@/lib/utils";
+import { useDebounceFn, useDebounceEffect } from "ahooks";
 import { getFileType, getUploadFiles } from "@/lib/filter";
 
 import { ENUM_COMMON } from "@/enum/common";
@@ -48,6 +50,9 @@ const TxtEditor: TypeTxtEditorProps = (
 ) => {
   const edit = useRef<Editor>();
 
+  const { systemTheme } = useTheme();
+  const IS_DARK = systemTheme === "dark";
+
   const [load, setLoad] = useState(true);
 
   const { run: onCreate } = useDebounceFn(() => {
@@ -66,12 +71,13 @@ const TxtEditor: TypeTxtEditorProps = (
         editor.on("init", () => {
           const iframe = editor.iframeElement?.contentDocument!;
           const script = iframe.createElement("script");
-          script.src = `/lib/player/index.js`;
+          script.src = `/lib/tinymce/mount/index.js`;
           iframe!.head.appendChild(script);
-          const link = iframe.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "/lib/tinymce/global.css";
-          iframe.head.appendChild(link);
+        });
+        editor.ui.registry.addButton("codetag", {
+          icon: "sourcecode",
+          tooltip: "代码块标签",
+          onAction: () => editor.execCommand("mceToggleFormat", false, "code"),
         });
         editor.ui.registry.addButton("title", {
           icon: "permanent-pen",
@@ -197,7 +203,7 @@ const TxtEditor: TypeTxtEditorProps = (
   }
 
   function changeAlign(editor: Editor, type: "left" | "center" | "right") {
-    editor.dom.setStyle(editor.selection.getNode(), "text-align", type);
+    editor.dom.setStyle(editor.selection.getNode(), "justify-content", type);
     editor.fire("change");
   }
 
@@ -219,11 +225,21 @@ const TxtEditor: TypeTxtEditorProps = (
     }
   }, [load, value]);
 
+  useDebounceEffect(
+    () =>
+      loadStylesheet(
+        `/lib/tinymce/skins/ui/oxide${IS_DARK ? "-dark" : ""}/skin.min.css`,
+        "oxide",
+      ),
+    [IS_DARK],
+    { wait: 100 },
+  );
+
   useImperativeHandle(ref, () => edit.current, [edit]);
 
   return (
     <Loading loading={load}>
-      <textarea id="editor" style={{ minHeight: 780 }} />
+      <div id="editor" style={{ minHeight: 780 }} />
       <Script onReady={onCreate} src="/lib/tinymce/tinymce.min.js" />
     </Loading>
   );

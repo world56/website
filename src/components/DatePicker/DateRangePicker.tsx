@@ -45,7 +45,7 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
       {date?.to ? (
         <CloseCircleOutlined
           onClick={onClear}
-          className="absolute top-[10px] right-[16px] z-10 cursor-pointer text-gray-500 hover:text-black"
+          className="absolute top-[10px] right-[16px] z-10 cursor-pointer text-gray-500 hover:text-black dark:hover:text-white"
         />
       ) : null}
       <Popover>
@@ -54,7 +54,7 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
             id="date"
             variant="outline"
             className={cn(
-              "w-[265px] justify-start text-left font-normal",
+              "w-[265px] justify-start text-left font-normal bg-card",
               !date && "text-muted-foreground",
             )}
           >

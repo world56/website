@@ -11,19 +11,25 @@ const Layout: React.FC<TypeMainProps> = ({ children }) => {
   const config = DBlocal.get();
   return (
     <>
-      <main className="w-[1300px] mx-auto flex justify-between">
+      <main className="md:w-[1300px] mx-auto md:flex md:justify-between">
         <Personal />
-        <div className="w-[985px] min-h-[706px] mb-8 mt-14 p-[30px] pt-[90px] shadow-custom rounded-3xl relative bg-white">
+        <div
+          className={`
+          ${config.forTheRecord ? "" : "md:mb-14 mb-20"}
+          md:w-[985px] md:mt-14 md:min-h-[706px] md:p-[30px] md:pt-[90px] 
+          mx-3 md:mr-0 p-5 shadow-custom rounded-3xl relative bg-white dark:bg-card
+        `}
+        >
           <Navigation />
           {children}
         </div>
       </main>
       {config.forTheRecord ? (
-        <footer className="w-[1300px] mb-7 mx-auto text-center">
+        <footer className="md:w-[1300px] mt-3 mb-20 md:my-6 mx-auto text-center">
           <a
             target="_blank"
             href="https://beian.miit.gov.cn/"
-            className="pl-[315px] text-zinc-400 text-[15px]"
+            className="md:pl-[315px] text-zinc-400 text-[15px]"
           >
             {config.forTheRecord}
           </a>

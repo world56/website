@@ -6,7 +6,6 @@ import { dateToTime } from "@/lib/format";
 import ReadingTools from "@/components/Tools";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
-import "media-chrome/media-theme-element";
 import "prismjs/components/prism-c.min.js";
 import "prismjs/components/prism-go.min.js";
 import "prismjs/components/prism-php.min.js";
@@ -17,6 +16,9 @@ import "prismjs/components/prism-java.min.js";
 import "prismjs/components/prism-rust.min.js";
 import "prismjs/components/prism-dart.min.js";
 import "prismjs/components/prism-swift.min.js";
+import "prismjs/components/prism-nginx.min.js";
+import "prismjs/components/prism-scala.min.js";
+import "prismjs/components/prism-docker.min.js";
 import "prismjs/components/prism-kotlin.min.js";
 import "prismjs/components/prism-python.min.js";
 import "prismjs/components/prism-csharp.min.js";
@@ -59,15 +61,18 @@ function highlightCodeInRichText(richText: string) {
   let match;
   while ((match = codeBlockRegex.exec(richText)) !== null) {
     const [text, language, code] = match;
-    const beautifyCode = Prism.highlight(
-      formatEntities(code),
-      Prism.languages[language],
-      language,
-    );
-    highlightedRichText = highlightedRichText.replace(
-      text,
-      `<pre class="language-${language}">${beautifyCode}</pre>`,
-    );
+    const grammar = Prism.languages?.[language];
+    if (grammar) {
+      const beautifyCode = Prism.highlight(
+        formatEntities(code),
+        grammar,
+        language,
+      );
+      highlightedRichText = highlightedRichText.replace(
+        text,
+        `<pre class="language-${language}">${beautifyCode}</pre>`,
+      );
+    }
   }
   return highlightedRichText;
 }
@@ -99,26 +104,30 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
     const time = dateToTime(res.createTime);
     const __html = highlightCodeInRichText(res.content);
     return (
-      <>
-        <h1 className="text-3xl font-bold mt-[10px] mb-[22px] break-words whitespace-normal">
-          {res.title}
-        </h1>
-        <div className="flex justify-between items-center pb-5 mb-6 text-gray-400 border-b border-grey-100">
-          <time dateTime={time} className="flex items-center text-[14px]">
-            <FieldTimeOutlined className="mr-1" />
-            {time}
-          </time>
-          <ReadingTools />
-        </div>
-        <div
-          style={{ minHeight: 398 }}
+      <article>
+        <header>
+          <h1 className="text-3xl font-bold mt-[10px] mb-[22px] break-words whitespace-normal">
+            {res.title}
+          </h1>
+          <div className="flex justify-between items-center pb-5 mb-6 text-gray-400 border-b border-grey-100">
+            <time dateTime={time} className="flex items-center text-[14px]">
+              <FieldTimeOutlined className="mr-1" />
+              {time}
+            </time>
+            <ReadingTools />
+          </div>
+        </header>
+
+        <section
           dangerouslySetInnerHTML={{ __html }}
-          className="text-no-tailwind mce-content-body"
+          className="mce-content-body no-tailwindcss min-h-[340px] md:min-h-[398px]"
         />
-        <p className="text-sm mt-3 text-gray-400 text-center select-none">
-          © 著作权归作者所有 转载请注明原链接
-        </p>
-      </>
+        <footer>
+          <p className="text-sm mt-8 text-gray-400 text-center select-none">
+            © 著作权归作者所有 转载请注明原链接
+          </p>
+        </footer>
+      </article>
     );
   } else {
     return <Empty height={520} />;

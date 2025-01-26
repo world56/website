@@ -43,11 +43,27 @@ const TableEdit: React.FC<TypeTableEditProps> = ({ name, form }) => {
     append({ icon: "", name: "", url: "", description: "" });
   }
 
+  function onClickEvent(e?: React.MouseEvent<HTMLButtonElement>) {
+    e?.preventDefault();
+  }
+
   const columns: ColumnDef<Omit<Tag, "id" | "type" | "index">>[] = useMemo(
     () => [
       {
         accessorKey: "icon",
-        header: "图标",
+        header: () => (
+          <Tooltip
+            onClick={onClickEvent}
+            title={
+              <>
+                <p>建议使用黑色svg图标，暗黑模式下，会自动转换为白色</p>
+                <p>svg图标资源下载：iconfont.cn</p>
+              </>
+            }
+          >
+            图标 <QuestionCircleOutlined className="ml-1" />
+          </Tooltip>
+        ),
         size: 30,
         cell: ({ row }) => (
           <FormField
@@ -116,6 +132,7 @@ const TableEdit: React.FC<TypeTableEditProps> = ({ name, form }) => {
         accessorKey: "url",
         header: () => (
           <Tooltip
+            onClick={onClickEvent}
             title={
               <>
                 <p> 配置外部链接后，点击元素可预览链接地址</p>

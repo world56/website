@@ -1,0 +1,193 @@
+.player-media {
+  width: 100%;
+  display: flex !important;
+  margin: 10px 0 !important;
+}
+
+.player-audio {
+  height: 62px;
+  border-radius: 10px;
+  padding: 0 12px 0 20px;
+  display: inline-block;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+}
+
+.player-audio media-controller {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  --media-tooltip-display: none;
+}
+
+.player-audio media-control-bar {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.player-audio media-play-button {
+  --media-button-icon-width: 25px;
+  --media-button-icon-height: 25px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.player-audio media-time-display {
+  padding-left: 15px;
+}
+
+.player-audio media-time-range {
+  width: calc(100% - 320px);
+  --media-range-thumb-width: 5px;
+  --media-range-thumb-height: 12px;
+  --media-range-track-height: 6px;
+  --media-range-track-border-radius: 10px;
+}
+
+.player-audio media-mute-button {
+  padding-right: 0;
+}
+
+.player-audio media-volume-range {
+  padding-right: 0;
+  --media-range-thumb-width: 5px;
+  --media-range-thumb-height: 12px;
+  --media-range-track-height: 6px;
+  --media-range-track-border-radius: 10px;
+}
+
+.player-video,
+.player-video video,
+.player-video media-controller {
+  border-radius: 6px !important;
+  --media-tooltip-display: none;
+}
+
+.player-video media-control-bar {
+  margin: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.player-video media-time-range {
+  width: 150px;
+  --media-range-thumb-width: 5px;
+  --media-range-thumb-height: 12px;
+  --media-range-track-height: 6px;
+  --media-range-track-border-radius: 10px;
+}
+
+.player-video media-mute-button {
+  background: rgb(20 20 30 / 0.7);
+}
+
+.player-video media-volume-range {
+  padding-right: 0;
+  --media-range-thumb-width: 5px;
+  --media-range-thumb-height: 12px;
+  --media-range-track-height: 6px;
+  --media-range-track-border-radius: 10px;
+}
+
+.player-video media-time-display {
+  width: 50px;
+  padding: 10px 0;
+}
+
+.player-audio media-time-range,
+.player-audio media-mute-button,
+.player-audio media-time-display,
+.player-audio media-volume-range,
+.player-audio media-playback-rate-button {
+  background: transparent !important;
+}
+
+:is(html.light):not(html.dark),
+html:not([class]),
+html[class=""] {
+  .player-audio {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+  }
+
+  .player-audio media-play-button {
+    background: black;
+  }
+
+  .player-audio media-time-display {
+    color: rgb(100, 116, 139);
+    border-left: 1px solid #e5e7eb;
+  }
+
+  .player-audio media-mute-button {
+    --media-icon-color: black;
+  }
+
+  .player-audio media-time-range {
+    --media-range-bar-color: #000;
+    --media-range-thumb-background: #000;
+    --media-range-track-background: #e5e7eb;
+  }
+
+  .player-audio media-playback-rate-button {
+    color: rgb(100, 116, 139);
+  }
+
+  .player-audio media-volume-range {
+    --media-range-bar-color: #000;
+    --media-range-thumb-background: #000;
+    --media-range-track-background: #e5e7eb;
+  }
+}
+
+:is(html.dark) {
+  .player-audio {
+    background: #34363c;
+    border: 1px solid #27272a;
+  }
+
+  .player-audio media-play-button {
+    background: #1d1e26;
+  }
+
+  .player-audio media-time-display {
+    color: white;
+    background: transparent;
+    border-left: 1px solid #2c2c30;
+  }
+
+  .player-audio media-time-range {
+    --media-range-bar-color: gray;
+    --media-range-thumb-background: white;
+    --media-range-track-background: #2c2c30;
+  }
+
+  .player-audio media-playback-rate-button {
+    color: white;
+  }
+
+  .player-audio media-volume-range {
+    --media-range-bar-color: gray;
+    --media-range-thumb-background: white;
+    --media-range-track-background: #2c2c30;
+  }
+
+  .player-audio media-mute-button {
+    --media-icon-color: white;
+  }
+}
+
+@media (max-width: 768px) {
+  .player-media > div {
+    width: 100% !important;
+  }
+
+  .player-audio media-time-display,
+  .player-audio media-playback-rate-button {
+    display: none;
+  }
+
+  .player-audio media-play-button {
+    margin-right: 10px !important;
+  }
+}

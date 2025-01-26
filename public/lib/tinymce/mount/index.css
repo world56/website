@@ -1,0 +1,217 @@
+.no-tailwindcss
+  > *:not(.media-controller):not(.media-controller *):not(
+    .mce-resizehandle
+  ):not(.tiny-pageembed *):not(blockquote) {
+  margin: revert;
+  height: revert;
+  display: revert;
+  outline: revert;
+  padding: revert;
+  font-size: revert;
+  max-width: revert;
+  list-style: revert;
+  font-weight: revert;
+  border-width: revert;
+  border-style: revert;
+  border-color: revert;
+  vertical-align: revert;
+}
+
+.mce-content-body,
+.mce-content-body ul li span,
+.mce-content-body ol li span {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.mce-content-body p {
+  min-height: 22.39px;
+  margin: 16px 0;
+}
+
+.mce-content-body pre {
+  margin: 16px 0;
+}
+
+.mce-content-body img {
+  max-width: 100%;
+}
+
+.mce-content-body blockquote {
+  overflow: hidden;
+  margin: 0 !important;
+  padding-right: 10px !important;
+  border-left: 3px solid #ccc !important;
+}
+
+.mce-content-body code {
+  margin: 0 2px;
+  font-size: 15px;
+  color: #ff502c;
+  padding: 2px 5px;
+  background-color: #fff5f5;
+}
+
+.mce-content-body ul,
+.mce-content-body ol {
+  padding-left: 25px !important;
+}
+
+.tox-checklist > li:not(.tox-checklist--hidden) {
+  list-style: none;
+  margin: 0.25em 0;
+  position: relative;
+}
+
+.tox-checklist > li:not(.tox-checklist--hidden)::before {
+  content: url("/lib/tinymce/mount/check.svg");
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+  position: absolute;
+  margin-left: -1.5em;
+  margin-top: 0.125em;
+}
+
+.tiny-pageembed--21by9,
+.tiny-pageembed--16by9,
+.tiny-pageembed--4by3,
+.tiny-pageembed--1by1 {
+  padding: 0;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+.tiny-pageembed--21by9 {
+  padding-top: 42.857143%;
+}
+
+.tiny-pageembed--16by9 {
+  padding-top: 56.25%;
+}
+
+.tiny-pageembed--4by3 {
+  padding-top: 75%;
+}
+
+.tiny-pageembed--1by1 {
+  padding-top: 100%;
+}
+
+.tiny-pageembed--21by9 iframe,
+.tiny-pageembed--16by9 iframe,
+.tiny-pageembed--4by3 iframe,
+.tiny-pageembed--1by1 iframe {
+  top: 0;
+  left: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.tiny-pageembed {
+  border-radius: 6px;
+}
+
+.tox-promotion,
+.tox-statusbar__branding,
+.tox-edit-area::before {
+  display: none !important;
+}
+
+.main-title {
+  display: flex;
+  height: 48px;
+  margin: 30px 0;
+  padding: 0 39px;
+  font-size: 16px;
+  font-weight: bold;
+  width: max-content;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1px 20px;
+}
+
+:root {
+  .main-title {
+    color: white;
+    background: black;
+  }
+
+  .tox-tinymce {
+    border: 1px solid #f1f1f3;
+  }
+
+  .mce-content-body blockquote {
+    color: #666;
+    background: #f8f8f8;
+  }
+
+  .tox-checklist li:not(.tox-checklist--hidden).tox-checklist--checked::before {
+    content: url("/lib/tinymce/mount/checked.svg");
+  }
+}
+
+.dark {
+  .main-title {
+    color: white;
+    background: #34363c;
+  }
+
+  .tox-tinymce {
+    border: 1px solid #3c4349;
+  }
+
+  .mce-content-body blockquote {
+    color: #e1e1e1cc;
+    background: #32323280;
+  }
+
+  .tox-checklist li:not(.tox-checklist--hidden).tox-checklist--checked::before {
+    content: url("/lib/tinymce/mount/checked-dark.svg");
+  }
+
+  .tox-editor-header,
+  .tox-toolbar,
+  .tox-menubar,
+  .tox-tbtn,
+  .tox-split-button,
+  .tox-toolbar-overlord,
+  .tox-mbtn--select,
+  .tox-number-input,
+  .tox-statusbar {
+    background: #191b1f !important;
+  }
+
+  .tox-pop--top * {
+    background: transparent !important;
+  }
+
+  .tox-pop--top .tox-pop__dialog {
+    background: #282b35 !important;
+  }
+
+  .tox-collection__item-label > * {
+    background: transparent !important;
+  }
+
+  .tox-tbtn:hover {
+    background: #34363c !important;
+  }
+
+  .tox-number-input *:hover {
+    background: #34363c !important;
+  }
+
+  .tox-number-input input:focus {
+    background: transparent !important;
+  }
+
+  .tox-split-button:hover {
+    border: none !important;
+  }
+}

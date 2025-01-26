@@ -25,18 +25,15 @@ const About = async () => {
   return (
     <>
       <div
-        className="text-no-tailwind mce-content-body"
+        className="mce-content-body no-tailwindcss about-me"
         dangerouslySetInnerHTML={
           local.profile ? { __html: local.profile } : undefined
         }
       />
-
       {skills?.length ? (
         <>
-          <div className="w-[150px] h-[45px] p-x-[39px] my-[30px] flex items-center justify-center font-bold text-[16px] bg-black rounded-[1px_20px_1px_20px]">
-            <span className="text-white">技能简介</span>
-          </div>
-          <div className="flex flex-wrap">
+          <span className="main-title">技能简介</span>
+          <div className="md:pb-0 md:flex-wrap md:overflow-auto flex pb-1 overflow-x-scroll">
             {skills.map((v) => (
               <Tooltip
                 key={v.name}
@@ -55,8 +52,9 @@ const About = async () => {
                       alt="#"
                       width={60}
                       height={50}
+                      draggable="false"
                       src={`${API_RESOURCE}${v.icon}`}
-                      className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer"
+                      className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-pointer dark:dark-icon dark:hover:dark-icon-hover"
                     />
                   </Link>
                 ) : (
@@ -64,8 +62,9 @@ const About = async () => {
                     alt="#"
                     width={60}
                     height={50}
+                    draggable="false"
                     src={`${API_RESOURCE}${v.icon}`}
-                    className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default"
+                    className="min-w-[60px] w-auto h-[50px] m-[10px] cursor-default dark:dark-icon dark:hover:dark-icon-hover"
                   />
                 )}
               </Tooltip>

@@ -2,10 +2,12 @@ export const CONFIG = {
   language: "zh_CN",
   license_key: "gpl",
   language_url: "/lib/tinymce/langs/zh_CN.js",
-  codesample_global_prismjs: true,
+  skin: false,
+  content_css: false,
   verify_html: false,
-  sandbox_iframes: false,
   relative_urls: false,
+  sandbox_iframes: false,
+  codesample_global_prismjs: true,
   custom_elements:
     "media-controller,media-control-bar,media-play-button,media-time-display,media-time-range,media-playback-rate-button,media-mute-button,media-volume-range",
   extended_valid_elements:
@@ -29,13 +31,15 @@ export const CONFIG = {
     { text: "C", value: "c" },
     { text: "C#", value: "csharp" },
     { text: "C++", value: "cpp" },
+    { text: "Scala", value: "scala" },
+    { text: "Dockerfile", value: "docker" },
+    { text: "Nginx", value: "nginx" },
   ],
   plugins: [
     "lists",
     "link",
     "table",
     "image",
-    "advlist",
     "preview",
     "checklist",
     "codesample",
@@ -45,7 +49,7 @@ export const CONFIG = {
   ],
   toolbar1: `
     blocks fontsizeinput 
-    | forecolor backcolor bold italic underline title 
+    | forecolor backcolor bold italic underline title codetag
     | align lineheight numlist bullist checklist table
     | upload pageembed codesample
   `,

@@ -23,6 +23,7 @@ module.exports = {
         post: "0px 0px 12px rgba(0, 0, 0, 0.08)",
         custom:
           "0 .8px 2px rgba(0, 0, 0, .032), 0 2.7px 6.7px rgba(0, 0, 0, .048), 0 12px 30px rgba(0, 0, 0, .08)",
+        light: "0 0 15px rgba(0, 0, 0, 0.15)",
       },
       colors: {
         background: "hsl(var(--background))",
@@ -69,11 +70,16 @@ module.exports = {
     },
   },
   plugins: [
-    require("tailwindcss-animate"),
     function ({ addUtilities }) {
       addUtilities({
         ".display-inherit": {
           display: "inherit",
+        },
+        ".dark-icon": {
+          filter: "brightness(1) saturate(0) invert(0.9)",
+        },
+        ".dark-icon-hover": {
+          filter: "brightness(1) saturate(0) invert(1)",
         },
       });
     },

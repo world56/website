@@ -1,5 +1,5 @@
 {
-  "name": "website:1.1.0",
+  "name": "website:1.2.0",
   "script": "node server.js",
   "cwd": "./"
 }
