@@ -89,6 +89,16 @@ const TxtEditor: TypeTxtEditorProps = (
           tooltip: "上传资源（图片、音频、视频）",
           onAction: () => upload(editor),
         });
+        editor.ui.registry.addButton("remove-ele", {
+          icon: "remove",
+          tooltip: "删除标题",
+          onAction: () => {
+            const node = editor.selection.getNode();
+            if (node.className === "main-title") {
+              node?.parentNode?.removeChild(node);
+            }
+          },
+        });
         editor.ui.registry.addButton("player-left", {
           icon: "align-left",
           tooltip: "左",
@@ -137,6 +147,12 @@ const TxtEditor: TypeTxtEditorProps = (
               e.className,
             ),
           items: "remove",
+          position: "node",
+          scope: "node",
+        });
+        editor.ui.registry.addContextToolbar("remove-ele", {
+          predicate: (e) => /(\bmain-title\b)/.test(e.className),
+          items: "remove-ele",
           position: "node",
           scope: "node",
         });

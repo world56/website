@@ -104,18 +104,13 @@
   }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar {
-  height: 7px;
-  width: 7px;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 6px;
+  height: 8px;
+  width: 8px;
 }
 
 body::-webkit-scrollbar {
@@ -129,6 +124,11 @@ body::-webkit-scrollbar-thumb {
 
 body::-webkit-scrollbar-track {
   background: hsl(var(--background));
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .text-content img {
