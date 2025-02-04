@@ -25,6 +25,11 @@
   word-break: break-word;
 }
 
+.mce-content-body ol,
+.mce-content-body ul {
+  list-style: revert;
+}
+
 .mce-content-body p {
   min-height: 22.39px;
   margin: 16px 0;
