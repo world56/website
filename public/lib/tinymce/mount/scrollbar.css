@@ -1,0 +1,31 @@
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar {
+  height: 14px;
+  width: 14px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #c3c3c3;
+}
+
+body::-webkit-scrollbar-thumb {
+  border: 3px solid #fff;
+}
+
+.dark body::-webkit-scrollbar-track {
+  background: #191b1f;
+}
+
+.dark body::-webkit-scrollbar-thumb {
+  border: 3px solid #191b1f;
+}
+.dark body::-webkit-scrollbar-thumb {
+  background: #727375;
+}

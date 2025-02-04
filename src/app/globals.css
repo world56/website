@@ -109,10 +109,6 @@ a {
   text-decoration: none;
 }
 
-::-webkit-scrollbar {
-  height: 7px;
-  width: 7px;
-}
 
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
