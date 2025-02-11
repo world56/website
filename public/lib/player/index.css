@@ -63,6 +63,10 @@
   --media-tooltip-display: none;
 }
 
+.player-video media-controller {
+  width: 100%;
+}
+
 .player-video media-control-bar {
   margin: 10px;
   overflow: hidden;
