@@ -1,7 +1,7 @@
 .no-tailwindcss
   > *:not(.media-controller):not(.media-controller *):not(
     .mce-resizehandle
-  ):not(.tiny-pageembed *):not(blockquote):not(.main-title) {
+  ):not(.tiny-pageembed *):not(.main-title):not(blockquote) {
   margin: revert;
   height: revert;
   display: revert;
@@ -37,6 +37,10 @@
 
 .mce-content-body pre {
   margin: 16px 0;
+}
+
+.mce-content-body a {
+  color: revert;
 }
 
 .mce-content-body img {
