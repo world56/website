@@ -41,6 +41,7 @@
 
 .mce-content-body img {
   max-width: 100%;
+  display: inline-block;
 }
 
 .mce-content-body blockquote {
