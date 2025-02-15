@@ -4,7 +4,7 @@ updateTheme();
 loadScript("/lib/player/index.js");
 loadStylesheet("/lib/player/index.css");
 loadStylesheet("/lib/tinymce/mount/index.css");
-loadStylesheet("/lib/tinymce/mount/scrollbar.css");
+loadStylesheet("/lib/tinymce/mount/inject.css");
 
 function loadScript(src, callback) {
   var script = document.createElement("script");

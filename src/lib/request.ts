@@ -7,10 +7,14 @@ async function showErrorMessage(e?: unknown) {
     console.log("@-request-error", e);
   } else {
     const { toast } = await import("sonner");
-    if ((e as Response)?.status === 429) {
-      toast.warning("亲，操作频繁，先歇会重试哦");
-    } else {
-      toast.error("请求异常，请检查后重试");
+    const code = (e as Response)?.status;
+    switch (code) {
+      case 429:
+        return toast.warning("亲，操作频繁，先歇会重试哦");
+      case 401:
+        return toast.warning("身份验证失败，请重新登陆");
+      default:
+        return toast.error("请求异常，请检查后重试");
     }
   }
 }

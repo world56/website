@@ -26,31 +26,27 @@ const Personal = async () => {
   const length = items.length;
 
   return (
-    <aside className="md:w-[300px] md:top-14 md:m-0 m-3 h-full p-5 md:p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:bg-card">
-      <div className="flex md:block relative">
-        {local.icon ? (
-          <Image
-            alt="#"
-            priority
-            width={150}
-            height={150}
-            draggable="false"
-            src={`${API_RESOURCE}${local.icon}`}
-            className="md:m-auto md:w-[150px] md:h-[150px] w-24 h-24 block rounded-full object-cover"
-          />
-        ) : null}
-        <div className="pl-5 md:pl-0">
-          <h1 className="md:my-6 md:text-center text-left mt-[16px] mb-[10px] text-2xl font-bold">
-            {local.name}
-          </h1>
-          <span className="md:py-[5px] md:px-[10px] md:bg-black/[0.06] md:dark:bg-[#2B2B2C] rounded-md text-[13px] select-none">
-            {local.position}
-          </span>
-        </div>
-        <Expand />
-      </div>
-      <div id='personal' className="md:block hidden">
-        <hr className="my-5 md:my-8 border-t border-t-gray-100 dark:border-t-[#272729]" />
+    <aside className="md:w-[300px] md:top-14 md:m-0 md:leading-normal m-3 h-full p-5 md:p-[30px] sticky text-center shadow-custom rounded-3xl bg-white dark:bg-card">
+      {local.icon ? (
+        <Image
+          alt="#"
+          priority
+          width={150}
+          height={150}
+          draggable="false"
+          src={`${API_RESOURCE}${local.icon}`}
+          className="md:m-auto md:float-none md:w-[150px] md:h-[150px] w-24 h-24 mr-4 block rounded-full object-cover float-left"
+        />
+      ) : null}
+      <h1 className="md:my-6 md:text-center text-left mt-[16px] mb-[10px] text-2xl font-bold">
+        {local.name}
+      </h1>
+      <span className="md:py-[5px] md:px-[10px] md:bg-black/[0.06] md:dark:bg-[#2B2B2C] md:inline flex mb-[15px] rounded-md text-[13px] select-none">
+        {local.position}
+      </span>
+      <Expand />
+      <div id="personal" className="md:block hidden">
+        <hr className="mt-9 mb-5 md:my-8 border-t border-t-gray-100 dark:border-t-[#272729]" />
         <ul className="text-left mt-4">
           {items.map((v, i) => (
             <Item

@@ -1,7 +1,7 @@
 .no-tailwindcss
   > *:not(.media-controller):not(.media-controller *):not(
     .mce-resizehandle
-  ):not(.tiny-pageembed *):not(blockquote):not(.main-title) {
+  ):not(.tiny-pageembed *):not(.main-title):not(.tiny-pageembed):not(blockquote) {
   margin: revert;
   height: revert;
   display: revert;
@@ -39,8 +39,14 @@
   margin: 16px 0;
 }
 
+.mce-content-body a {
+  color: revert;
+}
+
 .mce-content-body img {
   max-width: 100%;
+  border-radius: 4px;
+  display: inline-block;
 }
 
 .mce-content-body blockquote {
@@ -54,7 +60,6 @@
   margin: 0 2px;
   font-size: 15px;
   color: #ff502c;
-  padding: 2px 5px;
   background-color: #fff5f5;
 }
 

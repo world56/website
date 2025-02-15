@@ -15,7 +15,7 @@ const Expand = () => {
   return (
     <button
       onClick={onClick}
-      className="flex md:hidden absolute right-0 top-0"
+      className="flex md:hidden absolute right-4 top-4"
     >
       <DownCircleOutlined
         className={`text-xl duration-200 transform ${open ? "rotate-180" : "rotate-0"}`}

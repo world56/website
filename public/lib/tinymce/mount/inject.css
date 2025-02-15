@@ -26,6 +26,11 @@
 .dark ::-webkit-scrollbar-thumb {
   border: 3px solid #191b1f;
 }
+
 .dark ::-webkit-scrollbar-thumb {
   background: #727375;
+}
+
+a {
+  text-decoration: none;
 }

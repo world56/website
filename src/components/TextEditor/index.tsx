@@ -132,7 +132,7 @@ const TxtEditor: TypeTxtEditorProps = (
           position: "selection",
           scope: "node",
           items:
-            "bold strikethrough removeformat blockquote link | alignleft aligncenter alignright",
+            "bold strikethrough removeformat codetag blockquote link | alignleft aligncenter alignright",
         });
         editor.ui.registry.addContextToolbar("player", {
           predicate: (e) => e.className === "player-media",
