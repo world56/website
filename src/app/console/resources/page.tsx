@@ -48,16 +48,16 @@ const Files = () => {
     pageSize: 15,
   });
 
-  const { data, loading, run } = useRequest(
-    (params?: typeof query) => getResources(params || query),
-    { debounceWait: 200, refreshDeps: [query] },
-  );
+  const { data, loading, run } = useRequest(() => getResources(query), {
+    debounceWait: 200,
+    refreshDeps: [query],
+  });
 
   async function onDelete(id?: Resource["id"]) {
     if (id) {
       await deleteResource({ id });
       toast.success("删除成功");
-      run(query);
+      run();
     }
     setDeleteId(undefined);
   }
