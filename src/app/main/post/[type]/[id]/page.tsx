@@ -78,6 +78,7 @@ function highlightCodeInRichText(richText: string) {
 }
 
 const requestPost = cache(async (id?: number) => {
+  if (isNaN(Number(id))) return null;
   return await prisma.post.findUnique({
     where: { id: Number(id), status: ENUM_COMMON.STATUS.ENABLE },
   });
