@@ -1,7 +1,9 @@
 .no-tailwindcss
   > *:not(.media-controller):not(.media-controller *):not(
     .mce-resizehandle
-  ):not(.tiny-pageembed *):not(.main-title):not(.tiny-pageembed):not(blockquote) {
+  ):not(.tiny-pageembed *):not(.main-title):not(.tiny-pageembed):not(
+    blockquote
+  ):not(h1) {
   margin: revert;
   height: revert;
   display: revert;
@@ -47,6 +49,10 @@
   max-width: 100%;
   border-radius: 4px;
   display: inline-block;
+}
+
+.mce-content-body h1 {
+  font-size: 2em;
 }
 
 .mce-content-body blockquote {
@@ -137,7 +143,7 @@
   height: 48px;
   margin: 30px 0;
   padding: 0 39px;
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: bold;
   line-height: 48px;
   max-width: fit-content;
