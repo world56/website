@@ -1,13 +1,18 @@
 "use client";
 
+import { toast } from "sonner";
 import Tooltip from "@/components/Tooltip";
 import { useParams, useRouter } from "next/navigation";
 import { RollbackOutlined, ShareAltOutlined } from "@ant-design/icons";
 
+interface TypeReadingToolsProps {
+  title: string;
+}
+
 /**
  * @name ReadingTools 分享链接
  */
-const ReadingTools = () => {
+const ReadingTools: React.FC<TypeReadingToolsProps> = ({ title }) => {
   const router = useRouter();
   const params = useParams<{ type: string }>();
 
@@ -20,8 +25,9 @@ const ReadingTools = () => {
   }
 
   function onCopy() {
+    toast("复制成功", { description: "快去分享吧！" });
     const textarea = document.createElement("textarea");
-    textarea.value = window.location.href;
+    textarea.value = `${title}\n${window.location.href}`;
     textarea.style.position = "fixed";
     textarea.style.top = "0px";
     textarea.style.left = "0px";
@@ -43,7 +49,10 @@ const ReadingTools = () => {
         />
       </Tooltip>
       <Tooltip title="返回上页">
-        <RollbackOutlined onClick={onBack} className="block md:hover:text-black md:dark:hover:text-white" />
+        <RollbackOutlined
+          onClick={onBack}
+          className="block md:hover:text-black md:dark:hover:text-white"
+        />
       </Tooltip>
     </div>
   );

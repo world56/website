@@ -115,7 +115,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
               <FieldTimeOutlined className="mr-1" />
               {time}
             </time>
-            <ReadingTools />
+            <ReadingTools title={res.title} />
           </div>
         </header>
 
