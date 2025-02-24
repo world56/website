@@ -6,7 +6,11 @@ import type { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const ip = getClientIP(request);
-  const bol = await cacheable.incr(`msg_${ip}`, 3);
+  const bol = await cacheable.incr({
+    maximum: 3,
+    ttl: "10m",
+    key: `msg_${ip}`,
+  });
   if (!bol) {
     return NextResponse.json("Too many requests.", {
       status: 429,

@@ -221,6 +221,15 @@ export function getLogs(
 }
 
 /**
+ * @name getVisitCount 获取访客数
+ */
+export function getVisitCount() {
+  return request<Record<"today" | "count", number>>(`/api/auth/log`, {
+    method: "GET",
+  });
+}
+
+/**
  * @name deleteLog 删除系统日志
  */
 export function deleteLog(params: Pick<Log, "id">) {

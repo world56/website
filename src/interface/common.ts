@@ -8,10 +8,11 @@ declare global {
   }
   var prisma: PrismaClient;
   var cacheable: Cacheable & {
-    incr(
-      key: string | undefined | null,
-      maximum: number,
-    ): Promise<number | false>;
+    incr(params: {
+      ttl?: string;
+      maximum?: number;
+      key: string | null | undefined;
+    }): Promise<number | false>;
   };
   var DBlocal: {
     FOLDER_PATH: string;

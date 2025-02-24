@@ -10,7 +10,11 @@ import type { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const ip = getClientIP(req);
-  const bol = await cacheable.incr(`signin_${ip}`, 3);
+  const bol = await cacheable.incr({
+    maximum: 3,
+    ttl: "10m",
+    key: `signin_${ip}`,
+  });
   if (!bol) {
     return NextResponse.json("Too many requests.", {
       status: 429,

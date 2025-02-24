@@ -66,11 +66,16 @@ class MemoryStorage extends Cacheable {
     super(props);
   }
 
-  async incr(key: string | null | undefined, maximum: number) {
+  async incr(params: {
+    ttl: string;
+    maximum: number;
+    key: string | null | undefined;
+  }) {
+    const { key, maximum, ttl } = params;
     const KEY = key ?? "unknown";
     let int = (await this.get<number>(KEY)) ?? 0;
-    if (maximum === int) return false;
-    await this.set(KEY, ++int, "10m");
+    if (maximum && maximum === int) return false;
+    await this.set(KEY, ++int, ttl);
     return await this.get(KEY);
   }
 }

@@ -9,6 +9,7 @@ import Select from "@/components/Select";
 import { dateToTime } from "@/lib/format";
 import DataTable from "@/components/Table";
 import Tooltip from "@/components/Tooltip";
+import VisitCount from "@/components/Visit";
 import { deleteLog, getLogs } from "@/app/api";
 import LoadingButton from "@/components/Button";
 import { Button } from "@/components/ui/button";
@@ -136,29 +137,36 @@ const Logs = () => {
   ];
 
   return (
-    <Card spacing={4} title="访问日志" description="记录系统交互相关日志">
-      <div className="flex">
-        <Select
-          items={LOG_ITEMS}
-          value={query.type}
-          placeholder="日志类型"
-          onChange={onTypeChange}
-        />
-        <DateRangePicker onChange={onTimeChange} className="mx-3" />
-        <LoadingButton
+    <>
+      <VisitCount />
+      <Card spacing={4} title="访问日志" description="记录系统交互相关日志">
+        <div className="flex">
+          <Select
+            items={LOG_ITEMS}
+            value={query.type}
+            placeholder="日志类型"
+            onChange={onTypeChange}
+          />
+          <DateRangePicker onChange={onTimeChange} className="mx-3" />
+          <LoadingButton
+            loading={loading}
+            icon={SyncOutlined}
+            onClick={() => run()}
+          />
+        </div>
+        <DataTable
           loading={loading}
-          icon={SyncOutlined}
-          onClick={() => run()}
+          columns={columns}
+          data={data?.list || []}
         />
-      </div>
-      <DataTable loading={loading} columns={columns} data={data?.list || []} />
-      <PageTurning
-        total={data?.total}
-        current={query.current}
-        pageSize={query.pageSize}
-        onChange={onPageTurningChange}
-      />
-    </Card>
+        <PageTurning
+          total={data?.total}
+          current={query.current}
+          pageSize={query.pageSize}
+          onChange={onPageTurningChange}
+        />
+      </Card>
+    </>
   );
 };
 
