@@ -22,13 +22,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Script src="/lib/tinymce/plugins/table/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/lists/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/image/plugin.min.js" />
-    <Script src="/lib/tinymce/plugins/advlist/plugin.min.js" /> 
+    <Script src="/lib/tinymce/plugins/advlist/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/checklist/plugin.min.js" />
+    <Script src="/lib/tinymce/plugins/editimage/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/pageembed/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/codesample/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/searchreplace/plugin.min.js" />
     <Script src="/lib/tinymce/langs/zh_CN.js" />
-    </main>
+  </main>
 );
 
 export default Layout;

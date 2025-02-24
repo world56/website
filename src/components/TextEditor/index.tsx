@@ -124,16 +124,27 @@ const TxtEditor: TypeTxtEditorProps = (
           tooltip: "缩小",
           onAction: () => changeWidth(editor, "REDUCE"),
         });
+
         editor.ui.registry.addContextToolbar("Format", {
+          predicate: (e) =>
+            !edit.current?.selection.isCollapsed() &&
+            !/(\btiny-pageembed\b|\bplayer-media\b)/.test(e.className) &&
+            !["BODY", "PRE", "IMG"].includes(e.tagName),
+          position: "selection",
+          scope: "node",
+          items: "bold strikethrough removeformat codetag blockquote link",
+        });
+
+        editor.ui.registry.addContextToolbar("Location", {
           predicate: (e) =>
             !edit.current?.selection.isCollapsed() &&
             !/(\btiny-pageembed\b|\bplayer-media\b)/.test(e.className) &&
             !["BODY", "PRE"].includes(e.tagName),
           position: "selection",
           scope: "node",
-          items:
-            "bold strikethrough removeformat codetag blockquote link | alignleft aligncenter alignright",
+          items: "alignleft aligncenter alignright",
         });
+
         editor.ui.registry.addContextToolbar("player", {
           predicate: (e) => e.className === "player-media",
           items:

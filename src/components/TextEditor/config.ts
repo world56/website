@@ -42,10 +42,11 @@ export const CONFIG = {
     "image",
     "preview",
     "checklist",
+    "pageembed",
+    "editimage",
     "codesample",
     "fullscreen",
     "searchreplace",
-    "pageembed",
   ],
   toolbar1: `
     blocks fontsizeinput 
