@@ -13,6 +13,7 @@ declare global {
       maximum?: number;
       key: string | null | undefined;
     }): Promise<number | false>;
+    decr(key: string): Promise<void>;
   };
   var DBlocal: {
     FOLDER_PATH: string;

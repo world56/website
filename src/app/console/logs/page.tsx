@@ -9,12 +9,12 @@ import Select from "@/components/Select";
 import { dateToTime } from "@/lib/format";
 import DataTable from "@/components/Table";
 import Tooltip from "@/components/Tooltip";
-import VisitCount from "@/components/Visit";
-import { deleteLog, getLogs } from "@/app/api";
+import Visits from "@/components/Visits";
 import LoadingButton from "@/components/Button";
 import { Button } from "@/components/ui/button";
 import PageTurning from "@/components/PageTurning";
 import { DateRangePicker } from "@/components/DatePicker";
+import { deleteLog, getLogs, getVisitCount } from "@/app/api";
 import { SyncOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 import type { Log } from "@prisma/client";
@@ -41,6 +41,8 @@ const Logs = () => {
     pageSize: 15,
   });
 
+  const visits = useRequest(getVisitCount, { debounceWait: 100 });
+
   const { data, loading, run } = useRequest(
     (params?: typeof query) => getLogs(params || query),
     { debounceWait: 100, refreshDeps: [query] },
@@ -50,6 +52,7 @@ const Logs = () => {
     await deleteLog({ id: row.id });
     toast.success("删除成功");
     run();
+    visits.run();
   }
 
   function onPageTurningChange(current: number) {
@@ -138,8 +141,13 @@ const Logs = () => {
 
   return (
     <>
-      <VisitCount />
-      <Card spacing={4} title="访问日志" description="记录系统交互相关日志">
+      <Visits {...visits.data} />
+      <Card
+        spacing={4}
+        title="访问日志"
+        description="记录系统交互相关日志"
+        className="mb-10"
+      >
         <div className="flex">
           <Select
             items={LOG_ITEMS}

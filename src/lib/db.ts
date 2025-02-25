@@ -78,6 +78,13 @@ class MemoryStorage extends Cacheable {
     await this.set(KEY, ++int, ttl);
     return await this.get(KEY);
   }
+
+  async decr(key: string) {
+    let int = await this.get<number>(key);
+    if (typeof int === "number" && int) {
+      await this.set(key, --int);
+    }
+  }
 }
 
 const prisma = global.prisma || new PrismaClient();

@@ -224,7 +224,7 @@ export function getLogs(
  * @name getVisitCount 获取访客数
  */
 export function getVisitCount() {
-  return request<Record<"today" | "count", number>>(`/api/auth/log`, {
+  return request<Record<"today" | "month" | "count", number>>(`/api/auth/log`, {
     method: "GET",
   });
 }

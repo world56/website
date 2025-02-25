@@ -73,6 +73,7 @@ model Log {
   createTime  DateTime @default(now()) @map("create_time")
 
   @@index(type)
+  @@index([type, createTime])
   @@map("log")
 }
 
