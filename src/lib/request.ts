@@ -1,4 +1,4 @@
-import { isVoid } from "./utils";
+import { isVoid, keepAliveSignin } from "./utils";
 
 export const BASE_URL = `http://127.0.0.1:${process.env.PORT || 3000}`;
 
@@ -12,6 +12,7 @@ async function showErrorMessage(e?: unknown) {
       case 429:
         return toast.warning("亲，操作频繁，先歇会重试哦");
       case 401:
+        keepAliveSignin();
         return toast.warning("身份验证失败，请重新登陆");
       default:
         return toast.error("请求异常，请检查后重试");

@@ -23,3 +23,10 @@ export function loadStylesheet(href: string, id: string) {
   link.onerror = () => console.error(`Failed to load stylesheet: ${href}`);
   document.head.appendChild(link);
 }
+
+export function keepAliveSignin() {
+  const [, prefix] = location.pathname.split("/");
+  if (prefix === "console") {
+    window.open("/signin?K=1", "", `width=500,height=500,top=300,left=200`);
+  }
+}

@@ -12,7 +12,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { useRequest } from "ahooks";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/Button";
@@ -33,6 +33,8 @@ const formSchema = z.object({
 
 const SignIn = () => {
   const router = useRouter();
+  const params = useSearchParams();
+
   const [loading, setLoading] = useState(false);
 
   const { data, loading: adminLoad } = useRequest(existAdmin);
@@ -49,7 +51,8 @@ const SignIn = () => {
       values.password = md5(values.password);
       !exist && (await register(values));
       await signIn(values);
-      router.push("/console");
+      const IS_KEEP_ALIVE = params?.get("K") === "1";
+      IS_KEEP_ALIVE ? window.close() : router.push("/console");
       setLoading(false);
     } catch (error) {
       setLoading(false);
