@@ -94,6 +94,7 @@ export namespace TypeCommon {
   export interface UpdatePost
     extends Partial<Pick<Post, "id">>,
       Pick<Post, "icon" | "title" | "type" | "content"> {
+    footer?: string;
     description?: string;
   }
 

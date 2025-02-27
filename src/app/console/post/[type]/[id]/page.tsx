@@ -32,6 +32,7 @@ const formSchema = z.object({
   icon: z.string().min(1, { message: "封面图不能为空" }),
   content: z.string().min(1, { message: "文本内容不能为空" }),
   title: z.string().min(2, { message: "姓名至少2位字符，且不得为空" }),
+  footer: z.string().max(30, { message: "页脚信息最多支持30个字符" }),
   description: z.string().max(100, { message: "摘要最多支持100个字符" }),
 });
 
@@ -49,7 +50,12 @@ const Edit = () => {
   const form = useForm<TypeCommon.UpdatePost>({
     mode: "onSubmit",
     resolver: zodResolver(formSchema),
-    defaultValues: { title: "", icon: "", description: "" },
+    defaultValues: {
+      icon: "",
+      title: "",
+      footer: "© 著作权归作者所有 转载请注明原链接",
+      description: "",
+    },
   });
 
   const { loading } = useRequest(
@@ -144,6 +150,23 @@ const Edit = () => {
                   <TxtEditor {...field} />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="footer"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>页脚信息</FormLabel>
+                <FormControl>
+                  <Input placeholder="请输入自定义页脚信息" {...field} />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>
+                  位于文本内容底部，居中显示（版权声明、免责声明）
+                </FormDescription>
               </FormItem>
             )}
           />

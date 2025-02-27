@@ -58,6 +58,7 @@ model Post {
   type        String
   icon        String
   description String?
+  footer      String?
   status      Int      @default(1)
   content     String   @db.Text
   updateTime  DateTime @updatedAt @map("update_time")
