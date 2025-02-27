@@ -211,7 +211,7 @@ export function insertLog(
  */
 export function getLogs(
   params: TypeCommon.PageTurning &
-    Partial<Pick<Log, "type">> &
+    Partial<Pick<Log, "type" | "ip">> &
     Partial<Record<"startTime" | "endTime", number | string>>,
 ) {
   return request<TypeCommon.Response<Log>>(`/api/auth/log/list`, {

@@ -6,10 +6,11 @@ import { useRequest } from "ahooks";
 import Card from "@/components/Card";
 import { set, format } from "date-fns";
 import Select from "@/components/Select";
+import Visits from "@/components/Visits";
 import { dateToTime } from "@/lib/format";
 import DataTable from "@/components/Table";
 import Tooltip from "@/components/Tooltip";
-import Visits from "@/components/Visits";
+import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/Button";
 import { Button } from "@/components/ui/button";
 import PageTurning from "@/components/PageTurning";
@@ -61,6 +62,10 @@ const Logs = () => {
 
   function onTypeChange(type: ENUM_COMMON.LOG) {
     setQuery((v) => ({ ...v, type, current: 1 }));
+  }
+
+  function onIPChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setQuery((v) => ({ ...v, current: 1, ip: e.target.value }));
   }
 
   function onTimeChange(e?: DateRange) {
@@ -155,6 +160,16 @@ const Logs = () => {
             placeholder="日志类型"
             onChange={onTypeChange}
           />
+
+          <Tooltip title="输入完整IP进行查询">
+            <Input
+              className="w-60 ml-3"
+              onChange={onIPChange}
+              defaultValue={query.ip!}
+              placeholder="输入IP进行查询"
+            />
+          </Tooltip>
+
           <DateRangePicker onChange={onTimeChange} className="mx-3" />
           <LoadingButton
             loading={loading}
