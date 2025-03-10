@@ -14,6 +14,7 @@ import { CONFIG } from "./config";
 import { useTheme } from "next-themes";
 import { uploadFile } from "@/app/api";
 import Loading from "@/components/Loading";
+import { useTranslations } from "next-intl";
 import { loadStylesheet } from "@/lib/utils";
 import { useDebounceFn, useDebounceEffect } from "ahooks";
 import { getFileType, getUploadFiles } from "@/lib/filter";
@@ -48,6 +49,8 @@ const TxtEditor: TypeTxtEditorProps = (
   { height = 780, value = "", onChange },
   ref,
 ) => {
+  const t = useTranslations("textEditor");
+
   const edit = useRef<Editor>();
 
   const { systemTheme } = useTheme();
@@ -76,22 +79,22 @@ const TxtEditor: TypeTxtEditorProps = (
         });
         editor.ui.registry.addButton("codetag", {
           icon: "sourcecode",
-          tooltip: "代码块标签",
+          tooltip: t("sourcecode"),
           onAction: () => editor.execCommand("mceToggleFormat", false, "code"),
         });
         editor.ui.registry.addButton("title", {
           icon: "permanent-pen",
-          tooltip: "插入标题",
+          tooltip: t("insertTitle"),
           onAction: () => editor?.insertContent(template.getTitle()),
         });
         editor.ui.registry.addButton("upload", {
           icon: "upload",
-          tooltip: "上传资源（图片、音频、视频）",
+          tooltip: t("upload"),
           onAction: () => upload(editor),
         });
         editor.ui.registry.addButton("remove-ele", {
           icon: "remove",
-          tooltip: "删除标题",
+          tooltip: t("removeTitle"),
           onAction: () => {
             const node = editor.selection.getNode();
             if (node.className === "main-title") {
@@ -101,27 +104,27 @@ const TxtEditor: TypeTxtEditorProps = (
         });
         editor.ui.registry.addButton("player-left", {
           icon: "align-left",
-          tooltip: "左",
+          tooltip: t("left"),
           onAction: () => changeAlign(editor, "left"),
         });
         editor.ui.registry.addButton("player-center", {
           icon: "align-center",
-          tooltip: "居中",
+          tooltip: t("center"),
           onAction: () => changeAlign(editor, "center"),
         });
         editor.ui.registry.addButton("player-right", {
           icon: "align-right",
-          tooltip: "右",
+          tooltip: t("right"),
           onAction: () => changeAlign(editor, "right"),
         });
         editor.ui.registry.addButton("player-zoom-in", {
           icon: "zoom-in",
-          tooltip: "放大",
+          tooltip: t("zoomIn"),
           onAction: () => changeWidth(editor, "ADD"),
         });
         editor.ui.registry.addButton("player-zoom-out", {
           icon: "zoom-out",
-          tooltip: "缩小",
+          tooltip: t("zoomOut"),
           onAction: () => changeWidth(editor, "REDUCE"),
         });
 
@@ -206,9 +209,9 @@ const TxtEditor: TypeTxtEditorProps = (
         return Promise.resolve(files);
       },
       {
-        loading: "正在上传资源",
-        error: () => `资源上传失败`,
-        success: () => `${num}个资源上传成功`,
+        loading: t("uploadLod"),
+        error: () => t("uploadError"),
+        success: () => `${num}${t("uploadSuccess")}`,
       },
     );
   }
@@ -217,11 +220,11 @@ const TxtEditor: TypeTxtEditorProps = (
     const ele = editor?.selection.getNode().children[0] as HTMLElement;
     const num = Number(ele.style.width.slice(0, -1));
     if (type === "ADD" && num === 100) {
-      return toast.warning("已达最大尺寸");
+      return toast.warning(t("maxSize"));
     } else if (type === "REDUCE") {
       const IS_AUDIO = ele.hasAttribute("audio");
       if ((IS_AUDIO && num === 50) || (!IS_AUDIO && num === 40)) {
-        return toast.warning("已达最小尺寸");
+        return toast.warning(t("minSize"));
       }
     }
     const width = `${type === "ADD" ? num + 10 : num - 10}%`;

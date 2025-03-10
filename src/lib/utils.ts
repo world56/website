@@ -30,3 +30,7 @@ export function keepAliveSignin() {
     window.open("/signin?K=1", "", `width=500,height=500,top=300,left=200`);
   }
 }
+
+export function checkLanguage(language: any) {
+  return ["zh-Hans", "zh-Hant", "en", "ko", "ja"].includes(language);
+}

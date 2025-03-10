@@ -1,7 +1,6 @@
 "use client";
 
 import { toast } from "sonner";
-import { useState } from "react";
 import { useRequest } from "ahooks";
 import Card from "@/components/Card";
 import { set, format } from "date-fns";
@@ -9,9 +8,11 @@ import { readMessage } from "@/app/api";
 import Select from "@/components/Select";
 import { dateToTime } from "@/lib/format";
 import Details from "./component/Details";
+import { useMemo, useState } from "react";
 import DataTable from "@/components/Table";
 import Confirm from "@/components/Confirm";
 import Tooltip from "@/components/Tooltip";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/Button";
 import { SyncOutlined } from "@ant-design/icons";
@@ -23,12 +24,10 @@ import type { Msg } from "@prisma/client";
 import type { DateRange } from "react-day-picker";
 import type { ColumnDef } from "@tanstack/react-table";
 
-const SELECT_ITEMS = [
-  { value: "true", label: "已读" },
-  { value: "false", label: "未读" },
-];
-
 const Contact = () => {
+  const t = useTranslations("messages");
+  const tCommon = useTranslations("common");
+
   const [msg, setMsg] = useState<Msg>();
   const [deleteId, setDeleteId] = useState<Msg["id"]>();
 
@@ -45,7 +44,7 @@ const Contact = () => {
   async function onDelete(id?: Msg["id"]) {
     if (id) {
       await deleteMessage({ id });
-      toast.success("删除成功");
+      toast.success(tCommon("deleteSuccess"));
       run(query);
     }
     setDeleteId(undefined);
@@ -53,7 +52,7 @@ const Contact = () => {
 
   async function onRead(row: Msg) {
     await readMessage({ id: row.id });
-    toast.success("标记成功");
+    toast.success(t("tag"));
     run();
   }
 
@@ -91,7 +90,7 @@ const Contact = () => {
   const columns: ColumnDef<Msg>[] = [
     {
       accessorKey: "name",
-      header: "留言人",
+      header: t("leaverMessage"),
       cell: ({ row }) => (
         <Tooltip
           title={row.original.name}
@@ -103,7 +102,7 @@ const Contact = () => {
     },
     {
       accessorKey: "content",
-      header: "留言信息",
+      header: t("information"),
       cell: ({ row }) => (
         <Tooltip
           title={row.original.content}
@@ -116,7 +115,7 @@ const Contact = () => {
     {
       accessorKey: "read",
       size: 50,
-      header: "状态",
+      header: t("status"),
       cell: ({ row }) => {
         const { read } = row.original;
         const color = read ? "dark:text-muted-foreground" : "text-red-500";
@@ -126,16 +125,16 @@ const Contact = () => {
             disabled={read}
             onClick={() => onRead(row.original)}
             className={`mx-auto block p-0 ${color}`}
-            title={read ? undefined : "点击标记为已读"}
+            title={read ? undefined : t("readClick")}
           >
-            {read ? "已读" : "未读"}
+            {read ? t("read") : t("unread")}
           </Tooltip>
         );
       },
     },
     {
       accessorKey: "createTime",
-      header: "时间",
+      header: t("time"),
       size: 80,
       cell: ({ row }) => (
         <p className="text-center">{dateToTime(row.original.createTime)}</p>
@@ -143,41 +142,45 @@ const Contact = () => {
     },
     {
       accessorKey: "id",
-      header: "操作",
-      size: 52,
+      header: tCommon("operate"),
+      size: 80,
       cell: ({ row }) => (
-        <>
+        <div className="flex justify-center">
           <Button
             variant="link"
-            className="p-2 ml-[4px]"
+            className="p-"
             onClick={() => setMsg(row.original)}
           >
-            预览
+            {tCommon("preview")}
           </Button>
           <Button
             variant="link"
             className="p-2 text-red-500"
             onClick={() => onConfirmDelete(row.original)}
           >
-            删除
+            {tCommon("delete")}
           </Button>
-        </>
+        </div>
       ),
     },
   ];
 
+  const SELECT_ITEMS = useMemo(
+    () => [
+      { value: "true", label: t("read") },
+      { value: "false", label: t("unread") },
+    ],
+    [t],
+  );
+
   return (
-    <Card
-      spacing={4}
-      title="留言列表"
-      description="主页访问用户主动给您留下的消息"
-    >
+    <Card spacing={4} title={t("title")} description={t("description")}>
       <div className="flex">
         <Select
           value={query.read}
           items={SELECT_ITEMS}
-          placeholder="阅读状态"
           onChange={onSelectRead}
+          placeholder={t("status")}
         />
         <DateRangePicker onChange={onTimeChange} className="mx-3" />
         <LoadingButton

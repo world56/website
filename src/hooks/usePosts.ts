@@ -5,6 +5,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { getClientPosts, getPosts } from "@/app/api";
 import { useDebounceEffect, useRequest } from "ahooks";
 
@@ -12,16 +13,18 @@ import { ENUM_COMMON } from "@/enum/common";
 
 import type { TypeCommon } from "@/interface/common";
 
-const TITLE = {
-  [ENUM_COMMON.POST_TYPE.LIFE]: "个人生活",
-  [ENUM_COMMON.POST_TYPE.NOTES]: "学习笔记",
-  [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: "学习成果",
-};
-
 /**
  * @name usePosts 帖子列表
  */
 export default function usePosts(status?: ENUM_COMMON.STATUS) {
+  const t = useTranslations("menu");
+
+  const TITLE = {
+    [ENUM_COMMON.POST_TYPE.LIFE]: t("life"),
+    [ENUM_COMMON.POST_TYPE.NOTES]: t("notes"),
+    [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: t("achievement"),
+  };
+
   const params = useParams<{ type: ENUM_COMMON.POST_TYPE }>();
   const type = params?.type!;
   const title = TITLE[type];

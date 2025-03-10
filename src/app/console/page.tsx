@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useRequest } from "ahooks";
 import Card from "@/components/Card";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import Upload from "@/components/Upload/Image";
 import LoadingButton from "@/components/Button";
@@ -25,42 +26,45 @@ import { getBasicDetails, updateBasicDetails } from "../api";
 
 import type { TypeCommon } from "@/interface/common";
 
-const TAG__SCHEMA = z.array(
-  z.object({
-    id: z.string().optional(),
-    type: z.number().optional(),
-    index: z.number().optional(),
-    icon: z.string().min(1, { message: "图标必传" }),
-    name: z.string().min(1, { message: "名称不得为空" }),
-    description: z.string().min(1, { message: "描述不得为空" }),
-    url: z.string().refine((v) => !v || /^(https?:\/\/)/i.test(v), {
-      message: "链接地址必须携带协议（http、https）",
-    }),
-  }),
-);
-
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "站点标题至少2位字符，且不得为空",
-  }),
-  favicon: z.string(),
-  description: z.string(),
-  forTheRecord: z.string(),
-  icon: z.string(),
-  name: z.string().min(2, { message: "姓名至少2位字符，且不得为空" }),
-  position: z
-    .string()
-    .min(2, { message: "岗位、专业名称至少2位字符，且不得为空" }),
-  profile: z.string(),
-  items: TAG__SCHEMA,
-  skills: TAG__SCHEMA,
-});
-
 /**
  * @name Console 控制台
  */
 const Console = () => {
+  const tSite = useTranslations("site");
+  const tSkill = useTranslations("skill");
+  const tCommon = useTranslations("common");
+  const tPersonal = useTranslations("personal");
+  const tForm = useTranslations("basicFormHint");
+  const tIntroduction = useTranslations("introduction");
+
+  const TAG__SCHEMA = z.array(
+    z.object({
+      id: z.string().optional(),
+      type: z.number().optional(),
+      index: z.number().optional(),
+      icon: z.string().min(1, { message: tForm("icon") }),
+      name: z.string().min(1, { message: tForm("name") }),
+      description: z.string().min(1, { message: tForm("description") }),
+      url: z.string().refine((v) => !v || /^(https?:\/\/)/i.test(v), {
+        message: tForm("url"),
+      }),
+    }),
+  );
+
   const [submitLoad, setSubmitLoad] = useState(false);
+
+  const formSchema = z.object({
+    title: z.string().min(2, { message: tForm("siteTitle") }),
+    favicon: z.string(),
+    description: z.string(),
+    forTheRecord: z.string(),
+    icon: z.string(),
+    name: z.string().min(2, { message: tForm("fullName") }),
+    position: z.string().min(2, { message: tForm("position") }),
+    profile: z.string(),
+    items: TAG__SCHEMA,
+    skills: TAG__SCHEMA,
+  });
 
   const form = useForm<TypeCommon.BasisDTO>({
     resolver: zodResolver(formSchema),
@@ -87,7 +91,9 @@ const Console = () => {
     try {
       setSubmitLoad(true);
       await updateBasicDetails(values);
-      toast.success("保存成功", { description: "用户刷新页面生效" });
+      toast.success(tCommon("saveSuccess"), {
+        description: tCommon("saveSuccessContent"),
+      });
       setSubmitLoad(false);
     } catch (error) {
       setSubmitLoad(false);
@@ -98,24 +104,22 @@ const Console = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card
-          title="站点信息"
           className="mb-3"
           loading={loading}
-          description="设置站点基本信息，提升SEO效率"
+          title={tSite("title")}
+          description={tSite("description")}
         >
           <FormField
             name="favicon"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>站点图标</FormLabel>
+                <FormLabel>{tSite("icon")}</FormLabel>
                 <FormControl>
                   <Upload {...field} />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
-                  浏览器标签显示的站点图标，支持ico、png、svg等常用格式
-                </FormDescription>
+                <FormDescription>{tSite("iconDesc")}</FormDescription>
               </FormItem>
             )}
           />
@@ -125,12 +129,15 @@ const Console = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>站点标题</FormLabel>
+                <FormLabel>{tSite("siteTitle")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="请输入站点标题" {...field} />
+                  <Input
+                    {...field}
+                    placeholder={tSite("siteTitlePlaceholder")}
+                  />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>浏览器标签显示的站点名称</FormDescription>
+                <FormDescription>{tSite("siteTitleDesc")}</FormDescription>
               </FormItem>
             )}
           />
@@ -140,14 +147,12 @@ const Console = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>站点描述</FormLabel>
+                <FormLabel>{tSite("desc")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="请输入站点描述" {...field} />
+                  <Input placeholder={tSite("descPlaceholder")} {...field} />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
-                  搜索引擎会读取该信息，并将其用作搜索结果中的摘要
-                </FormDescription>
+                <FormDescription>{tSite("descDesc")}</FormDescription>
               </FormItem>
             )}
           />
@@ -157,31 +162,32 @@ const Console = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>站点备案号</FormLabel>
+                <FormLabel>{tSite("recorded")}</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="请输入网站备案号" />
+                  <Input
+                    {...field}
+                    placeholder={tSite("recordedPlaceholder")}
+                  />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
-                  根据中国大陆法规，域名备案号必须展示在页面底部（填写保存后显示）
-                </FormDescription>
+                <FormDescription>{tSite("recordedDesc")}</FormDescription>
               </FormItem>
             )}
           />
         </Card>
 
         <Card
-          title="个人信息"
           className="mb-3"
           loading={loading}
-          description="主页左侧个人信息栏，可配置头像、姓名、岗位、自定义个人标签内容"
+          title={tPersonal("title")}
+          description={tPersonal("description")}
         >
           <FormField
             name="icon"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>头像</FormLabel>
+                <FormLabel>{tPersonal("avatar")}</FormLabel>
                 <FormControl>
                   <Upload {...field} size="large" />
                 </FormControl>
@@ -195,9 +201,12 @@ const Console = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>姓名</FormLabel>
+                <FormLabel>{tPersonal("name")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="请输入您的姓名" {...field} />
+                  <Input
+                    {...field}
+                    placeholder={tPersonal("namePlaceholder")}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -209,30 +218,31 @@ const Console = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>岗位</FormLabel>
+                <FormLabel>{tPersonal("position")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="请输入您的岗位、专业" {...field} />
+                  <Input
+                    {...field}
+                    placeholder={tPersonal("positionPlaceholder")}
+                  />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
-                  例如，前端开发工程、数据开发工程师
-                </FormDescription>
+                <FormDescription>{tPersonal("positionDesc")}</FormDescription>
               </FormItem>
             )}
           />
 
           <FormItem>
-            <FormLabel>个人标签</FormLabel>
+            <FormLabel>{tPersonal("tag")}</FormLabel>
             <FormControl>
               <TableEdit name="items" form={form} />
             </FormControl>
           </FormItem>
         </Card>
         <Card
-          title="个人简介"
           className="mb-3"
           loading={loading}
-          description="更详细地介绍自己的经历、爱好和想法，以便他人能更快了解你的性格"
+          title={tIntroduction("title")}
+          description={tIntroduction("description")}
         >
           <FormField
             name="profile"
@@ -248,9 +258,9 @@ const Console = () => {
           />
         </Card>
         <Card
-          title="专业技能"
           loading={loading}
-          description="罗列出自己专业范围内的具体技能、证书，帮助他人快速了解你的专业能力"
+          title={tSkill("title")}
+          description={tSkill("description")}
         >
           <FormItem>
             <FormControl>
@@ -265,7 +275,7 @@ const Console = () => {
             className="my-5"
             loading={loading || submitLoad}
           >
-            保存设置
+            {tCommon("submit")}
           </LoadingButton>
         </div>
       </form>

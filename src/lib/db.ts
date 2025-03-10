@@ -8,7 +8,9 @@ import {
 } from "fs";
 import { join } from "path";
 import { Cacheable } from "cacheable";
+import { checkLanguage } from "./utils";
 import { PrismaClient } from "@prisma/client";
+
 import type { CacheableOptions } from "cacheable";
 
 /**
@@ -58,6 +60,14 @@ class LocalStorage {
       return unlink(path, (err) => (err ? false : true));
     }
     return false;
+  }
+
+  /**
+   * @name language 获取系统语言
+   */
+  language() {
+    const language = this.get().language || process.env.SECRET;
+    return checkLanguage(language) ? language : "zh-Hans";
   }
 }
 

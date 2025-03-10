@@ -13,38 +13,41 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { insertMessage } from "@/app/api";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/Button";
 import { SendOutlined } from "@ant-design/icons";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const formSchema = z.object({
-  name: z
-    .string({ message: "您的尊称不得为空" })
-    .min(2, { message: "您的尊称不得少于2位字符" }),
-  telephone: z
-    .string()
-    .refine(
-      (v) =>
-        !v ||
-        /^((\+?\d{1,4}[-\s]?)?\(?\d{2,4}\)?[-\s]?\d{7,8}|\+?\d{1,4}[-\s]?\d{10,12})$/.test(
-          v,
-        ),
-      { message: "请输入有效的电话号码（区号用-隔开）" },
-    ),
-  email: z
-    .string()
-    .email({ message: "请输入有效的邮箱地址" })
-    .or(z.literal(""))
-    .optional(),
-  content: z
-    .string({ message: "留言不得为空 " })
-    .min(5, { message: "您的留言不得少于5位字符" }),
-});
-
 function Contact() {
+  const t = useTranslations("message");
+
   const [load, setLoad] = useState(false);
+
+  const formSchema = z.object({
+    name: z
+      .string({ message: t("formNameNotEmpty") })
+      .min(2, { message: t("formNameTooShort") }),
+    telephone: z
+      .string()
+      .refine(
+        (v) =>
+          !v ||
+          /^((\+?\d{1,4}[-\s]?)?\(?\d{2,4}\)?[-\s]?\d{7,8}|\+?\d{1,4}[-\s]?\d{10,12})$/.test(
+            v,
+          ),
+        { message: t("formPhone") },
+      ),
+    email: z
+      .string()
+      .email({ message: t("formEmail") })
+      .or(z.literal(""))
+      .optional(),
+    content: z
+      .string({ message: t("formMessage") })
+      .min(5, { message: t("formMessageTooShort") }),
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,9 +76,9 @@ function Contact() {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>您的尊称</FormLabel>
+              <FormLabel>{t("name")}</FormLabel>
               <FormControl>
-                <Input placeholder="请输入您的尊称" {...field} />
+                <Input placeholder={t("namePlaceholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,9 +90,9 @@ function Contact() {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>您的电话</FormLabel>
+              <FormLabel>{t("phone")}</FormLabel>
               <FormControl>
-                <Input placeholder="请输入您的联系电话（选填）" {...field} />
+                <Input placeholder={t("phonePlaceholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,9 +104,9 @@ function Contact() {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>您的邮箱</FormLabel>
+              <FormLabel>{t("email")}</FormLabel>
               <FormControl>
-                <Input placeholder="请输入您的电子邮箱（选填）" {...field} />
+                <Input placeholder={t("emailPlaceholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,16 +118,16 @@ function Contact() {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>留言</FormLabel>
+              <FormLabel>{t("message")}</FormLabel>
               <FormControl>
-                <Textarea placeholder="请输入您想说的话" {...field} />
+                <Textarea placeholder={t("messagePlaceholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <LoadingButton loading={load} icon={SendOutlined} type="submit">
-          提交留言
+          {t("submit")}
         </LoadingButton>
       </form>
     </Form>

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const createNextIntlPlugin = require("next-intl/plugin");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -67,8 +68,8 @@ const nextConfig = {
         destination: "/main/post/notes/:id",
       },
       {
-        source: "/contact",
-        destination: "/main/contact",
+        source: "/message",
+        destination: "/main/message",
       },
     ];
   },
@@ -101,4 +102,4 @@ if (process.env.NODE_ENV === "development") {
   };
 }
 
-module.exports = nextConfig;
+module.exports = createNextIntlPlugin()(nextConfig);

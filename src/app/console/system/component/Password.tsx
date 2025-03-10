@@ -15,26 +15,29 @@ import { toast } from "sonner";
 import Card from "@/components/Card";
 import { updatePwd } from "@/app/api";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const CHECK_PWD = z.string().regex(/^[a-zA-Z0-9_]{5,12}$/, {
-  message: "支持5到12个字符，包括数字、字母和下划线",
-});
-
-const formSchema = z
-  .object({
-    password: CHECK_PWD,
-    newPassword: CHECK_PWD,
-    confirmPassword: CHECK_PWD,
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "二次确认密码错误，请检查后重试",
-    path: ["confirmPassword"],
-  });
-
 const Password = () => {
+  const t = useTranslations("password");
+
+  const CHECK_PWD = z
+    .string()
+    .regex(/^[a-zA-Z0-9_]{5,12}$/, { message: t("newPwdDesc") });
+
+  const formSchema = z
+    .object({
+      password: CHECK_PWD,
+      newPassword: CHECK_PWD,
+      confirmPassword: CHECK_PWD,
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: t("confirmPwdError"),
+      path: ["confirmPassword"],
+    });
+
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onSubmit",
     resolver: zodResolver(formSchema),
@@ -46,7 +49,7 @@ const Password = () => {
       password: md5(values.password),
       newPassword: md5(values.newPassword),
     });
-    toast.success("修改登陆密码成功");
+    toast.success(t("success"));
   }
 
   const pwd = form.getValues("newPassword");
@@ -54,22 +57,22 @@ const Password = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card spacing={4} title="管理员密码" description="修改您的登陆密码">
+        <Card spacing={4} title={t("title")} description={t("description")}>
           <FormField
             name="password"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>旧密码</FormLabel>
+                <FormLabel>{t("pwd")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="password"
-                    placeholder="请输入旧密码"
+                    placeholder={t("pwdPlaceholder")}
                   />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>您正在使用的登陆密码</FormDescription>
+                <FormDescription>{t("pwdDesc")}</FormDescription>
               </FormItem>
             )}
           />
@@ -79,18 +82,16 @@ const Password = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>新密码</FormLabel>
+                <FormLabel>{t("newPwd")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="password"
-                    placeholder="请输入新的登陆密码"
+                    placeholder={t("newPwdPlaceholder")}
                   />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
-                  支持5到12个字符，包括数字、字母和下划线
-                </FormDescription>
+                <FormDescription>{t("newPwdDesc")}</FormDescription>
               </FormItem>
             )}
           />
@@ -101,22 +102,22 @@ const Password = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>确认新密码</FormLabel>
+                  <FormLabel>{t("confirmPwd")}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="password"
-                      placeholder="请再次输入新的登陆密码"
+                      placeholder={t("confirmPwdPlaceholder")}
                     />
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>输入新密码进行二次确认</FormDescription>
+                  <FormDescription>{t("confirmPwdDesc")}</FormDescription>
                 </FormItem>
               )}
             />
           ) : null}
           <Button type="submit" className="my-5">
-            更新密码
+            {t("submit")}
           </Button>
         </Card>
       </form>

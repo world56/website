@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 import Tooltip from "@/components/Tooltip";
+import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { RollbackOutlined, ShareAltOutlined } from "@ant-design/icons";
 
@@ -16,6 +17,9 @@ const ReadingTools: React.FC<TypeReadingToolsProps> = ({ title }) => {
   const router = useRouter();
   const params = useParams<{ type: string }>();
 
+  const tPost = useTranslations("post");
+  const tCommon = useTranslations("common");
+
   function onBack() {
     if (window.history.length > 2) {
       router.back();
@@ -25,7 +29,7 @@ const ReadingTools: React.FC<TypeReadingToolsProps> = ({ title }) => {
   }
 
   function onCopy() {
-    toast("复制成功", { description: "快去分享吧！" });
+    toast(tPost("copyTitle"), { description: tPost("copyContent") });
     const textarea = document.createElement("textarea");
     textarea.value = `${title}\n${window.location.href}`;
     textarea.style.position = "fixed";
@@ -42,13 +46,13 @@ const ReadingTools: React.FC<TypeReadingToolsProps> = ({ title }) => {
 
   return (
     <div className="flex items-center text-lg">
-      <Tooltip title="复制链接">
+      <Tooltip title={tPost("copy")}>
         <ShareAltOutlined
           onClick={onCopy}
           className="block mr-4 md:hover:text-black md:dark:hover:text-white md:mr-3"
         />
       </Tooltip>
-      <Tooltip title="返回上页">
+      <Tooltip title={tCommon("back")}>
         <RollbackOutlined
           onClick={onBack}
           className="block md:hover:text-black md:dark:hover:text-white"

@@ -126,7 +126,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
         {res?.footer ? (
           <footer>
             <p className="text-sm mt-8 text-gray-400 text-center select-none">
-              © 著作权归作者所有 转载请注明原链接
+              {res.footer}
             </p>
           </footer>
         ) : null}

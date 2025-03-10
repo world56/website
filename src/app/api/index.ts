@@ -263,6 +263,25 @@ export function deleteResource(params: Pick<Resource, "id">) {
 }
 
 /**
+ * @name getLanguage 获取系统语言
+ */
+export function getLanguage() {
+  return request<string>(`/api/auth/language`, {
+    method: "GET",
+  });
+}
+
+/**
+ * @name updateLanguage 切换语言
+ */
+export function updateLanguage(data: { language: string }) {
+  return request<boolean>(`/api/auth/language`, {
+    method: "PUT",
+    data,
+  });
+}
+
+/**
  * @name pageRevalidate ISR
  */
 export function pageRevalidate(data: TypeCommon.ISR) {

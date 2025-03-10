@@ -10,6 +10,7 @@ import Visits from "@/components/Visits";
 import { dateToTime } from "@/lib/format";
 import DataTable from "@/components/Table";
 import Tooltip from "@/components/Tooltip";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/Button";
 import { Button } from "@/components/ui/button";
@@ -24,19 +25,10 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import { ENUM_COMMON } from "@/enum/common";
 
-const LOG_ITEMS = [
-  { value: ENUM_COMMON.LOG.LOGIN, label: "系统登陆" },
-  { value: ENUM_COMMON.LOG.ACCESS, label: "访客访问" },
-  { value: ENUM_COMMON.LOG.PASSWORD, label: "修改密码" },
-];
-
-const LOG_NAME = {
-  [ENUM_COMMON.LOG.LOGIN]: "系统登陆",
-  [ENUM_COMMON.LOG.ACCESS]: "访客访问",
-  [ENUM_COMMON.LOG.PASSWORD]: "修改密码",
-};
-
 const Logs = () => {
+  const t = useTranslations("log");
+  const tCommon = useTranslations("common");
+
   const [query, setQuery] = useState<Parameters<typeof getLogs>[number]>({
     current: 1,
     pageSize: 15,
@@ -51,7 +43,7 @@ const Logs = () => {
 
   async function onDelete(row: Log) {
     await deleteLog({ id: row.id });
-    toast.success("删除成功");
+    toast.success(tCommon("deleteSuccess"));
     run();
     visits.run();
   }
@@ -82,11 +74,23 @@ const Logs = () => {
     }));
   }
 
+  const LOG_ITEMS = [
+    { value: ENUM_COMMON.LOG.LOGIN, label: t("signin") },
+    { value: ENUM_COMMON.LOG.ACCESS, label: t("access") },
+    { value: ENUM_COMMON.LOG.PASSWORD, label: t("password") },
+  ];
+
+  const LOG_NAME = {
+    [ENUM_COMMON.LOG.LOGIN]: t("signin"),
+    [ENUM_COMMON.LOG.ACCESS]: t("access"),
+    [ENUM_COMMON.LOG.PASSWORD]: t("password"),
+  };
+
   const columns: ColumnDef<Log>[] = [
     {
       accessorKey: "ip",
       header: () => (
-        <Tooltip title="访客IP会因多种因素受到干扰，准确性难以保证，仅供参考">
+        <Tooltip title={t("IPDesc")}>
           IP <QuestionCircleOutlined className="ml-1" />
         </Tooltip>
       ),
@@ -95,14 +99,14 @@ const Logs = () => {
     {
       accessorKey: "description",
       size: 80,
-      header: "状态码",
+      header: t("code"),
       cell: ({ row }) => (
         <p className="text-center">{row.original.description}</p>
       ),
     },
     {
       accessorKey: "type",
-      header: "类型",
+      header: t("type"),
       size: 80,
       cell: ({ row }) => (
         <p className="text-center">
@@ -112,7 +116,7 @@ const Logs = () => {
     },
     {
       accessorKey: "createTime",
-      header: "时间",
+      header: t("createTime"),
       size: 100,
       cell: ({ row }) => (
         <p className="text-center py-2">
@@ -123,8 +127,8 @@ const Logs = () => {
     {
       accessorKey: "id",
       header: () => (
-        <Tooltip title="仅可删除访客日志">
-          操作 <QuestionCircleOutlined className="ml-1" />
+        <Tooltip title={t("deleteHint")}>
+          {tCommon("operate")} <QuestionCircleOutlined className="ml-1" />
         </Tooltip>
       ),
       size: 45,
@@ -137,7 +141,7 @@ const Logs = () => {
             onClick={() => onDelete(row.original)}
             className={`block m-auto ${disabled ? "" : "text-red-500"}`}
           >
-            删除
+            {tCommon("delete")}
           </Button>
         );
       },
@@ -149,26 +153,24 @@ const Logs = () => {
       <Visits {...visits.data} />
       <Card
         spacing={4}
-        title="访问日志"
-        description="记录系统交互相关日志"
         className="mb-10"
+        title={t("title")}
+        description={t("description")}
       >
         <div className="flex">
           <Select
             items={LOG_ITEMS}
             value={query.type}
-            placeholder="日志类型"
+            placeholder={t("type")}
             onChange={onTypeChange}
           />
 
-          <Tooltip title="输入完整IP进行查询">
-            <Input
-              className="w-60 ml-3"
-              onChange={onIPChange}
-              defaultValue={query.ip!}
-              placeholder="输入IP进行查询"
-            />
-          </Tooltip>
+          <Input
+            className="w-60 ml-3"
+            onChange={onIPChange}
+            defaultValue={query.ip!}
+            placeholder={t("IPPlaceholder")}
+          />
 
           <DateRangePicker onChange={onTimeChange} className="mx-3" />
           <LoadingButton

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CloseCircleOutlined } from "@ant-design/icons";
@@ -27,6 +28,8 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
   onChange,
   className,
 }) => {
+  const t = useTranslations("common");
+
   const [date, setDate] = useState<DateRange | undefined>(value);
 
   function onClear(e: React.MouseEvent<HTMLOrSVGElement>) {
@@ -69,7 +72,7 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
                 format(date.from, "yyyy-MM-dd", { locale: zhCN })
               )
             ) : (
-              <span>选择时间范围</span>
+              <span>{t("TimeRangePlaceholder")}</span>
             )}
           </Button>
         </PopoverTrigger>

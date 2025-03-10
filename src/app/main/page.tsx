@@ -3,6 +3,7 @@ import { cache } from "react";
 import Image from "next/image";
 import Tooltip from "@/components/Tooltip";
 import { DBlocal, prisma } from "@/lib/db";
+import SkillTitle from "@/components/SkillTitle";
 
 import { API_RESOURCE } from "@/app/api";
 import { ENUM_COMMON } from "@/enum/common";
@@ -32,7 +33,7 @@ const About = async () => {
       />
       {skills?.length ? (
         <>
-          <h2 className="main-title">技能简介</h2>
+          <SkillTitle />
           <div className="md:pb-0 md:flex-wrap md:overflow-auto flex pb-1 overflow-x-scroll">
             {skills.map((v) => (
               <Tooltip

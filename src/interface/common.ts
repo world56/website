@@ -20,6 +20,7 @@ declare global {
     set(data: object): Record<string, string>;
     get(): Record<string, string | number>;
     remove(path: string): boolean;
+    language(): string;
   };
 }
 
