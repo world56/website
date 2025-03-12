@@ -69,9 +69,9 @@ export namespace ENUM_COMMON {
    */
   export enum POST_TYPE {
     /**
-     * @param ACHIEVEMENTS 成功
+     * @param project 项目、成果
      */
-    ACHIEVEMENTS = "achievements",
+    PROJECTS = "projects",
     /**
      * @param NOTES 笔记
      */

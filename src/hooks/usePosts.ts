@@ -22,7 +22,7 @@ export default function usePosts(status?: ENUM_COMMON.STATUS) {
   const TITLE = {
     [ENUM_COMMON.POST_TYPE.LIFE]: t("life"),
     [ENUM_COMMON.POST_TYPE.NOTES]: t("notes"),
-    [ENUM_COMMON.POST_TYPE.ACHIEVEMENTS]: t("achievement"),
+    [ENUM_COMMON.POST_TYPE.PROJECTS]: t("projects"),
   };
 
   const params = useParams<{ type: ENUM_COMMON.POST_TYPE }>();

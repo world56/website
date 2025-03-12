@@ -1,9 +1,9 @@
 {
   "navigation": {
-    "aboutMe": "关于我",
-    "menuAboutMe": "关于",
+    "about": "关于我",
     "life": "生活",
-    "achievement": "成果",
+    "project": "成果",
+    "projectTitle": "Achievement",
     "note": "笔记",
     "message": "留言"
   },
@@ -46,7 +46,7 @@
     "title": "主页管理",
     "basic": "基本信息",
     "life": "个人生活",
-    "achievement": "学习成果",
+    "projects": "学习成果",
     "notes": "学习笔记",
     "message": "留言消息",
     "resource": "资源管理",

@@ -47,8 +47,8 @@ const Console = () => {
         icon: <CameraOutlined />,
       },
       {
-        title: t("achievement"),
-        path: "/console/post/achievements",
+        title: t("projects"),
+        path: "/console/post/projects",
         icon: <TrophyOutlined />,
       },
       {

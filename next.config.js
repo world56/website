@@ -52,12 +52,12 @@ const nextConfig = {
         destination: "/main/post/life/:id",
       },
       {
-        source: "/achievements",
-        destination: "/main/post/achievements/list",
+        source: "/projects",
+        destination: "/main/post/projects/list",
       },
       {
-        source: "/achievements/:id",
-        destination: "/main/post/achievements/:id",
+        source: "/projects/:id",
+        destination: "/main/post/projects/:id",
       },
       {
         source: "/notes",

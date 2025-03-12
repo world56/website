@@ -1,11 +1,11 @@
 {
   "navigation": {
-    "aboutMe": "About Me",
-    "menuAboutMe": "About",
+    "about": "About",
     "life": "Life",
-    "achievement": "Achievement",
+    "project": "Projects",
+    "projectTitle": "Projects",
     "note": "Notes",
-    "message": "Message"
+    "message": "Contact"
   },
   "main": {
     "skill": "Skill Overview"
@@ -24,7 +24,7 @@
     "emailPlaceholder": "Please enter your email address (optional)",
     "message": "Message",
     "messagePlaceholder": "Please enter your message",
-    "submit": "Submit",
+    "submit": "Send Message",
     "formNameNotEmpty": "Your name cannot be empty",
     "formNameTooShort": "Your name must be at least 2 characters",
     "formPhone": "Please enter a valid phone number (use - for area code)",
@@ -46,7 +46,7 @@
     "title": "Homepage Management",
     "basic": "Basic Information",
     "life": "Personal Life",
-    "achievement": "Project Outcomes",
+    "projects": "Project Outcomes",
     "notes": "Study Notes",
     "message": "Message Management",
     "resource": "Resource Management",

@@ -16,22 +16,22 @@ const MainNavigation = () => {
 
   const routes = useMemo(
     () => [
-      { url: "/", cnName: t("aboutMe"), enName: "Welcome" },
-      { url: "/life", cnName: t("life"), enName: "My Life" },
+      { url: "/", menu: t("about"), title: "Welcome" },
+      { url: "/life", menu: t("life"), title: "My Life" },
       {
-        url: "/achievements",
-        cnName: t("achievement"),
-        enName: "Achievement",
+        url: "/projects",
+        menu: t("project"),
+        title: t("projectTitle"),
       },
-      { url: "/notes", cnName: t("note"), enName: "Notes" },
-      { url: "/message", cnName: t("message"), enName: "Message" },
+      { url: "/notes", menu: t("note"), title: "Notes" },
+      { url: "/message", menu: t("message"), title: "Leave a Message" },
     ],
     [t],
   );
 
   useEffect(() => {
     setName(
-      routes.find((v) => v.url === `/${path?.split("/")?.at(1) || ""}`)?.enName,
+      routes.find((v) => v.url === `/${path?.split("/")?.at(1) || ""}`)?.title,
     );
   }, [path]);
 
@@ -40,17 +40,17 @@ const MainNavigation = () => {
       <h2 className="md:inline hidden ml-6 font-bold text-2xl select-none">
         {name}
       </h2>
-      <ul className="md:mr-6 md:shadow-none md:w-max md:items-center h-full rounded-3xl w-full mx-5 flex justify-around items-center bg-white dark:bg-black shadow-light md:dark:bg-transparent">
+      <ul className="md:mr-5 md:px-0 md:shadow-none md:w-max md:items-center h-full rounded-3xl w-full mx-5 px-[10px] flex justify-between items-center bg-white dark:bg-black shadow-light md:dark:bg-transparent">
         {routes.map((v, i) => (
           <Link key={v.url} href={v.url} draggable="false">
             <li
               className={`
               ${i === 0 ? "" : "md:ml-2 ml-0"}
-              ${v.enName === name ? "nav-select" : ""}
-              py-[6px] px-2 md:py-2 md:px-3 font-medium rounded-full cursor-pointer
+              ${v.title === name ? "nav-select" : ""}
+              py-[0.4rem] px-[0.4rem] md:py-2 md:px-3 font-medium rounded-full cursor-pointer
               md:hover:text-white md:hover:bg-black md:dark:hover:bg-white md:dark:hover:text-black`}
             >
-              {v.cnName}
+              {v.menu}
             </li>
           </Link>
         ))}
