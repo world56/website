@@ -30,7 +30,9 @@
     "formPhone": "請輸入有效的電話號碼（區號用-隔開）",
     "formEmail": "請輸入有效的郵箱地址",
     "formMessage": "留言不得為空",
-    "formMessageTooShort": "您的留言不得少於5位字符"
+    "formMessageTooShort": "您的留言不得少於5位字符",
+    "submitSuccessTitle": "發送留言成功",
+    "submitSuccessContent": "我會查看您的留言訊息，感謝您的留言"
   },
   "signin": {
     "init": "系統初始化，請註冊您的帳號",
@@ -117,13 +119,14 @@
     "abstractDesc": "搜尋引擎會讀取該信息，並將其用作搜尋結果中的摘要",
     "textContent": "文本內容",
     "footer": "頁腳資訊",
+    "footerPlaceholder": "請輸入自定義頁尾資訊",
     "footerDesc": "位於文本內容底部，居中顯示（版權聲明、免責聲明）",
     "footerDefaultContent": "© 版權所有，請註明原鏈接",
     "formIcon": "封面圖標不可為空",
     "formContent": "文本內容不可為空",
     "formTitle": "標題至少包含2個字符，且不得為空",
     "formFooter": "頁腳資訊最多支持30個字符",
-    "FormDescription": "摘要最多支持100個字符"
+    "formDescription": "摘要最多支持100個字符"
   },
   "messages": {
     "title": "留言列表",
@@ -139,8 +142,15 @@
     "time": "留言時間",
     "preview": "預覽",
     "delete": "刪除",
-    "leaveMessage": "留言訊息",
-    "back": "關閉"
+    "leaveMessage": "留言訊息"
+  },
+  "messageDetails": {
+    "title": "留言訊息",
+    "name": "訪客名稱",
+    "phone": "聯繫電話",
+    "email": "電子郵箱",
+    "message": "留言內容",
+    "back": "返回"
   },
   "resource": {
     "title": "資源管理",
@@ -250,6 +260,18 @@
     "deleteTitle": "確定刪除嗎？",
     "deleteContent": "此操作執行後無法撤銷，資料庫將會永久刪除該條資料！",
     "confirm": "確定",
-    "cancel": "取消"
+    "cancel": "取消",
+    "empty": "暫無內容",
+    "upLoading": "正在上傳",
+    "lickUpload": "點擊上傳"
+  },
+  "hint": {
+    "req429": "親，操作太頻繁了，先休息一下再試哦",
+    "req401": "身份驗證失敗，請重新登入",
+    "reqError": "請求異常，請檢查後再試",
+    "fileLimit": "檔案大小超過最大限制",
+    "fileTooLarge": "{fileName} 超過上傳最大限制 {maxSize}，上傳失敗",
+    "notFound": "這不是一個有效的（URL）訪問地址，請確認後重試。",
+    "notFoundGoBack": "返回首頁"
   }
 }

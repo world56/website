@@ -13,6 +13,7 @@ import {
   TableHeader,
 } from "@/components/ui/table";
 import Loading from "../Loading";
+import { useTranslations } from "next-intl";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -25,6 +26,8 @@ function DataTable<TData, TValue>({
   columns,
   loading,
 }: DataTableProps<TData, TValue>) {
+  const t = useTranslations("common");
+
   const table = useReactTable({
     data,
     columns,
@@ -89,7 +92,7 @@ function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center text-gray-500"
                 >
-                  没有内容
+                  {t("empty")}
                 </TableCell>
               </TableRow>
             )}

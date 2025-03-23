@@ -1,7 +1,7 @@
 export const CONFIG = {
   language: "zh_CN",
-  license_key: "gpl",
   language_url: "/lib/tinymce/langs/zh_CN.js",
+  license_key: "gpl",
   skin: false,
   content_css: false,
   verify_html: false,

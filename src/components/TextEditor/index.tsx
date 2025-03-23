@@ -16,6 +16,7 @@ import { uploadFile } from "@/app/api";
 import Loading from "@/components/Loading";
 import { useTranslations } from "next-intl";
 import { loadStylesheet } from "@/lib/utils";
+import { getTinymceLanguage } from "@/lib/language";
 import { useDebounceFn, useDebounceEffect } from "ahooks";
 import { getFileType, getUploadFiles } from "@/lib/filter";
 
@@ -61,6 +62,7 @@ const TxtEditor: TypeTxtEditorProps = (
   const { run: onCreate } = useDebounceFn(() => {
     window?.tinymce?.init({
       ...CONFIG,
+      ...getTinymceLanguage(),
       height,
       selector: `#editor`,
       init_instance_callback: (e) => {
@@ -211,7 +213,7 @@ const TxtEditor: TypeTxtEditorProps = (
       {
         loading: t("uploadLod"),
         error: () => t("uploadError"),
-        success: () => `${num}${t("uploadSuccess")}`,
+        success: () => `${num} ${t("uploadSuccess")}`,
       },
     );
   }

@@ -30,7 +30,9 @@
     "formPhone": "Please enter a valid phone number (use - for area code)",
     "formEmail": "Please enter a valid email address",
     "formMessage": "Message cannot be empty",
-    "formMessageTooShort": "Your message must be at least 5 characters"
+    "formMessageTooShort": "Your message must be at least 5 characters",
+    "submitSuccessTitle": "Submission Successful",
+    "submitSuccessContent": "I will check your message, thank you for your message."
   },
   "signin": {
     "init": "System initialization, please register your account",
@@ -117,13 +119,14 @@
     "abstractDesc": "Search engines will read this information and use it as the summary in search results",
     "textContent": "Text Content",
     "footer": "Footer Information",
+    "footerPlaceholder": "Please enter custom footer information.",
     "footerDesc": "Displayed at the bottom of the text content, centered (e.g., copyright notice, disclaimer)",
     "footerDefaultContent": "© Copyright belongs to the author. Please indicate the original link when reposting.",
     "formIcon": "Cover image cannot be empty",
     "formContent": "Text content cannot be empty",
     "formTitle": "Name must be at least 2 characters and cannot be empty",
     "formFooter": "Footer information supports up to 30 characters",
-    "FormDescription": "Abstract supports up to 100 characters"
+    "formDescription": "Abstract supports up to 100 characters"
   },
   "messages": {
     "title": "Message List",
@@ -139,8 +142,15 @@
     "time": "Message Time",
     "preview": "Preview",
     "delete": "Delete",
-    "leaveMessage": "Messages",
-    "back": "Close"
+    "leaveMessage": "Messages"
+  },
+  "messageDetails": {
+    "title": "Message Details",
+    "name": "Visitor Name",
+    "phone": "Contact Number",
+    "email": "Email Address",
+    "message": "Message Content",
+    "back": "Back"
   },
   "resource": {
     "title": "Resource Management",
@@ -250,6 +260,18 @@
     "deleteTitle": "Are you sure you want to delete?",
     "deleteContent": "This action cannot be undone, and the data will be permanently deleted from the database!",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "empty": "No content",
+    "upLoading": "Uploading",
+    "lickUpload": "Click to Upload"
+  },
+  "hint": {
+    "req429": "Hey, you're doing that too often. Take a break and try again later.",
+    "req401": "Authentication failed. Please log in again.",
+    "reqError": "Request error. Please check and try again.",
+    "fileLimit": "File size exceeds the maximum limit.",
+    "fileTooLarge": "{fileName} exceeds the maximum upload limit of {maxSize}. Upload failed.",
+    "notFound": "This is not a valid URL. Please check and try again.",
+    "notFoundGoBack": "Return to Homepage"
   }
 }

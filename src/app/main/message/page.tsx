@@ -59,8 +59,8 @@ function Contact() {
       setLoad(true);
       await insertMessage(values as Parameters<typeof insertMessage>[number]);
       form.reset();
-      toast.message("提交成功", {
-        description: "我会查看到您的留言消息，感谢您的留言",
+      toast.message(t("submitSuccessTitle"), {
+        description: t("submitSuccessContent"),
       });
       setLoad(false);
     } catch (error) {

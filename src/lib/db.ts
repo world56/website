@@ -8,8 +8,8 @@ import {
 } from "fs";
 import { join } from "path";
 import { Cacheable } from "cacheable";
-import { checkLanguage } from "./utils";
 import { PrismaClient } from "@prisma/client";
+import { checkLanguage } from "@/lib/language";
 
 import type { CacheableOptions } from "cacheable";
 

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { uploadFile } from "@/app/api";
+import { useTranslations } from "next-intl";
 import { useState, forwardRef } from "react";
 import { getUploadFiles } from "@/lib/filter";
 import { CameraFilled, LoadingOutlined } from "@ant-design/icons";
@@ -32,6 +33,8 @@ const UploadImage: TypeUploadImageRefProps = (
   { size = "middle", radius = true, className = "", value, onChange },
   ref,
 ) => {
+  const t = useTranslations("common");
+
   const toWhite = size === "small" ? "dark:dark-icon" : "";
 
   const [load, setLoad] = useState(false);
@@ -98,7 +101,7 @@ const UploadImage: TypeUploadImageRefProps = (
           {load ? <LoadingOutlined /> : <CameraFilled />}
           {STYLE?.NAME ? (
             <span className={`mt-1 ${STYLE.NAME}`}>
-              {load ? "正在上传" : "点击上传"}
+              {load ? t("upLoading") : t("lickUpload")}
             </span>
           ) : null}
         </>

@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { filesize } from "filesize";
+import getClientI18n from "@/lib/language";
 
 import { ENUM_COMMON } from "@/enum/common";
 
@@ -80,10 +81,13 @@ function verifyFile(file: File, size?: number) {
     }
   }
   if (file.size > MAX_SIZE) {
-    toast.error("文件大小超过最大限制", {
-      description: `${file.name}，超过上传最大限制${filesize(
-        MAX_SIZE,
-      )}，上传失败`,
+    getClientI18n().then((t) => {
+      toast.error(t("hint.fileLimit"), {
+        description: t("hint.fileTooLarge", {
+          fileName: file.name,
+          maxSize: filesize(MAX_SIZE),
+        }),
+      });
     });
     return false;
   } else {
@@ -111,18 +115,14 @@ export function getUploadFiles(params: {
       try {
         const { files } = e.target as HTMLInputElement;
         const chunks: FormData[] = [];
-        Array.prototype.forEach.call(files, (file: File) => {
+        Array.prototype.forEach.call(files, async (file: File) => {
           if (verifyFile(file, size)) {
             const body = new FormData();
             body.append("file", file);
             chunks.push(body);
           }
         });
-        if (chunks.length) {
-          return resolve(chunks);
-        } else {
-          return reject();
-        }
+        return chunks.length ? resolve(chunks) : reject();
       } catch (error) {
         reject(error);
       }

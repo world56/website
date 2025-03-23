@@ -6,11 +6,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { format } from "date-fns";
-import { zhCN } from "date-fns/locale";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { getTimeLanguage } from "@/lib/language";
 import { Calendar } from "@/components/ui/calendar";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -30,6 +30,7 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
 }) => {
   const t = useTranslations("common");
 
+  const [locale, setLocale] = useState<Locale>();
   const [date, setDate] = useState<DateRange | undefined>(value);
 
   function onClear(e: React.MouseEvent<HTMLOrSVGElement>) {
@@ -42,6 +43,10 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
     setDate(e);
     onChange?.(e?.to ? e : undefined);
   }
+
+  useEffect(() => {
+    setLocale(getTimeLanguage());
+  }, []);
 
   return (
     <div className={cn("grid gap-2 relative", className)}>
@@ -65,11 +70,11 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "yyyy-MM-dd", { locale: zhCN })} -{" "}
-                  {format(date.to, "yyyy-MM-dd", { locale: zhCN })}
+                  {format(date.from, "yyyy-MM-dd", { locale })} -{" "}
+                  {format(date.to, "yyyy-MM-dd", { locale })}
                 </>
               ) : (
-                format(date.from, "yyyy-MM-dd", { locale: zhCN })
+                format(date.from, "yyyy-MM-dd", { locale })
               )
             ) : (
               <span>{t("TimeRangePlaceholder")}</span>
@@ -80,7 +85,7 @@ const DateRangePicker: React.FC<TypeRangePickerProps> = ({
           <Calendar
             initialFocus
             mode="range"
-            locale={zhCN}
+            locale={locale}
             selected={date}
             numberOfMonths={2}
             onSelect={onTimeChange}

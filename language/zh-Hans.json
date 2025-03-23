@@ -30,7 +30,9 @@
     "formPhone": "请输入有效的电话号码（区号用-隔开）",
     "formEmail": "请输入有效的邮箱地址",
     "formMessage": "留言不得为空",
-    "formMessageTooShort": "您的留言不得少于5位字符"
+    "formMessageTooShort": "您的留言不得少于5位字符",
+    "submitSuccessTitle": "提交成功",
+    "submitSuccessContent": "我会查看到您的留言消息，感谢您的留言"
   },
   "signin": {
     "init": "系统初始化，请注册您的帐号",
@@ -117,13 +119,14 @@
     "abstractDesc": "搜索引擎会读取该信息，并将其用作搜索结果中的摘要",
     "textContent": "文本内容",
     "footer": "页脚信息",
+    "footerPlaceholder": "请输入自定义页脚信息",
     "footerDesc": "位于文本内容底部，居中显示（版权声明、免责声明）",
     "footerDefaultContent": "© 著作权归作者所有 转载请注明原链接",
     "formIcon": "封面图不能为空",
     "formContent": "文本内容不能为空",
     "formTitle": "姓名至少2位字符，且不得为空",
     "formFooter": "页脚信息最多支持30个字符",
-    "FormDescription": "摘要最多支持100个字符"
+    "formDescription": "摘要最多支持100个字符"
   },
   "messages": {
     "title": "留言列表",
@@ -139,8 +142,15 @@
     "time": "留言时间",
     "preview": "预览",
     "delete": "删除",
-    "leaveMessage": "留言消息",
-    "back": "关闭"
+    "leaveMessage": "留言消息"
+  },
+  "messageDetails": {
+    "title": "留言消息",
+    "name": "访客名称",
+    "phone": "联系电话",
+    "email": "电子邮箱",
+    "message": "留言内容",
+    "back": "返回"
   },
   "resource": {
     "title": "资源管理",
@@ -250,6 +260,18 @@
     "deleteTitle": "确定删除吗？",
     "deleteContent": "此操作执行后无法撤销，资料库将会永久删除该条资料！",
     "confirm": "确定",
-    "cancel": "取消"
+    "cancel": "取消",
+    "empty": "暂无内容",
+    "upLoading": "正在上传",
+    "lickUpload": "点击上传"
+  },
+  "hint": {
+    "req429": "亲，操作频繁，先歇会重试哦",
+    "req401": "身份验证失败，请重新登陆",
+    "reqError": "请求异常，请检查后重试",
+    "fileLimit": "文件大小超过最大限制",
+    "fileTooLarge": "{fileName} 超过上传最大限制 {maxSize}，上传失败",
+    "notFound": "这不是一个有效的（URL）访问地址，请确认后重试。",
+    "notFoundGoBack": "返回首页"
   }
 }

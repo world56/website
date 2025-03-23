@@ -1,23 +1,24 @@
-import { DBlocal } from "@/lib/db";
-
 import type { NextRequest } from "next/server";
 
 /**
- * @name dateToTime 转换时间
+ * @name dateToTime 转换时间（自动适配用户的本地时区和语言）
  */
 export function dateToTime(isoDateString?: string | Date) {
   if (!isoDateString) return "-";
   const date = new Date(isoDateString);
-  return date.toLocaleString("zh-CN", {
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; 
+  const userLocale = navigator.language || "zh-CN"; 
+  return date.toLocaleString(userLocale, {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone: "Asia/Shanghai", // 北京时间所在时区
+    timeZone: userTimeZone,
   });
 }
+
 
 /**
   @name getClientIP 获取客户端IP

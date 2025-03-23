@@ -87,7 +87,7 @@ const requestPost = cache(async (id?: number) => {
 export async function generateMetadata({ params: { id } }: TypePostProps) {
   const res = await requestPost(id);
   return {
-    title: res?.title ? res.title : "没有找到相关内容",
+    title: res?.title ? res.title : "not found",
     description: res?.description,
   };
 }

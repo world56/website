@@ -9,7 +9,7 @@ const template = {
     return `<div class='player-media' contenteditable="false"><div style="width:50%;" class='player-audio'><media-controller audio><audio slot="media" src="${url}"></audio><media-control-bar><media-play-button notooltip></media-play-button><media-time-display show-duration></media-time-display><media-time-range></media-time-range><media-playback-rate-button></media-playback-rate-button><media-mute-button></media-mute-button><media-volume-range></media-volume-range></media-control-bar></media-controller></div></div>`;
   },
   getTitle: () => {
-    return `<h2 class='main-title'>标题</h2> `;
+    return `<h2 class='main-title'>Title</h2> `;
   },
 };
 

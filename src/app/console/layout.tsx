@@ -1,13 +1,6 @@
 import Script from "next/script";
 import Navigation from "@/components/Navigation/Console";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "控制台",
-  description: "控制台",
-};
-
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <main className="w-[1300px] mx-auto flex justify-between">
     <Navigation />
@@ -28,7 +21,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Script src="/lib/tinymce/plugins/pageembed/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/codesample/plugin.min.js" />
     <Script src="/lib/tinymce/plugins/searchreplace/plugin.min.js" />
-    <Script src="/lib/tinymce/langs/zh_CN.js" />
   </main>
 );
 

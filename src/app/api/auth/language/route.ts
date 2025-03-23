@@ -1,6 +1,6 @@
 import { DBlocal } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { checkLanguage } from "@/lib/utils";
+import { checkLanguage } from "@/lib/language";
 
 export async function GET() {
   return NextResponse.json(DBlocal.language());

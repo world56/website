@@ -38,7 +38,7 @@ const Edit = () => {
     content: z.string().min(1, { message: t("formContent") }),
     title: z.string().min(2, { message: t("formTitle") }),
     footer: z.string().max(30, { message: t("formFooter") }),
-    description: z.string().max(100, { message: t("FormDescription") }),
+    description: z.string().max(100, { message: t("formDescription") }),
   });
 
   const [submitLoad, setSubmitLoad] = useState(false);
@@ -163,7 +163,7 @@ const Edit = () => {
               <FormItem>
                 <FormLabel>{t("footer")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="请输入自定义页脚信息" {...field} />
+                  <Input placeholder={t("footerPlaceholder")} {...field} />
                 </FormControl>
                 <FormMessage />
                 <FormDescription>{t("footerDesc")}</FormDescription>
