@@ -1,24 +1,30 @@
 "use client";
 
 import { toast } from "sonner";
+import { dateToTime } from "@/lib/format";
 import Tooltip from "@/components/Tooltip";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { FieldTimeOutlined } from "@ant-design/icons";
 import { useParams, useRouter } from "next/navigation";
 import { RollbackOutlined, ShareAltOutlined } from "@ant-design/icons";
 
-interface TypeReadingToolsProps {
+interface TypePostToolsProps {
+  date: Date;
   title: string;
 }
 
 /**
- * @name ReadingTools 分享链接
+ * @name PostTools 功能栏
  */
-const ReadingTools: React.FC<TypeReadingToolsProps> = ({ title }) => {
+const PostTools: React.FC<TypePostToolsProps> = ({ date, title }) => {
   const router = useRouter();
   const params = useParams<{ type: string }>();
 
   const tPost = useTranslations("post");
   const tCommon = useTranslations("common");
+
+  const [time, setTime] = useState<string>();
 
   function onBack() {
     if (window.history.length > 2) {
@@ -44,22 +50,32 @@ const ReadingTools: React.FC<TypeReadingToolsProps> = ({ title }) => {
     document.body.removeChild(textarea);
   }
 
+  useEffect(() => {
+    setTime(dateToTime(date));
+  }, [date]);
+
   return (
-    <div className="flex items-center text-lg">
-      <Tooltip title={tPost("copy")}>
-        <ShareAltOutlined
-          onClick={onCopy}
-          className="block mr-4 md:hover:text-black md:dark:hover:text-white md:mr-3"
-        />
-      </Tooltip>
-      <Tooltip title={tCommon("back")}>
-        <RollbackOutlined
-          onClick={onBack}
-          className="block md:hover:text-black md:dark:hover:text-white"
-        />
-      </Tooltip>
+    <div className="flex justify-between items-center pb-5 mb-6 text-gray-400 border-b border-grey-100">
+      <time dateTime={time} className="flex items-center text-[14px]">
+        <FieldTimeOutlined className="mr-1" />
+        {time}
+      </time>
+      <div className="flex items-center text-lg">
+        <Tooltip title={tPost("copy")}>
+          <ShareAltOutlined
+            onClick={onCopy}
+            className="block mr-4 md:hover:text-black md:dark:hover:text-white md:mr-3"
+          />
+        </Tooltip>
+        <Tooltip title={tCommon("back")}>
+          <RollbackOutlined
+            onClick={onBack}
+            className="block md:hover:text-black md:dark:hover:text-white"
+          />
+        </Tooltip>
+      </div>
     </div>
   );
 };
 
-export default ReadingTools;
+export default PostTools;

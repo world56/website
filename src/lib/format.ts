@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 
 /**
  * @name dateToTime 转换时间（自动适配用户的本地时区和语言）
+ * @description 客户端方法
  */
 export function dateToTime(isoDateString?: string | Date) {
   if (!isoDateString) return "-";

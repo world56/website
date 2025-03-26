@@ -2,9 +2,7 @@ import Prism from "prismjs";
 import { cache } from "react";
 import { prisma } from "@/lib/db";
 import Empty from "@/components/Empty";
-import { dateToTime } from "@/lib/format";
-import ReadingTools from "@/components/Tools";
-import { FieldTimeOutlined } from "@ant-design/icons";
+import PostTools from "@/components/PostTools";
 
 import "prismjs/components/prism-c.min.js";
 import "prismjs/components/prism-go.min.js";
@@ -102,7 +100,6 @@ export async function generateStaticParams() {
 const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
   const res = await requestPost(id);
   if (res) {
-    const time = dateToTime(res.createTime);
     const __html = highlightCodeInRichText(res.content);
     return (
       <article>
@@ -110,13 +107,7 @@ const Post: React.FC<TypePostProps> = async ({ params: { id } }) => {
           <h1 className="text-3xl font-bold mt-[10px] mb-[22px] break-words whitespace-normal">
             {res.title}
           </h1>
-          <div className="flex justify-between items-center pb-5 mb-6 text-gray-400 border-b border-grey-100">
-            <time dateTime={time} className="flex items-center text-[14px]">
-              <FieldTimeOutlined className="mr-1" />
-              {time}
-            </time>
-            <ReadingTools title={res.title} />
-          </div>
+          <PostTools title={res.title} date={res.createTime} />
         </header>
 
         <section
